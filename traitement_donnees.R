@@ -133,7 +133,7 @@ donnees<-cbind(tableau,new_colonnes)
     
   donnees$cardinalite[donnees$latitude >66 ] <-"nord"
   donnees$cardinalite[donnees$latitude < 64 & donnees$longitude<25] <- "sud_ouest"
-  donnees$cardinalite[donnees$longitude >27 ] <- "est"
+  donnees$cardinalite[donnees$longitude >27 & donnees$latitude <66 ] <- "est"
   
   donnees$latitude <- as.numeric(donnees$latitude)
   donnees$longitude <- as.numeric(donnees$longitude)
@@ -142,5 +142,30 @@ donnees<-cbind(tableau,new_colonnes)
   summary(donnees)
   
   tab1(donnees$cardinalite)
+  
+  # tentative de heatmap 
+  
+  donnees2 <- donnees %>% filter(!is.na(Vole.Spring))
+  
+  donnees2$groupes<-cut(donnees2$Vole.Spring,
+                     breaks = c(-4,-2,-1,0,1,2,4))
+  
+  graph2 <- ggplot(donnees2, aes(x=year, y=site,fill=groupes)) +
+    geom_tile()+
+    scale_fill_manual(breaks = levels(donnees2$groupes),
+                      values = c("#660000","#FF0000","#FF6600","#FFFF00","#00FF00","#006600"))
+  graph2
+  
+  donnees3 <- donnees %>% filter(!is.na(Vole.Autumn))
+  
+  donnees3$groupes<-cut(donnees3$Vole.Autumn,
+                        breaks = c(-4,-2,-1,0,1,2,4))
+  
+  graph3 <- ggplot(donnees3, aes(x=year, y=site,fill=groupes)) +
+    geom_tile()+
+    scale_fill_manual(breaks = levels(donnees3$groupes),
+                      values = c("#660000","#FF0000","#FF6600","#FFFF00","#00FF00","#006600"))
+  graph3
+               
   
   
