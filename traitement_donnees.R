@@ -1,5 +1,7 @@
 # Besognet Thomas, 03/04/23 , Stage : Traitement des données 
 
+
+
 # packages 
 install.packages("ggplot2")                                       
 library(ggplot2)
@@ -11,8 +13,8 @@ install.packages("epiDisplay")
 library(epiDisplay)
 
 # importation des données 
-setwd("C:\\Users\\thoma\\OneDrive\\Documents\\FAC\\SP S2\\STG102_Stage\\Statistiques")
-tableau <- read.table("donnees.txt", sep="\t", header=T, dec=",")
+setwd("C:\\Users\\thoma\\OneDrive\\Documents\\ETUDES\\SP S2\\STG102_Stage\\Statistiques")
+tableau <- read.table("donnees.txt", sep="\t", header=T, dec=",",encoding="latin2")
 
 # modificationdes données 
 summary(tableau)
@@ -24,6 +26,7 @@ tableau$Avian.predator   <- as.numeric(tableau$Avian.predator  )
 tableau$site   <- as.factor(tableau$site)
 tableau$year   <- as.factor(tableau$year)
 
+
 # rajouter : longitudes, latitudes et cardinalité 
 
 new_colonnes<-data.frame(matrix("x",891,3))
@@ -31,6 +34,13 @@ names(new_colonnes)<-c("longitude","latitude","cardinalite")
 new_colonnes
 
 donnees<-cbind(tableau,new_colonnes)
+
+donnees$site[donnees$site == "pallasjSrvi"] <- "pallasjarvi"
+donnees$site[donnees$site == "luumSki"] <- "luumaki"
+donnees$site[donnees$site == "sodankylS"] <- "sodankyla"
+donnees$site[donnees$site == "tohmajSrvi"] <- "tohmajarvi"
+donnees$site[donnees$site == "ShtSri"] <- "ahtari"
+
 
   donnees$latitude[donnees$site == "hauho"] <- 61.17193795784571
   donnees$longitude[donnees$site == "hauho"] <- 24.563394493033037
@@ -80,8 +90,8 @@ donnees<-cbind(tableau,new_colonnes)
   donnees$latitude[donnees$site == "loppi"] <-60.71740508584855
   donnees$longitude[donnees$site == "loppi"] <-24.4419450073272
   
-  donnees$latitude[donnees$site == "luumSki"] <-62.84002966915132
-  donnees$longitude[donnees$site == "luumSki"] <-28.912952390107723 
+  donnees$latitude[donnees$site == "luumaki"] <-62.84002966915132
+  donnees$longitude[donnees$site == "luumaki"] <-28.912952390107723 
   
   donnees$latitude[donnees$site == "mikkeli"] <-61.68822602204782
   donnees$longitude[donnees$site == "mikkeli"] <- 27.280515834064634
@@ -92,8 +102,8 @@ donnees<-cbind(tableau,new_colonnes)
   donnees$latitude[donnees$site == "paimio"] <-60.456839159016766
   donnees$longitude[donnees$site == "paimio"] <-22.687592015181714
   
-  donnees$latitude[donnees$site == "pallasjSrvi"] <-68.02374980280263
-  donnees$longitude[donnees$site == "pallasjSrvi"] <-24.216057473592983
+  donnees$latitude[donnees$site == "pallasjarvi"] <-68.02374980280263
+  donnees$longitude[donnees$site == "pallasjarvi"] <-24.216057473592983
   
   donnees$latitude[donnees$site == "punkaharju"] <-61.755865889437295
   donnees$longitude[donnees$site == "punkaharju"] <-29.39343524663757
@@ -107,8 +117,8 @@ donnees<-cbind(tableau,new_colonnes)
   donnees$latitude[donnees$site == "rovaniemi"] <-66.50596024185901
   donnees$longitude[donnees$site == "rovaniemi"] <-25.732290381304118
   
-  donnees$latitude[donnees$site == "sodankylS"] <-67.41593233203037
-  donnees$longitude[donnees$site == "sodankylS"] <-26.589851899156837
+  donnees$latitude[donnees$site == "sodankyla"] <-67.41593233203037
+  donnees$longitude[donnees$site == "sodankyla"] <-26.589851899156837
   
   donnees$latitude[donnees$site == "sotkamo"] <-64.13047524722737
   donnees$longitude[donnees$site == "sotkamo"] <-28.38965115103982
@@ -116,8 +126,8 @@ donnees<-cbind(tableau,new_colonnes)
   donnees$latitude[donnees$site == "suonenjoki"] <-62.62590656797375
   donnees$longitude[donnees$site == "suonenjoki"] <-27.122380689250058
   
-  donnees$latitude[donnees$site == "tohmajSrvi"] <-62.2232043951199
-  donnees$longitude[donnees$site == "tohmajSrvi"] <-30.334194724668734
+  donnees$latitude[donnees$site == "tohmajarvi"] <-62.2232043951199
+  donnees$longitude[donnees$site == "tohmajarvi"] <-30.334194724668734
   
   donnees$latitude[donnees$site == "vammala"] <-61.34328755967948
   donnees$longitude[donnees$site == "vammala"] <-22.912847306989974
@@ -128,8 +138,8 @@ donnees<-cbind(tableau,new_colonnes)
   donnees$latitude[donnees$site == "virolahti"] <-60.582795219758474
   donnees$longitude[donnees$site == "virolahti"] <-27.70665301681641
   
-  donnees$latitude[donnees$site == "ShtSri"] <-62.55004929863743
-  donnees$longitude[donnees$site == "ShtSri"] <-24.066963604038467
+  donnees$latitude[donnees$site == "ahtari"] <-62.55004929863743
+  donnees$longitude[donnees$site == "ahtari"] <-24.066963604038467
     
   donnees$cardinalite[donnees$latitude >66 ] <-"nord"
   donnees$cardinalite[donnees$latitude < 64 & donnees$longitude<25] <- "sud_ouest"
