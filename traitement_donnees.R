@@ -173,6 +173,30 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
     scale_fill_manual(breaks = levels(donnees3$groupes),
                       values = c("#660000","#FF0000","#FF6600","#FFFF00","#00FF00","#006600"))
   graph3
+  
+# Création du nouveau fichier de données 
+  
+camp_1 <- c(1:23) 
+camp_2 <- c(1:23)
+pred_1 <- c(1:23)
+pred_2 <- c(1:23)
+pred_3 <- c(1:23)
+  
+data <- data.frame(c1=camp_1,c2=camp_2,p1=pred_1,p2=pred_2,p3=pred_3)
+  
+donnees_nord <- filter (donnees,cardinalite=="nord",year<2012,year>1988)
+for (i in 1:23){
+  donnees_nord_annees <- filter(donnees_nord,year==1988+i)
+  data[i,1]<- mean(donnees_nord_annees$Vole.Spring,na.rm=T)
+  data[i,2]<- mean(donnees_nord_annees$Vole.Autumn,na.rm=T)
+  data[i,3]<- mean(donnees_nord_annees$Small.mustelid,na.rm=T)
+  data[i,4]<- mean(donnees_nord_annees$Generalist.predator,na.rm=T)
+  data[i,5]<- mean(donnees_nord_annees$Avian.predator,na.rm=T)
+  }
+
+  
+# dernière commande, pour enregister le nouveau fichier de données :
+  write.csv (data, "nord.csv", row.names = T, quote = F) # à adapter 
                
   
   
