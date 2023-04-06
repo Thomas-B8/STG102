@@ -1,7 +1,5 @@
 # Besognet Thomas, 03/04/23 , Stage : Traitement des données 
 
-
-
 # packages 
 install.packages("ggplot2")                                       
 library(ggplot2)
@@ -14,7 +12,7 @@ library(epiDisplay)
 
 # importation des données 
 setwd("C:\\Users\\thoma\\OneDrive\\Documents\\ETUDES\\SP S2\\STG102_Stage\\Statistiques")
-tableau <- read.table("donnees.txt", sep="\t", header=T, dec=",",encoding="latin2")
+tableau <- read.table("donnees.txt", sep="\t", header=T, dec=",")
 
 # modificationdes données 
 summary(tableau)
@@ -23,18 +21,17 @@ tableau$Vole.Autumn  <- as.numeric(tableau$Vole.Autumn )
 tableau$Small.mustelid   <- as.numeric(tableau$Small.mustelid  )
 tableau$Generalist.predator <- as.numeric(tableau$Generalist.predator)
 tableau$Avian.predator   <- as.numeric(tableau$Avian.predator  )
-tableau$site   <- as.factor(tableau$site)
-tableau$year   <- as.factor(tableau$year)
-
 
 # rajouter : longitudes, latitudes et cardinalité 
 
-new_colonnes<-data.frame(matrix("x",891,3))
+new_colonnes<-data.frame(matrix("centre",891,3))
 names(new_colonnes)<-c("longitude","latitude","cardinalite")
 new_colonnes
 
 donnees<-cbind(tableau,new_colonnes)
 
+
+# recodage : attention 
 donnees$site[donnees$site == "pallasjSrvi"] <- "pallasjarvi"
 donnees$site[donnees$site == "luumSki"] <- "luumaki"
 donnees$site[donnees$site == "sodankylS"] <- "sodankyla"
@@ -143,7 +140,7 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
     
   donnees$cardinalite[donnees$latitude >66 ] <-"nord"
   donnees$cardinalite[donnees$latitude < 64 & donnees$longitude<25] <- "sud_ouest"
-  donnees$cardinalite[donnees$longitude >27 & donnees$latitude <66 ] <- "est"
+  donnees$cardinalite[donnees$longitude >29.2 & donnees$latitude <66 ] <- "est"
   
   donnees$latitude <- as.numeric(donnees$latitude)
   donnees$longitude <- as.numeric(donnees$longitude)
