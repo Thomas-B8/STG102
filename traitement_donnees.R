@@ -176,6 +176,8 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
   
 # Création du nouveau fichier de données 
   
+# creation de "data" qui va stocker les nouvelles valeurs calculées pour chaque cardinalité 
+  
 camp_1 <- c(1:23) 
 camp_2 <- c(1:23)
 pred_1 <- c(1:23)
@@ -183,6 +185,8 @@ pred_2 <- c(1:23)
 pred_3 <- c(1:23)
   
 data <- data.frame(c1=camp_1,c2=camp_2,p1=pred_1,p2=pred_2,p3=pred_3)
+
+# le nord 
   
 donnees_nord <- filter (donnees,cardinalite=="nord",year<2012,year>1988)
 for (i in 1:23){
@@ -193,10 +197,45 @@ for (i in 1:23){
   data[i,4]<- mean(donnees_nord_annees$Generalist.predator,na.rm=T)
   data[i,5]<- mean(donnees_nord_annees$Avian.predator,na.rm=T)
   }
+write.csv (data, "nord.csv", row.names = T, quote = F)
 
-  
-# dernière commande, pour enregister le nouveau fichier de données :
-  write.csv (data, "nord.csv", row.names = T, quote = F) # à adapter 
-               
+# l'est
+
+donnees_est <- filter (donnees,cardinalite=="est",year<2012,year>1988)
+for (i in 1:23){
+  donnees_est_annees <- filter(donnees_nord,year==1988+i)
+  data[i,1]<- mean(donnees_est_annees$Vole.Spring,na.rm=T)
+  data[i,2]<- mean(donnees_est_annees$Vole.Autumn,na.rm=T)
+  data[i,3]<- mean(donnees_est_annees$Small.mustelid,na.rm=T)
+  data[i,4]<- mean(donnees_est_annees$Generalist.predator,na.rm=T)
+  data[i,5]<- mean(donnees_est_annees$Avian.predator,na.rm=T)
+}
+write.csv (data, "est.csv", row.names = T, quote = F)
+
+# l'ouest
+
+donnees_ouest <- filter (donnees,cardinalite=="sud_ouest",year<2012,year>1988)
+for (i in 1:23){
+  donnees_ouest_annees <- filter(donnees_ouest,year==1988+i)
+  data[i,1]<- mean(donnees_ouest_annees$Vole.Spring,na.rm=T)
+  data[i,2]<- mean(donnees_ouest_annees$Vole.Autumn,na.rm=T)
+  data[i,3]<- mean(donnees_ouest_annees$Small.mustelid,na.rm=T)
+  data[i,4]<- mean(donnees_ouest_annees$Generalist.predator,na.rm=T)
+  data[i,5]<- mean(donnees_ouest_annees$Avian.predator,na.rm=T)
+}
+write.csv (data, "ouest.csv", row.names = T, quote = F)
+
+# le sud  
+
+donnees_sud <- filter (donnees,cardinalite=="centre",year<2012,year>1988)
+for (i in 1:23){
+  donnees_sud_annees <- filter(donnees_sud,year==1988+i)
+  data[i,1]<- mean(donnees_sud_annees$Vole.Spring,na.rm=T)
+  data[i,2]<- mean(donnees_sud_annees$Vole.Autumn,na.rm=T)
+  data[i,3]<- mean(donnees_sud_annees$Small.mustelid,na.rm=T)
+  data[i,4]<- mean(donnees_sud_annees$Generalist.predator,na.rm=T)
+  data[i,5]<- mean(donnees_sud_annees$Avian.predator,na.rm=T)
+}
+write.csv (data, "sud.csv", row.names = T, quote = F)
   
   
