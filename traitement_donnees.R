@@ -10,6 +10,8 @@ library(epiR)
 install.packages("epiDisplay")
 library(epiDisplay)
 
+# I Traitement des données 
+
 # importation des données 
 setwd("C:\\Users\\thoma\\OneDrive\\Documents\\ETUDES\\SP S2\\STG102_Stage\\Statistiques")
 tableau <- read.table("donnees.txt", sep="\t", header=T, dec=",")
@@ -146,6 +148,10 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
   donnees$longitude <- as.numeric(donnees$longitude)
   tableau$cardinalite<- as.factor(tableau$cardinalite)
   
+  donnees <- filter(donnees,year<2012,year>1988)
+  
+  write.csv (donnees, "donnees_completees.csv", row.names = T, quote = F)
+  
   summary(donnees)
   
   tab1(donnees$cardinalite)
@@ -174,9 +180,19 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
                       values = c("#660000","#FF0000","#FF6600","#FFFF00","#00FF00","#006600"))
   graph3
   
-# Création du nouveau fichier de données 
+# II Création du nouveau fichier de données 
   
-# creation de "data" qui va stocker les nouvelles valeurs calculées pour chaque cardinalité 
+donnees <- read.csv("donnees_completees.csv", sep=",", header=T, dec=".")
+
+# selection aléatoire de l'échantillon 
+
+# rajouter de quoi faire l'opération 50 fois ici !!!
+
+idx <- sample(seq(1,2), size = nrow(donnees), replace = TRUE, prob = c(0.5,0.5))
+training_set <- donnees[idx == 1,]
+test_set <- donnees[idx == 2,]
+  
+# creation de "data" qui va stocker les nouvelles valeurs calculées pour chaque cardinalité à partir du training set
   
 camp_1 <- c(1:23) 
 camp_2 <- c(1:23)
@@ -188,7 +204,7 @@ data <- data.frame(c1=camp_1,c2=camp_2,p1=pred_1,p2=pred_2,p3=pred_3)
 
 # le nord 
   
-donnees_nord <- filter (donnees,cardinalite=="nord",year<2012,year>1988)
+donnees_nord <- filter (training_set,cardinalite=="nord")
 for (i in 1:23){
   donnees_nord_annees <- filter(donnees_nord,year==1988+i)
   data[i,1]<- mean(donnees_nord_annees$Vole.Spring,na.rm=T)
@@ -201,7 +217,7 @@ write.csv (data, "nord.csv", row.names = T, quote = F)
 
 # l'est
 
-donnees_est <- filter (donnees,cardinalite=="est",year<2012,year>1988)
+donnees_est <- filter (training_set,cardinalite=="est")
 for (i in 1:23){
   donnees_est_annees <- filter(donnees_nord,year==1988+i)
   data[i,1]<- mean(donnees_est_annees$Vole.Spring,na.rm=T)
@@ -214,7 +230,7 @@ write.csv (data, "est.csv", row.names = T, quote = F)
 
 # l'ouest
 
-donnees_ouest <- filter (donnees,cardinalite=="sud_ouest",year<2012,year>1988)
+donnees_ouest <- filter (training_set,cardinalite=="sud_ouest")
 for (i in 1:23){
   donnees_ouest_annees <- filter(donnees_ouest,year==1988+i)
   data[i,1]<- mean(donnees_ouest_annees$Vole.Spring,na.rm=T)
@@ -227,7 +243,7 @@ write.csv (data, "ouest.csv", row.names = T, quote = F)
 
 # le sud  
 
-donnees_sud <- filter (donnees,cardinalite=="centre",year<2012,year>1988)
+donnees_sud <- filter (training_set,cardinalite=="centre")
 for (i in 1:23){
   donnees_sud_annees <- filter(donnees_sud,year==1988+i)
   data[i,1]<- mean(donnees_sud_annees$Vole.Spring,na.rm=T)
@@ -237,5 +253,78 @@ for (i in 1:23){
   data[i,5]<- mean(donnees_sud_annees$Avian.predator,na.rm=T)
 }
 write.csv (data, "sud.csv", row.names = T, quote = F)
+
+# copie collage à la main des valeurs dans le fichier donnees_2 , automatiser ? 
+
+# importation des nouvelles données et transformation 
+
+donnees_2 <- read.csv("donnees_2.csv", sep=";", header=T, dec=".")
+
+for(i in which(is.na(donnees_2$vole_spring))){
+  if(!is.na(donnees_2$vole_spring[i-1]) & !is.na(donnees_2$vole_spring[i+1])){
+    donnees_2$vole_spring[i] <- (donnees_2$vole_spring[i-1]+donnees_2$vole_spring[i+1])/2
+  }
+  else{
+    print(c("erreur en ", i))
+  }
+}
+
+for(i in which(is.na(donnees_2$vole_autumn))){
+  if(!is.na(donnees_2$vole_autumn[i-1]) & !is.na(donnees_2$vole_autumn[i+1])){
+    donnees_2$vole_autumn[i] <- (donnees_2$vole_autumn[i-1]+donnees_2$vole_autumn[i+1])/2
+  }
+  else{
+    print(c("erreur en ", i))
+  }
+}
+
+for(i in which(is.na(donnees_2$small_mustelid))){
+  if(!is.na(donnees_2$small_mustelid[i-1]) & !is.na(donnees_2$small_mustelid[i+1])){
+    donnees_2$small_mustelid[i] <- (donnees_2$small_mustelid[i-1]+donnees_2$small_mustelid[i+1])/2
+  }
+  else{
+    print(c("erreur en ", i))
+  }
+}
+
+for(i in which(is.na(donnees_2$generalist_predator))){
+  if(!is.na(donnees_2$generalist_predator[i-1]) & !is.na(donnees_2$generalist_predator[i+1])){
+    donnees_2$generalist_predator[i] <- (donnees_2$generalist_predator[i-1]+donnees_2$generalist_predator[i+1])/2
+  }
+  else{
+    print(c("erreur en ", i))
+  }
+}
+
+for(i in which(is.na(donnees_2$avian_predator))){
+  if(!is.na(donnees_2$avian_predator[i-1]) & !is.na(donnees_2$avian_predator[i+1])){
+    donnees_2$avian_predator[i] <- (donnees_2$avian_predator[i-1]+donnees_2$avian_predator[i+1])/2
+  }
+  else{
+    print(c("erreur en ", i))
+  }
+}
+
+
+write.csv (donnees_2, "donnees2_completees.csv", row.names = T, quote = F)
+
+# ouverture des données propres 
+
+donnees_2 <- read.csv("donnees2_completees.csv", sep=",", header=T, dec=".")
+
+# Les estimations de modèles 
+
+donnees_2_north <- filter (donnees_2,area=="north ") # attention à l'espace...
+
+model_voleS_north <- lm(vole_spring[i] ~ vole_autumn[i-1]+vole_autumn[i-2]+small_mustelid[i]+generalist.predator[i]+avian.predator[i-1], data=donnees_2_north)
+
+# 20 modéles à tester (5 espéces X 4 cardinalités) 
+
+
+#  Calculs de variance et varaince expliquées par chaque espéce pour la prédiction de chaque espèce 
+# Pour chacun des 20 modèles, il faut donc faire un graphique avec les variances expliquées 
+
+# Simulations pour le futur et dépendances de densité ( fit avec le test set)
+
   
   
