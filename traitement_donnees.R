@@ -312,16 +312,15 @@ write.csv (donnees_2, "donnees2_completees.csv", row.names = T, quote = F)
 
 donnees_2 <- read.csv("donnees2_completees.csv", sep=",", header=T, dec=".")
 
-# Les estimations de modèles 
+# Les estimations de modèles 20 modéles à tester (5 espéces X 4 cardinalités) 
 
 donnees_2_north <- filter (donnees_2,area=="north ") # attention à l'espace...
 
-model_voleS_north <- lm(vole_spring[i] ~ vole_autumn[i-1]+vole_autumn[i-2]+small_mustelid[i]+generalist.predator[i]+avian.predator[i-1], data=donnees_2_north)
-
-# 20 modéles à tester (5 espéces X 4 cardinalités) 
-
+model_voleS_north <- lm(vole_spring[i] ~ vole_autumn[i-1]+vole_autumn[i-2]+small_mustelid[i]+generalist_predator[i]+avian_predator[i-1], data=donnees_2_north)
 
 #  Calculs de variance et varaince expliquées par chaque espéce pour la prédiction de chaque espèce 
+
+variance_voleS_north <- 
 # Pour chacun des 20 modèles, il faut donc faire un graphique avec les variances expliquées 
 
 # Simulations pour le futur et dépendances de densité ( fit avec le test set)
