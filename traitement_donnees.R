@@ -28,7 +28,7 @@ tableau$Avian.predator   <- as.numeric(tableau$Avian.predator  )
 
 # rajouter : longitudes, latitudes, cardinalité et une variable qualitiative ordinale pour les sites 
 
-new_colonnes<-data.frame(matrix("centre",891,4,4))
+new_colonnes<-data.frame(matrix("centre",891,4))
 names(new_colonnes)<-c("longitude","latitude","cardinalite","site_ordo")
 new_colonnes
 
@@ -230,14 +230,135 @@ write.csv (donnees, "donnees_completees.csv", row.names = T, quote = F)
 setwd("C:\\Users\\thoma\\OneDrive\\Documents\\ETUDES\\SP S2\\STG102_Stage\\Statistiques") #working directory 
 donnees <- read.csv("donnees_completees.csv", sep=",", header=T, dec=".")
 
-# selection aléatoire de l'échantillon 
+# Cration des tableaux qui vont stocker les estimateurs ( un avec moyenne des 50 training set, l'autre avec les données complètes)
 
-# rajouter de quoi faire l'opération 50 fois ici !!!
+estimateurs_tableau_training_set<-data.frame(matrix("1",33,13))
+names(estimateurs_tableau_training_set)<-c("site","a1","b1","c1","d1","f1","e1","a2","b2","c2","d2","e2","f2")
 
-idx <- sample(seq(1,2), size = nrow(donnees), replace = TRUE, prob = c(0.5,0.5))
-training_set <- donnees[idx == 1,]
-test_set <- donnees[idx == 2,]
+estimateurs_tableau_full_set<-data.frame(matrix("1",33,13))
+names(estimateurs_tableau_full_set)<-c("site","a1","b1","c1","d1","f1","e1","a2","b2","c2","d2","e2","f2")
+
+# Avec le Full set 
+
+for (i in 1:33){
+  donnees_site <-  filter(donnees,site_ordo==i) # à chaque passage dans la boucle, on ne garde qu'une localisation 
+ # creation des vecteurs 
+ Present <-filter(donnees_site,year>1990)# on ne prend pas les 2 premières années 
+ At    <-Present$Vole.Autumn
+ St    <-Present$Vole.Spring
+ P1t   <-Present$Small.mustelid 
+ P2t   <-Present$Generalist.predator
+ P3t   <-Present$Avian.predator
+ Passe_1 <-filter(donnees_site,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
+ At_1    <-Passe_1$Vole.Autumn
+ St_1    <-Passe_1$Vole.Spring
+ P3t_1   <-Passe_1$Avian.predator
+ Passe_2 <-filter(donnees_site,year<2010) # on ne prend pas les 2 dernières années  
+ At_2    <-Passe_2$Vole.Autumn
+ # on passe aux modèles  
+ modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 , data = donnees_site,offset = At_1 )
+ modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t , data = donnees_site,offset = St   )
+ # remplissage du tableau 
+ estimateurs_tableau_full_set[i,1] <- i
+ for (j in 2:7){
+ estimateurs_tableau_full_set[i,j] <- modele1$coefficients[j-1]
+ estimateurs_tableau_full_set[i,j+6] <- modele2$coefficients[j-1]}}
+
+# Avec les 50 training set 
+
+for (i in 1:33){
+  donnees_site <-  filter(donnees,site_ordo==i) # à chaque passage dans la boucle, on ne garde qu'une localisation 
+  a1_moy=0;a2_moy=0;b1_moy=0;b2_moy=0;c1_moy=0;c2_moy=0;d1_moy=0;d2_moy=0;e1_moy=0;e2_moy=0;f1_moy=0;f2_moy=0
+  # creation du training set et du test set 
+  for (k in 1:50){
+  idx <- sample(seq(1,2), size = nrow(donnees_site), replace = TRUE, prob = c(0.5,0.5))
+  training_set <- donnees_site[idx == 1,]
+  test_set <- donnees_site[idx == 2,]
+  # creation des vecteurs 
+  Present <-filter(training_set,year>1990)# on ne prend pas les 2 premières années 
+  At    <-Present$Vole.Autumn
+  St    <-Present$Vole.Spring
+  P1t   <-Present$Small.mustelid 
+  P2t   <-Present$Generalist.predator
+  P3t   <-Present$Avian.predator
+  Passe_1 <-filter(training_set,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
+  At_1    <-Passe_1$Vole.Autumn
+  St_1    <-Passe_1$Vole.Spring
+  P3t_1   <-Passe_1$Avian.predator
+  Passe_2 <-filter(training_set,year<2010) # on ne prend pas les 2 dernières années  
+  At_2    <-Passe_2$Vole.Autumn
+  # on passe aux modèles  
+  modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 , data = donnees_site,offset = At_1 )
+  modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t , data = donnees_site,offset = St   )
+  # moyennage des estimateurs 
+  a1_moy <- a1_moy + modele1$coefficients[1]
+  b1_moy <- b1_moy + modele1$coefficients[2]
+  c1_moy <- c1_moy + modele1$coefficients[3]
+  d1_moy <- d1_moy + modele1$coefficients[4]
+  e1_moy <- e1_moy + modele1$coefficients[5]
+  f1_moy <- f1_moy + modele1$coefficients[6]
+  a2_moy <- a2_moy + modele2$coefficients[1]
+  b2_moy <- b2_moy + modele2$coefficients[2]
+  c2_moy <- c2_moy + modele2$coefficients[3]
+  d2_moy <- d2_moy + modele2$coefficients[4]
+  e2_moy <- e2_moy + modele2$coefficients[5]
+  f2_moy <- f2_moy + modele2$coefficients[6] } # on arrête ici la boucle "k", car après on va compléter le tableau avec les moyennes 
+  # remplissage du tableau 
+  estimateurs_tableau_training_set[i,1] <- i
+  estimateurs_tableau_training_set[i,2] <- a1_moy/50
+  estimateurs_tableau_training_set[i,3] <- b1_moy/50
+  estimateurs_tableau_training_set[i,4] <- c1_moy/50
+  estimateurs_tableau_training_set[i,5] <- d1_moy/50
+  estimateurs_tableau_training_set[i,6] <- e1_moy/50
+  estimateurs_tableau_training_set[i,7] <- f1_moy/50
+  estimateurs_tableau_training_set[i,8] <- a2_moy/50
+  estimateurs_tableau_training_set[i,9] <- b2_moy/50
+  estimateurs_tableau_training_set[i,10] <- c2_moy/50
+  estimateurs_tableau_training_set[i,11] <- d2_oy/50
+  estimateurs_tableau_training_set[i,12] <- e2_moy/50
+  estimateurs_tableau_training_set[i,13] <- f2_mpy/50 }
+    
   
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Cette partie est à revoir/supprimer, je la garde pour l'instant pour y piocher éventuellement des choses utiles tant que je n'ai pas tout repris 
+
+
 # creation de "data" qui va stocker les nouvelles valeurs calculées pour chaque cardinalité à partir du training set
   
 camp_1 <- c(1:23) 
