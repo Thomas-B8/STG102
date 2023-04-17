@@ -13,8 +13,7 @@ install.packages("forcats")
 library(forcats)
 
 # importation des données 
-setwd("C:\\Users\\thoma\\OneDrive\\Documents\\ETUDES\\SP S2\\STG102_Stage\\Statistiques") #working directory
-tableau <- read.table("donnees.txt", sep="\t", header=T, dec=",") # ouverture des données de base 
+tableau <- read.table("donnees_brutes_korpela.txt", sep="\t", header=T, dec=",") # ouverture des données de base 
 
 # modificationdes données : les types de variable 
 summary(tableau)

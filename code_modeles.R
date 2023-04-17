@@ -14,10 +14,9 @@ library(forcats)
 
 # II Influence of predators on vole population growth rates 
 
-# Ouverture des données avec directement toutes les modifications précédentes 
+# Ouverture des données propres
 
-setwd("C:\\Users\\thoma\\OneDrive\\Documents\\ETUDES\\SP S2\\STG102_Stage\\Statistiques") #working directory 
-donnees <- read.csv("donnees_completees.csv", sep=",", header=T, dec=".")
+donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 # Cration des tableaux qui vont stocker les estimateurs ( un avec moyenne des 50 training set, l'autre avec les données complètes)
 
@@ -55,7 +54,7 @@ for (i in vect){
     estimateurs_tableau_full_set[i,j] <- modele1$coefficients[j-1]
     estimateurs_tableau_full_set[i,j+6] <- modele2$coefficients[j-1]}}
 
-write.csv (estimateurs_tableau_full_set, "estiateurs_full_set.csv", row.names = T, quote = F)
+write.csv (estimateurs_tableau_full_set, "estimateurs_full_set.csv", row.names = T, quote = F)
 # Avec les 50 training set 
 
 for (i in vect){
