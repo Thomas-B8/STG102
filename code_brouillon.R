@@ -12,6 +12,72 @@ library(epiDisplay)
 install.packages("forcats")
 library(forcats)
 
+# mauvais calcul : variance entre les années à localisation fixée ( au lieu de l'inverse )
+
+# creation d'un tableau qui va contenir les variances des 2 taux d'évolution  expliquées et les varaincess expliquées par les paramètres  
+
+tableau_var <- data.frame(matrix("NA",33,13))
+names(tableau_var)<-c("site","VarY1","dir1","del1","P11","P21","P31","VarY2","dir2","del2","P12","P22","P32")
+
+vect21 <- c(1:3,5:17,19,20,21,23,24,25,27,28,29,32) # les localisations sans estimateurs = "NA" dans pour le modèle 1
+vect22 <- c(1:3,5:13,15,16,17,19:25,27,28,29,32)   # les localisations sans estimateurs = "NA" dans pour le modèle 2
+
+# on reprend nos sélections de vecteurs, mais cette fois ci sur l'ensemble du jeu de données et non pas par localisations 
+Present <-filter(donnees,year>1990)# on ne prend pas les 2 premières années 
+At    <-Present$Vole.Autumn
+St    <-Present$Vole.Spring
+P1t   <-Present$Small.mustelid 
+P2t   <-Present$Generalist.predator
+P3t   <-Present$Avian.predator
+Passe_1 <-filter(donnees,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
+At_1    <-Passe_1$Vole.Autumn
+St_1    <-Passe_1$Vole.Spring
+P3t_1   <-Passe_1$Avian.predator
+Passe_2 <-filter(donnees,year<2010) # on ne prend pas les 2 dernières années  
+At_2    <-Passe_2$Vole.Autumn
+
+
+for (i in vect21){
+  b <- estimateurs_tableau_full_set[i,3]
+  c <- estimateurs_tableau_full_set[i,4]
+  d <- estimateurs_tableau_full_set[i,5]
+  e <- estimateurs_tableau_full_set[i,6]
+  f <- estimateurs_tableau_full_set[i,7]
+  tableau_var[i,1] <- i
+  DD1 <- b*(b*var(At_1,na.rm = TRUE)+c*cov(At_1,At_2,use="pairwise.complete.obs")+d*cov(At_1,P1t,use="pairwise.complete.obs")+e*cov(At_1,P2t,use="pairwise.complete.obs")+f*cov(At_1,P3t_1,use="pairwise.complete.obs"))
+  DL1 <- c*(c*var(At_2,na.rm = TRUE)+b*cov(At_1,At_2,use="pairwise.complete.obs")+d*cov(At_2,P1t,use="pairwise.complete.obs")+e*cov(At_2,P2t,use="pairwise.complete.obs")+f*cov(At_2,P3t_1,use="pairwise.complete.obs"))
+  P11 <- d*(d*var(P1t,na.rm = TRUE)+b*cov(At_1,P1t,use="pairwise.complete.obs")+c*cov(At_2,P1t,use="pairwise.complete.obs")+e*cov(P1t,P2t,use="pairwise.complete.obs")+f*cov(P1t,P3t_1,use="pairwise.complete.obs"))
+  P21 <- e*(e*var(P2t,na.rm = TRUE)+b*cov(At_1,P2t,use="pairwise.complete.obs")+c*cov(At_2,P2t,use="pairwise.complete.obs")+d*cov(P1t,P2t,use="pairwise.complete.obs")+f*cov(P2t,P3t_1,use="pairwise.complete.obs"))
+  P31 <- f*(f*var(P3t_1,na.rm = TRUE)+b*cov(At_1,P3t_1,use="pairwise.complete.obs")+c*cov(At_2,P3t_1,use="pairwise.complete.obs")+d*cov(P1t,P3t_1,use="pairwise.complete.obs")+e*cov(P2t,P3t_1,use="pairwise.complete.obs"))
+  tableau_var[i,2] <- DD1 + DL1 + P11 + P21 + P31 
+  tableau_var[i,2] <- as.numeric(tableau_var[i,2])
+  tableau_var[i,3] <- DD1/tableau_var[i,2]
+  tableau_var[i,4] <- DL1/tableau_var[i,2]
+  tableau_var[i,5] <- P11/tableau_var[i,2]
+  tableau_var[i,6] <- P21/tableau_var[i,2]
+  tableau_var[i,7] <- P31/tableau_var[i,2]
+}
+
+for (i in vect22){
+  b <- estimateurs_tableau_full_set[i,9]
+  c <- estimateurs_tableau_full_set[i,10]
+  d <- estimateurs_tableau_full_set[i,11]
+  e <- estimateurs_tableau_full_set[i,12]
+  f <- estimateurs_tableau_full_set[i,13]
+  DD2 <- b*(b*var(St,na.rm = TRUE)+c*cov(St,St_1,use="pairwise.complete.obs")+d*cov(St,P1t,use="pairwise.complete.obs")+e*cov(St,P2t,use="pairwise.complete.obs")+f*cov(St,P3t,use="pairwise.complete.obs"))
+  DL2 <- c*(c*var(St_1,na.rm = TRUE)+b*cov(St,St_1,use="pairwise.complete.obs")+d*cov(St_1,P1t,use="pairwise.complete.obs")+e*cov(St_1,P2t,use="pairwise.complete.obs")+f*cov(St_1,P3t,use="pairwise.complete.obs"))
+  P12 <- d*(d*var(P1t,na.rm = TRUE)+b*cov(St,P1t,use="pairwise.complete.obs")+c*cov(St_1,P1t,use="pairwise.complete.obs")+e*cov(P1t,P2t,use="pairwise.complete.obs")+f*cov(P1t,P3t,use="pairwise.complete.obs"))
+  P22 <- e*(e*var(P2t,na.rm = TRUE)+b*cov(St,P2t,use="pairwise.complete.obs")+c*cov(St_1,P2t,use="pairwise.complete.obs")+d*cov(P1t,P2t,use="pairwise.complete.obs")+f*cov(P2t,P3t,use="pairwise.complete.obs"))
+  P32 <- f*(f*var(P3t,na.rm = TRUE)+b*cov(St,P3t,use="pairwise.complete.obs")+c*cov(St_1,P3t,use="pairwise.complete.obs")+d*cov(P1t,P3t,use="pairwise.complete.obs")+e*cov(P2t,P3t,use="pairwise.complete.obs"))
+  tableau_var[i,8] <- DD2 + DL2 + P12 + P22 + P32 
+  tableau_var[i,8] <- as.numeric(tableau_var[i,8])
+  tableau_var[i,9] <-  DD2/tableau_var[i,8]
+  tableau_var[i,10] <- DL2/tableau_var[i,8]
+  tableau_var[i,11] <- P12/tableau_var[i,8]
+  tableau_var[i,12] <- P22/tableau_var[i,8]
+  tableau_var[i,13] <- P32/tableau_var[i,8]
+}
+
 #  Heatmap illustratives 
 
 donnees2 <- donnees %>% filter(!is.na(Vole.Spring))
