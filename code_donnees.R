@@ -1,19 +1,19 @@
 # Besognet Thomas, 03/04/23 , Stage : Traitement des données 
 
 # packages 
-install.packages("ggplot2")                                       
-library(ggplot2)
 install.packages("dplyr")
 library(dplyr)
 install.packages("epiR")
 library(epiR)
 install.packages("epiDisplay")
 library(epiDisplay)
-install.packages("forcats")
-library(forcats)
 
 # importation des données 
 tableau <- read.table("donnees_brutes_korpela.txt", sep="\t", header=T, dec=",") # ouverture des données de base 
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------
+
 
 # modificationdes données : les types de variable 
 summary(tableau)

@@ -12,6 +12,127 @@ library(epiDisplay)
 install.packages("forcats")
 library(forcats)
 
+# Tentative numéro 2 estimation des paramètres  ( avec un seul estimateur par localisation )
+
+# on va créer nos series chronologiques à plusieurs variables ( 1 variable par localisation=colonne, temps en ligne)
+
+At <- data.frame(matrix("NA",23,33))
+St <- data.frame(matrix("NA",23,33))
+P1t <- data.frame(matrix("NA",23,33))
+P2t <- data.frame(matrix("NA",23,33))
+P3t <- data.frame(matrix("NA",23,33))
+
+# on les remplit des valeurs de nos données 
+
+for (i in 1:33){ # on parcourt les localisations 
+  for(j in 1:23){ # on parcourt les années 
+    At[j,i] <- donnees[i+j,4]
+    St[j,i] <- donnees[i+j,5]
+    P1t[j,i] <- donnees[i+j,6]
+    P2t[j,i] <- donnees[i+j,7]
+    P3t[j,i] <- donnees[i+j,8]
+    
+  }
+}
+
+# on crée le décalage temporel 
+
+At_ <- At[-c(1,2),] #present 
+St_ <- St[-c(1,2),] #present 
+P1t_ <- P1t[-c(1,2),] #present 
+P2t_ <- P2t[-c(1,2),] #present 
+P3t_ <- P3t[-c(1,2),] #present 
+At_1 <- At[-c(1,23),] #passé1
+St_1 <- St[-c(1,23),] #passé1
+P3t_1 <- P3t[-c(1,23),] #passé1
+At_2 <- At[-c(22,23),] #passé2
+
+# on estime les modèles avec les matrices 
+
+modele1 <- lm(formula = St_ ~ At_1 + At_2 + P1t_ + P2t_ + P3t_1 ,offset = At_1 ,na.action=na.omit)
+modele2 <- lm(formula = At_ ~ St_ + St_1 + P1t_ + P2t_ + P3t_ ,offset = St_,na.action=na.omit)
+
+# ne fonctionne pas en multidimensionnel ... 
+
+# Tentative avce les 50 training set 
+
+estimateurs_tableau_training_set<-data.frame(matrix("NA",33,13))
+names(estimateurs_tableau_training_set)<-c("site","a1","b1","c1","d1","f1","e1","a2","b2","c2","d2","e2","f2")
+
+# Tentative numéro 1 ( avec autant d'estimations des paramètres que de lieux)
+
+for (i in vect){
+  donnees_site <-  filter(donnees,site_ordo==i) # à chaque passage dans la boucle, on ne garde qu'une localisation 
+  a1_moy=0;a2_moy=0;b1_moy=0;b2_moy=0;c1_moy=0;c2_moy=0;d1_moy=0;d2_moy=0;e1_moy=0;e2_moy=0;f1_moy=0;f2_moy=0
+  # creation du training set et du test set 
+  for (k in 1:50){
+    idx <- sample(seq(1,2), size = nrow(donnees_site), replace = TRUE, prob = c(0.5,0.5))
+    training_set <- donnees_site[idx == 1,]
+    test_set <- donnees_site[idx == 2,]
+    # creation des vecteurs 
+    Present <-filter(training_set,year>1990)# on ne prend pas les 2 premières années 
+    At    <-Present$Vole.Autumn
+    St    <-Present$Vole.Spring
+    P1t   <-Present$Small.mustelid 
+    P2t   <-Present$Generalist.predator
+    P3t   <-Present$Avian.predator
+    Passe_1 <-filter(training_set,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
+    At_1    <-Passe_1$Vole.Autumn
+    St_1    <-Passe_1$Vole.Spring
+    P3t_1   <-Passe_1$Avian.predator
+    Passe_2 <-filter(training_set,year<2010) # on ne prend pas les 2 dernières années  
+    At_2    <-Passe_2$Vole.Autumn
+    # on passe aux modèles  
+    modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 , data = donnees_site,offset = At_1 )
+    modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t , data = donnees_site,offset = St   )
+    # moyennage des estimateurs 
+    a1_moy <- a1_moy + modele1$coefficients[1]
+    b1_moy <- b1_moy + modele1$coefficients[2]
+    c1_moy <- c1_moy + modele1$coefficients[3]
+    d1_moy <- d1_moy + modele1$coefficients[4]
+    e1_moy <- e1_moy + modele1$coefficients[5]
+    f1_moy <- f1_moy + modele1$coefficients[6]
+    a2_moy <- a2_moy + modele2$coefficients[1]
+    b2_moy <- b2_moy + modele2$coefficients[2]
+    c2_moy <- c2_moy + modele2$coefficients[3]
+    d2_moy <- d2_moy + modele2$coefficients[4]
+    e2_moy <- e2_moy + modele2$coefficients[5]
+    f2_moy <- f2_moy + modele2$coefficients[6] } # on arrête ici la boucle "k", car après on va compléter le tableau avec les moyennes 
+  # remplissage du tableau 
+  estimateurs_tableau_training_set[i,1] <- i
+  estimateurs_tableau_training_set[i,2] <- a1_moy/50
+  estimateurs_tableau_training_set[i,3] <- b1_moy/50
+  estimateurs_tableau_training_set[i,4] <- c1_moy/50
+  estimateurs_tableau_training_set[i,5] <- d1_moy/50
+  estimateurs_tableau_training_set[i,6] <- e1_moy/50
+  estimateurs_tableau_training_set[i,7] <- f1_moy/50
+  estimateurs_tableau_training_set[i,8] <- a2_moy/50
+  estimateurs_tableau_training_set[i,9] <- b2_moy/50
+  estimateurs_tableau_training_set[i,10] <- c2_moy/50
+  estimateurs_tableau_training_set[i,11] <- d2_oy/50
+  estimateurs_tableau_training_set[i,12] <- e2_moy/50
+  estimateurs_tableau_training_set[i,13] <- f2_mpy/50 }
+
+estimateurs_tableau_training_set$a1 <- as.numeric(estimateurs_tableau_training_set$a1)
+estimateurs_tableau_training_set$b1 <- as.numeric(estimateurs_tableau_training_set$b1)
+estimateurs_tableau_training_set$c1 <- as.numeric(estimateurs_tableau_training_set$c1)
+estimateurs_tableau_training_set$d1 <- as.numeric(estimateurs_tableau_training_set$d1)
+estimateurs_tableau_training_set$e1 <- as.numeric(estimateurs_tableau_training_set$e1)
+estimateurs_tableau_training_set$f1 <- as.numeric(estimateurs_tableau_training_set$f1)
+estimateurs_tableau_training_set$a2 <- as.numeric(estimateurs_tableau_training_set$a2)
+estimateurs_tableau_training_set$b2 <- as.numeric(estimateurs_tableau_training_set$b2)
+estimateurs_tableau_training_set$c2 <- as.numeric(estimateurs_tableau_training_set$c2)
+estimateurs_tableau_training_set$d2 <- as.numeric(estimateurs_tableau_training_set$d2)
+estimateurs_tableau_training_set$e2 <- as.numeric(estimateurs_tableau_training_set$e2)
+estimateurs_tableau_training_set$f2 <- as.numeric(estimateurs_tableau_training_set$f2)
+
+
+
+# Tentative numéro 2 ( avec un seul estimateur par localisation )
+
+# ...
+
+
 # mauvais calcul : variance entre les années à localisation fixée ( au lieu de l'inverse )
 
 # creation d'un tableau qui va contenir les variances des 2 taux d'évolution  expliquées et les varaincess expliquées par les paramètres  
