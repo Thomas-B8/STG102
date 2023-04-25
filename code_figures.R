@@ -3,10 +3,14 @@
 # packages 
 install.packages("ggplot2")                                       
 library(ggplot2)
+install.packages("dplyr")
+library(dplyr)
 
 # Figures et tableaux 
 
-# I Spatio-temporal variation in predator-vole interactions
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# I Réplication de la figure 2
 
 # Importation des tableaux de variance expliquées 
 
@@ -155,3 +159,69 @@ graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph2_est
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# II Réplication de la figure 3
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# III Réplication de la figure 4
+
+# les données ne sont pas encore disponibles, donc je vais créer un tableua fictif pour travailler dessus 
+
+simulations <- read.csv("fausses_donnees_figure4.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+simulations$scenario <- as.factor(simulations$scenario)
+
+# a) density dependance 
+
+# a.1 le nord 
+
+simulations_nord <- filter(simulations,region==1)
+
+ggplot(simulations_nord) +
+  geom_point(aes(x = DRD,y = DLD,color = scenario, size = 0.5))+
+  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  ggtitle("dependance de densités au NORD de la Finlande sous différents scénarios ") +
+  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+
+# a.2 le sud ouest 
+
+simulations_ouest <- filter(simulations,region==2)
+
+ggplot(simulations_ouest) +
+  geom_point(aes(x = DRD,y = DLD,color = scenario, size = 0.5))+
+  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  ggtitle("dependance de densités au NORD de la Finlande sous différents scénarios ") +
+  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+
+# a.3 l'est
+
+simulations_est <- filter(simulations,region==3)
+
+ggplot(simulations_est) +
+  geom_point(aes(x = DRD,y = DLD,color = scenario, size = 0.5))+
+  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  ggtitle("dependance de densités au NORD de la Finlande sous différents scénarios ") +
+  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+
+# b) s-index
+
+# b.1 le nord 
+
+# b.2 le sud ouest
+
+# b.3 l'est  
+
+# c) saisonnalite
+
+# c.1 le nord 
+
+# c.2 le sud ouest
+
+# c.3 l'est  
+
+
+
+
+
