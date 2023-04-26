@@ -241,9 +241,9 @@ ggplot(simulations_est, aes(x=scenario, y=s_index)) +
 
 # c.1 le nord 
 
-ggplot(simulations_nord, aes(x=scenario, y=saisonnalite)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=saisonnalite),linetype="blank") +
-  geom_point(aes(x = scenario,y = saisonnalite,color = scenario, size = 0.5))+
+ggplot(simulations_nord, aes(x=scenario, y=seasonality)) +
+  geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
+  geom_point(aes(x = scenario,y = seasonality,color = scenario, size = 0.5))+
   geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.1 ) +
   scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
   ggtitle("la saisonnalite des prédictions de densité de campagnols au NORD de la Finlande sous différents scénarios ") +
@@ -251,9 +251,9 @@ ggplot(simulations_nord, aes(x=scenario, y=saisonnalite)) +
 
 # c.2 le sud ouest
 
-ggplot(simulations_ouest, aes(x=scenario, y=saisonnalite)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=saisonnalite),linetype="blank") +
-  geom_point(aes(x = scenario,y = saisonnalite,color = scenario, size = 0.5))+
+ggplot(simulations_ouest, aes(x=scenario, y=seasonality)) +
+  geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
+  geom_point(aes(x = scenario,y = seasonality,color = scenario, size = 0.5))+
   geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.1 ) +
   scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
   ggtitle("la saisonnalite des prédictions de densité de campagnols à l'OUEST de la Finlande sous différents scénarios ") +
@@ -261,9 +261,9 @@ ggplot(simulations_ouest, aes(x=scenario, y=saisonnalite)) +
 
 # c.3 l'est  
 
-ggplot(simulations_est, aes(x=scenario, y=saisonnalite)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=saisonnalite),linetype="blank") +
-  geom_point(aes(x = scenario,y = saisonnalite,color = scenario, size = 0.5))+
+ggplot(simulations_est, aes(x=scenario, y=seasonality)) +
+  geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
+  geom_point(aes(x = scenario,y = seasonality,color = scenario, size = 0.5))+
   geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.1 ) +
   scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
   ggtitle("la saisonnalite des prédictions de densité de campagnols à l'EST de la Finlande sous différents scénarios ") +

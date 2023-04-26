@@ -476,8 +476,8 @@ write.csv (tableau_var_est, "variances_expliquees_est.csv", row.names = T, quote
 # simulations sur 1000 ans 
 
 # creation du tableau qui va stocker les resultats
-simulations <-data.frame(matric(0,24,6)) 
-names(simulations) <- c("scenario","region","direct density dependance","delayed density dependance","s-index","seasonality")
+simulations <-data.frame(matric(0,24,10)) 
+names(simulations) <- c("scenario","region","direct density dependance","delayed density dependance","s-index","min_s","max_s","seasonality","min_n","max_n")
 
 # on ouvre le vecteur contenant les paramètres et on remet les valeurs dans des variables bien nommées 
 
@@ -575,17 +575,155 @@ simulations[4,2] <- "north"
 simulations[4,3] <- mean(tableau_density_dependance[,1])
 simulations[4,4]<- mean(tableau_density_dependance[,2])
 simulations[4,5] <- mean(tableau_s_index)
-simulations[4,6] <- mean(tableau_saisonalite)
+simulations[4,6]<- mean(tableau_s_index)-1.96*(var(tableau_s_index)/sqrt(40)) #IC 95% ( bas) 
+simulations[4,7]<- mean(tableau_s_index)+1.96*(var(tableau_s_index)/sqrt(40)) #IC 95% ( haut )
+simulations[4,8] <- mean(tableau_saisonalite)
+simulations[4,9]<- mean(tableau_saisonalite)-1.96*(var(tableau_saisonalite)/sqrt(40)) #IC 95% ( bas) 
+simulations[4,10]<- mean(tableau_saisonalite)+1.96*(var(tableau_saisonalite)/sqrt(40)) #IC 95% ( haut ) 
 
 
 
 
 
 # ouest
-# initialisations des autres variables avec celles de 2011 ( 2010 pour t-2 ? )
+# initialisations des autres variables : on commence à 1989 car on veut aussi modéliser les anciennes valeurs ( donc fin en 2989 )
+
+Present <- filter(donnees,cardinalite=="sud_ouest",year==1990)
+Retard <- filter(donnees,cardinalite=="sud_ouest",year==1989)
+At <- mean(na.omit(Present$Vole.Autumn))
+At_1 <- mean(na.omit(Retard$Vole.Autumn))
+St <- mean(na.omit(Present$Vole.Spring))
+St_1 <- mean(na.omit(Retard$Vole.Spring))
+P2t <- mean(na.omit(Present$Generalist.predator))
+P3t <-mean(na.omit(Present$Avian.predator))
+saisonalite <- 0
+
+# creation des vecteurs de stockage des valeurs 
+Vole <- data.frame(matrix(0,2000,1))
+Yt <- data.frame(0,2000,1)
+tableau_density_dependance <- data.frame(0,40,2)
+tableau_s_index <- data.frame(0,40,1)
+tableau_saisonalite <- data.frame(0,40,1)
+
+# boucle sur 1000 ans , stocker les 1000 valeurs dans un tableau 
+
+for (i in 1:1000){
+  # on va calculer chacun de nos indices de densité dans l'ordre chronologique de l'année
+  # attention : les indices ne sont pas les même que dans la forumle car ils évoluent en cours de route ( vérification faite sur papier )
+  P2t <- a3 + P2t +b3*At +c3*St +d3*At_1 # hiver 
+  St_1 <- St
+  St <- a1 + (b1+1)*At +c1*At_1 +d1*P1 +e1*P2t + f1*P3t # printemps 
+  P3t <- a3 + P3t +b3*St+c3*At+d3*St_1 # été 
+  At_1 <- At 
+  At <- a2 + (b2+1)*St + c2*St_1 +d2*P1 +e2*P2t +f2*P3t # automne 
+  # Stockage des valeurs de densités pour les campagnols 
+  Vole[1,2*i-1] <- St
+  Vole[1,2*i] <- At
+  # on calcules les "growth rates" et la saisonnalité  qui seront utiles pour la suite 
+  Y1 <- St-At_1
+  Yt[1,2*i-1] <- Y1
+  Y2 <- At-St
+  Yt[1,2*i] <- Y2
+  saisonalite <- saisonalite+(Y1-Y2)
+  # tous les 25 ans, on passe une section 
+  if (i %%25 ==0){
+    # on calcule direct density dependance et delayed density dependance 
+    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
+    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
+    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    # s index 
+    s_index <- Var(Vole)
+    tableau_s_index[i,1] <- s_index
+    # saisonnalité 
+    saisonalite_moyenne <- saisonalite/25
+    tableau_saisonalite[i,1] <- saisonalite_moyenne
+    saisonalite <- 0
+  }
+}
+
+# enregristrement des résultats en vu d'une représentation graphique 
+
+simulations[5,1] <- 2
+simulations[5,2] <- "west"
+simulations[5,3] <- mean(tableau_density_dependance[,1])
+simulations[5,4]<- mean(tableau_density_dependance[,2])
+simulations[5,5] <- mean(tableau_s_index)
+simulations[5,6]<- mean(tableau_s_index)-1.96*(var(tableau_s_index)/sqrt(40)) #IC 95% ( bas) 
+simulations[5,7]<- mean(tableau_s_index)+1.96*(var(tableau_s_index)/sqrt(40)) #IC 95% ( haut )
+simulations[5,8] <- mean(tableau_saisonalite)
+simulations[5,9]<- mean(tableau_saisonalite)-1.96*(var(tableau_saisonalite)/sqrt(40)) #IC 95% ( bas) 
+simulations[5,10]<- mean(tableau_saisonalite)+1.96*(var(tableau_saisonalite)/sqrt(40)) #IC 95% ( haut )
 
 # est
-# initialisations des autres variables avec celles de 2011 ( 2010 pour t-2 ? )
+# initialisations des autres variables : on commence à 1989 car on veut aussi modéliser les anciennes valeurs ( donc fin en 2989 )
+
+Present <- filter(donnees,cardinalite=="est",year==1990)
+Retard <- filter(donnees,cardinalite=="est",year==1989)
+At <- mean(na.omit(Present$Vole.Autumn))
+At_1 <- mean(na.omit(Retard$Vole.Autumn))
+St <- mean(na.omit(Present$Vole.Spring))
+St_1 <- mean(na.omit(Retard$Vole.Spring))
+P2t <- mean(na.omit(Present$Generalist.predator))
+P3t <-mean(na.omit(Present$Avian.predator))
+saisonalite <- 0
+
+# creation des vecteurs de stockage des valeurs 
+Vole <- data.frame(matrix(0,2000,1))
+Yt <- data.frame(0,2000,1)
+tableau_density_dependance <- data.frame(0,40,2)
+tableau_s_index <- data.frame(0,40,1)
+tableau_saisonalite <- data.frame(0,40,1)
+
+# boucle sur 1000 ans , stocker les 1000 valeurs dans un tableau 
+
+for (i in 1:1000){
+  # on va calculer chacun de nos indices de densité dans l'ordre chronologique de l'année
+  # attention : les indices ne sont pas les même que dans la forumle car ils évoluent en cours de route ( vérification faite sur papier )
+  P2t <- a3 + P2t +b3*At +c3*St +d3*At_1 # hiver 
+  St_1 <- St
+  St <- a1 + (b1+1)*At +c1*At_1 +d1*P1 +e1*P2t + f1*P3t # printemps 
+  P3t <- a3 + P3t +b3*St+c3*At+d3*St_1 # été 
+  At_1 <- At 
+  At <- a2 + (b2+1)*St + c2*St_1 +d2*P1 +e2*P2t +f2*P3t # automne 
+  # Stockage des valeurs de densités pour les campagnols 
+  Vole[1,2*i-1] <- St
+  Vole[1,2*i] <- At
+  # on calcules les "growth rates" et la saisonnalité  qui seront utiles pour la suite 
+  Y1 <- St-At_1
+  Yt[1,2*i-1] <- Y1
+  Y2 <- At-St
+  Yt[1,2*i] <- Y2
+  saisonalite <- saisonalite+(Y1-Y2)
+  # tous les 25 ans, on passe une section 
+  if (i %%25 ==0){
+    # on calcule direct density dependance et delayed density dependance 
+    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
+    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
+    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    # s index 
+    s_index <- Var(Vole)
+    tableau_s_index[i,1] <- s_index
+    # saisonnalité 
+    saisonalite_moyenne <- saisonalite/25
+    tableau_saisonalite[i,1] <- saisonalite_moyenne
+    saisonalite <- 0
+  }
+}
+
+# enregristrement des résultats en vu d'une représentation graphique 
+
+simulations[4,1] <- 2
+simulations[4,2] <- "east"
+simulations[4,3] <- mean(tableau_density_dependance[,1])
+simulations[4,4]<- mean(tableau_density_dependance[,2])
+simulations[4,5] <- mean(tableau_s_index)
+simulations[4,6]<- mean(tableau_s_index)-1.96*(var(tableau_s_index)/sqrt(40)) #IC 95% ( bas) 
+simulations[4,7]<- mean(tableau_s_index)+1.96*(var(tableau_s_index)/sqrt(40)) #IC 95% ( haut )
+simulations[4,8] <- mean(tableau_saisonalite)
+simulations[4,9]<- mean(tableau_saisonalite)-1.96*(var(tableau_saisonalite)/sqrt(40)) #IC 95% ( bas) 
+simulations[4,10]<- mean(tableau_saisonalite)+1.96*(var(tableau_saisonalite)/sqrt(40)) #IC 95% ( haut )
 
 
 
