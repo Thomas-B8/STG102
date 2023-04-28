@@ -14,9 +14,9 @@ library(dplyr)
 
 # Importation des tableaux de variance expliquées 
 
-nord <- read.csv("variances_expliquees_nord.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
-est <- read.csv("variances_expliquees_est.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
-ouest <- read.csv("variances_expliquees_ouest.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+nord <- read.csv("variances_expliquees_nord2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+est <- read.csv("variances_expliquees_est2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+ouest <- read.csv("variances_expliquees_ouest2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # Creation des graphiques avec ggplot2 
 

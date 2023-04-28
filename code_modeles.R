@@ -1,4 +1,5 @@
 # Besognet Thomas, 17/04/23 , Stage : Modèles 
+# Version 1 : les estimateurs sont estimés sur le dataset entier , puis les variances et covariances sont calculées par régions 
 
 # packages 
 install.packages("dplyr")
@@ -19,133 +20,49 @@ donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 # Avec le Full set ( version avec les trainings set en brouillon )
 
-# Cration du  tableau qui va stocker les estimateurs 
 
-estimateurs_tableau_full_set<-data.frame(matrix("NA",33,13))
-names(estimateurs_tableau_full_set)<-c("site","a1","b1","c1","d1","f1","e1","a2","b2","c2","d2","e2","f2")
+# Tentative numéro 3 estimation des paramètres  ( avec un seul estimateur par modèle ) 
 
-# Tentative numéro 1 ( avec autant d'estimations des paramètres que de lieux puis moyennage ) ( Tentative 2 en brouillon ) 
+Present <-filter(donnees,year>1990)# on ne prend pas les 2 premières années 
+At    <-Present$Vole.Autumn
+St    <-Present$Vole.Spring
+P1t   <-Present$Small.mustelid 
+P2t   <-Present$Generalist.predator
+P3t   <-Present$Avian.predator
+Passe_1 <-filter(donnees,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
+At_1    <-Passe_1$Vole.Autumn
+St_1    <-Passe_1$Vole.Spring
+P3t_1   <-Passe_1$Avian.predator
+Passe_2 <-filter(donnees,year<2010) # on ne prend pas les 2 dernières années  
+At_2    <-Passe_2$Vole.Autumn
 
-vect <-c(1:3,5:33) # trop de NA dans le site numéro 4 , cela crée une erreur : on enlève cette localisation  
+modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 ,offset = At_1 )
+modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t ,offset = St   )
 
-# creation de la boucle pour remplir le tableau 
+summary(modele1)
+summary(modele2)
 
-for (i in vect){
-  donnees_site <-  filter(donnees,site_ordo==i) # à chaque passage dans la boucle, on ne garde qu'une localisation 
-  # creation des vecteurs 
-  Present <-filter(donnees_site,year>1990)# on ne prend pas les 2 premières années 
-  At    <-Present$Vole.Autumn
-  St    <-Present$Vole.Spring
-  P1t   <-Present$Small.mustelid 
-  P2t   <-Present$Generalist.predator
-  P3t   <-Present$Avian.predator
-  Passe_1 <-filter(donnees_site,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
-  At_1    <-Passe_1$Vole.Autumn
-  St_1    <-Passe_1$Vole.Spring
-  P3t_1   <-Passe_1$Avian.predator
-  Passe_2 <-filter(donnees_site,year<2010) # on ne prend pas les 2 dernières années  
-  At_2    <-Passe_2$Vole.Autumn
-  # on passe aux modèles  
-  modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 , data = donnees_site,offset = At_1 ,na.action=na.omit)
-  modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t , data = donnees_site,offset = St,na.action=na.omit)
-  # remplissage du tableau 
-  estimateurs_tableau_full_set[i,1] <- i
-  for (j in 2:7){
-    estimateurs_tableau_full_set[i,j] <- modele1$coefficients[j-1]
-    estimateurs_tableau_full_set[i,j+6] <- modele2$coefficients[j-1]}}
+tableau_parametres2 <- data.frame(matrix(0,2,7))
+names(tableau_parametres2)<-c("modele","a","b","c","d","e","f")
 
-estimateurs_tableau_full_set$a1 <- as.numeric(estimateurs_tableau_full_set$a1)
-estimateurs_tableau_full_set$b1 <- as.numeric(estimateurs_tableau_full_set$b1)
-estimateurs_tableau_full_set$c1 <- as.numeric(estimateurs_tableau_full_set$c1)
-estimateurs_tableau_full_set$d1 <- as.numeric(estimateurs_tableau_full_set$d1)
-estimateurs_tableau_full_set$e1 <- as.numeric(estimateurs_tableau_full_set$e1)
-estimateurs_tableau_full_set$f1 <- as.numeric(estimateurs_tableau_full_set$f1)
-estimateurs_tableau_full_set$a2 <- as.numeric(estimateurs_tableau_full_set$a2)
-estimateurs_tableau_full_set$b2 <- as.numeric(estimateurs_tableau_full_set$b2)
-estimateurs_tableau_full_set$c2 <- as.numeric(estimateurs_tableau_full_set$c2)
-estimateurs_tableau_full_set$d2 <- as.numeric(estimateurs_tableau_full_set$d2)
-estimateurs_tableau_full_set$e2 <- as.numeric(estimateurs_tableau_full_set$e2)
-estimateurs_tableau_full_set$f2 <- as.numeric(estimateurs_tableau_full_set$f2)
-
-# On va maintenant moyenner les estimateurs pour obtenir une estimation moyenne de chaque paramètre 
-
-# on retire quand il y a des NA dans chaucun des modèles 
-
-estimateurs_tableau_full_set1 <- estimateurs_tableau_full_set[-c(4,18,22,26,30,31,33),] # modèle 1
-estimateurs_tableau_full_set2 <- estimateurs_tableau_full_set[-c(4,14,18,26,30,31,33),] # modèle 2
-
-# initialisation des paramètres 
-
-a1=0
-b1=0
-c1=0
-d1=0
-e1=0
-f1=0
-
-a2=0
-b2=0
-c2=0
-d2=0
-e2=0
-f2=0
-
-# somme pour le calcul des moyennes 
-
-for (i in 1:26){
-  a1 <- a1+estimateurs_tableau_full_set1[i,2]
-  b1 <- b1+estimateurs_tableau_full_set1[i,3]
-  c1 <- c1+estimateurs_tableau_full_set1[i,4]
-  d1 <- d1+estimateurs_tableau_full_set1[i,5]
-  e1 <- e1+estimateurs_tableau_full_set1[i,6]
-  f1 <- f1+estimateurs_tableau_full_set1[i,7]
-  a2 <- a2+estimateurs_tableau_full_set2[i,8]
-  b2 <- b2+estimateurs_tableau_full_set2[i,9]
-  c2 <- c2+estimateurs_tableau_full_set2[i,10]
-  d2 <- d2+estimateurs_tableau_full_set2[i,11]
-  e2 <- e2+estimateurs_tableau_full_set2[i,12]
-  f2 <- f2+estimateurs_tableau_full_set2[i,13]
-}
-
-# division pour le calcul des moyennes 
-
-a1 <- a1/26
-b1 <- b1/26
-c1 <- c1/26
-d1 <- d1/26
-e1 <- e1/26
-f1 <- f1/26
-
-a2 <- a2/26
-b2 <- b2/26
-c2 <- c2/26
-d2 <- d2/26
-e2 <- e2/26
-f2 <- f2/26
-
-# remplissage d'un plus petit tableau avec les estimateurs "généaraux"
-
-tableau_parametres <- data.frame("Na",2,7)
-names(tableau_parametres)<-c("modele","a","b","c","d","e","f")
-
-tableau_parametres[1,1] <- "modele1"
-tableau_parametres[2,1] <- "modele2"
-tableau_parametres[1,2] <- a1
-tableau_parametres[1,3] <- b1
-tableau_parametres[1,4] <- c1
-tableau_parametres[1,5] <- d1
-tableau_parametres[1,6] <- e1
-tableau_parametres[1,7] <- f1
-tableau_parametres[2,2] <- a2
-tableau_parametres[2,3] <- b2
-tableau_parametres[2,4] <- c2
-tableau_parametres[2,5] <- d2
-tableau_parametres[2,6] <- e2 
-tableau_parametres[2,7] <- f2
+tableau_parametres2[1,1] <- 1
+tableau_parametres2[2,1] <- 2
+tableau_parametres2[1,2] <- modele1$coefficients[1]
+tableau_parametres2[1,3] <- modele1$coefficients[2]
+tableau_parametres2[1,4] <- modele1$coefficients[3]
+tableau_parametres2[1,5] <- modele1$coefficients[4]
+tableau_parametres2[1,6] <- modele1$coefficients[5]
+tableau_parametres2[1,7] <- modele1$coefficients[6]
+tableau_parametres2[2,2] <- modele2$coefficients[1]
+tableau_parametres2[2,3] <- modele2$coefficients[2]
+tableau_parametres2[2,4] <- modele2$coefficients[3]
+tableau_parametres2[2,5] <- modele2$coefficients[4]
+tableau_parametres2[2,6] <- modele2$coefficients[5]
+tableau_parametres2[2,7] <- modele2$coefficients[6]
 
 # enregistrement du tableau 
 
-write.csv (tableau_parametres, "parametres_modeles.csv", row.names = T, quote = F)
+write.csv (tableau_parametres2, "parametres_modeles2.csv", row.names = T, quote = F)
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------
@@ -155,7 +72,7 @@ write.csv (tableau_parametres, "parametres_modeles.csv", row.names = T, quote = 
 
 # on ouvre le vecteur contenant les paramètres et on remet les valeurs dans des variables bien nommées 
 
-parametres <- read.csv("parametres_modeles.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres <- read.csv("parametres_modeles2.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 a1 <- parametres[1,3]
 b1 <- parametres[1,4]
@@ -183,7 +100,7 @@ names(tableau_var_nord)<-c("annee","VarY1","dir1","del1","P11","P21","P31","VarY
 # on récupère les données pour le nord 
 
 donnees_nord <- filter(donnees,cardinalite=="nord")
-donnees_nord <- filter(donnees_nord,X>100)
+donnees_nord <- filter(donnees_nord,X>100) # problème avec inari 
 
 Atn <- data.frame(matrix("NA",23,5))
 Stn <- data.frame(matrix("NA",23,5))
@@ -191,7 +108,7 @@ P1tn <- data.frame(matrix("NA",23,5))
 P2tn <- data.frame(matrix("NA",23,5))
 P3tn <- data.frame(matrix("NA",23,5))
 
-# on les remplit des valeurs de nos données 
+# on les remplit des valeurs de nos données , une ligne par année et une colonne par localisation 
 
 for (i in 1:5){ # on parcourt les localisations 
   for(j in 1:23){ # on parcourt les années 
