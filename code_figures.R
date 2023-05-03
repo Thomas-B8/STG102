@@ -10,6 +10,203 @@ library(dplyr)
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Introduction : Présentation brute des données 
+
+# Importation des données
+
+donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
+
+# A : le nord 
+
+# A.1 Récupération des données 
+
+donnees_nord <- filter(donnees,cardinalite=="nord")
+
+Vole <- data.frame(matrix(0,46,2))
+Must <- data.frame(matrix(0,23,2))
+Gene <- data.frame(matrix(0,23,2))
+Aeri <- data.frame(matrix(0,23,2))
+
+for (i in 1:23){
+
+Time <- filter(donnees_nord,year==1988+i) 
+
+Vole[2*i-1,1] <- mean(na.omit(Time$Vole.Spring))
+Vole[2*i,1] <- mean(na.omit(Time$Vole.Autumn))
+Must[i,1] <- mean(na.omit(Time$Small.mustelid))
+Gene[i,1] <- mean(na.omit(Time$Generalist.predator))
+Aeri[i,1] <-mean(na.omit(Time$Avian.predator)) 
+
+Vole[2*i-1,2] <- 1988 +i +0.25 # car printemps
+Vole[2*i,2]  <- 1988 +i +0.75 # car automne 
+Must[i,2] <- 1988+i
+Gene[i,2] <- 1988+i
+Aeri[i,2] <- 1988+i +0.5 # car été 
+
+}
+
+# A.2 les graphiques
+
+# les campagnols 
+
+vole_graph_n <- ggplot(data=Vole,aes(x=Vole[,2],y=Vole[,1]))+geom_line(color="darkgreen",size=1.5) +
+ ggtitle("Densité de campagnols dans le nord") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+vole_graph_n
+
+# les petits mustélidés 
+
+must_graph_n <- ggplot(data=Must,aes(x=Must[,2],y=Must[,1]))+geom_line(color="darkred",size=1.5) +
+  ggtitle("Densité de petits mustélidés dans le nord") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+must_graph_n
+
+# les prédateurs généralistes 
+
+gene_graph_n <- ggplot(data=Gene,aes(x=Gene[,2],y=Gene[,1]))+geom_line(color="orange",size=1.5) +
+  ggtitle("Densité de prédateurs généralistes dans le nord") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+gene_graph_n
+
+# les prédateurs aériens 
+
+must_aeri_n <- ggplot(data=Must,aes(x=Aeri[,2],y=Aeri[,1]))+geom_line(color="darkblue",size=1.5) +
+  ggtitle("Densité de prédateurs aériens dans le nord") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+aeri_graph_n
+
+# B : l'est
+
+# B.1 Récupération des données 
+
+donnees_est <- filter(donnees,cardinalite=="est")
+
+Vole <- data.frame(matrix(0,46,2))
+Must <- data.frame(matrix(0,23,2))
+Gene <- data.frame(matrix(0,23,2))
+Aeri <- data.frame(matrix(0,23,2))
+
+for (i in 1:23){
+  
+  Time <- filter(donnees_est,year==1988+i) 
+  
+  Vole[2*i-1,1] <- mean(na.omit(Time$Vole.Spring))
+  Vole[2*i,1] <- mean(na.omit(Time$Vole.Autumn))
+  Must[i,1] <- mean(na.omit(Time$Small.mustelid))
+  Gene[i,1] <- mean(na.omit(Time$Generalist.predator))
+  Aeri[i,1] <-mean(na.omit(Time$Avian.predator)) 
+  
+  Vole[2*i-1,2] <- 1988 +i +0.25 # car printemps
+  Vole[2*i,2]  <- 1988 +i +0.75 # car automne 
+  Must[i,2] <- 1988+i
+  Gene[i,2] <- 1988+i
+  Aeri[i,2] <- 1988+i +0.5 # car été 
+  
+}
+
+# B.2 les graphiques
+
+# les campagnols 
+
+vole_graph_e <- ggplot(data=Vole,aes(x=Vole[,2],y=Vole[,1]))+geom_line(color="darkgreen",size=1.5) +
+  ggtitle("Densité de campagnols dans l'est") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+vole_graph_e
+
+# les petits mustélidés 
+
+must_graph_e <- ggplot(data=Must,aes(x=Must[,2],y=Must[,1]))+geom_line(color="darkred",size=1.5) +
+  ggtitle("Densité de petits mustélidés dans l'est") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+must_graph_e
+
+# les prédateurs généralistes 
+
+gene_graph_e <- ggplot(data=Gene,aes(x=Gene[,2],y=Gene[,1]))+geom_line(color="orange",size=1.5) +
+  ggtitle("Densité de prédateurs généralistes dans l'est") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+gene_graph_e
+
+# les prédateurs aériens 
+
+must_aeri_e <- ggplot(data=Must,aes(x=Aeri[,2],y=Aeri[,1]))+geom_line(color="darkblue",size=1.5) +
+  ggtitle("Densité de prédateurs aériens dans l'est") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+aeri_graph_e
+
+# C : l'ouest
+
+# C.1 Récupération des données 
+
+donnees_ouest <- filter(donnees,cardinalite=="sud_ouest")
+
+Vole <- data.frame(matrix(0,46,2))
+Must <- data.frame(matrix(0,23,2))
+Gene <- data.frame(matrix(0,23,2))
+Aeri <- data.frame(matrix(0,23,2))
+
+for (i in 1:23){
+  
+  Time <- filter(donnees_ouest,year==1988+i) 
+  
+  Vole[2*i-1,1] <- mean(na.omit(Time$Vole.Spring))
+  Vole[2*i,1] <- mean(na.omit(Time$Vole.Autumn))
+  Must[i,1] <- mean(na.omit(Time$Small.mustelid))
+  Gene[i,1] <- mean(na.omit(Time$Generalist.predator))
+  Aeri[i,1] <-mean(na.omit(Time$Avian.predator)) 
+  
+  Vole[2*i-1,2] <- 1988 +i +0.25 # car printemps
+  Vole[2*i,2]  <- 1988 +i +0.75 # car automne 
+  Must[i,2] <- 1988+i
+  Gene[i,2] <- 1988+i
+  Aeri[i,2] <- 1988+i +0.5 # car été 
+  
+}
+
+# C.2 les graphiques
+
+# les campagnols 
+
+vole_graph_o <- ggplot(data=Vole,aes(x=Vole[,2],y=Vole[,1]))+geom_line(color="darkgreen",size=1.5) +
+  ggtitle("Densité de campagnols dans l'ouest") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+vole_graph_o
+
+# les petits mustélidés 
+
+must_graph_o <- ggplot(data=Must,aes(x=Must[,2],y=Must[,1]))+geom_line(color="darkred",size=1.5) +
+  ggtitle("Densité de petits mustélidés dans l'ouest") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+must_graph_o
+
+# les prédateurs généralistes 
+
+gene_graph_o <- ggplot(data=Gene,aes(x=Gene[,2],y=Gene[,1]))+geom_line(color="orange",size=1.5) +
+  ggtitle("Densité de prédateurs généralistes dans l'ouest") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+gene_graph_o
+
+# les prédateurs aériens 
+
+must_aeri_o <- ggplot(data=Must,aes(x=Aeri[,2],y=Aeri[,1]))+geom_line(color="darkblue",size=1.5) +
+  ggtitle("Densité de prédateurs aériens dans l'ouest") +
+  xlab("année") + ylab("log densité ") + theme_classic()
+
+aeri_graph_o
+
+#----------------------------------------------------------------------------------------------------------------------------------
+
 # I Réplication de la figure 2
 
 # Importation des tableaux de variance expliquées 
@@ -20,7 +217,7 @@ ouest <- read.csv("variances_expliquees_ouest2.csv", sep=",", header=T, dec=".",
 
 # Creation des graphiques avec ggplot2 
 
-# I modele 1 pour le nord 
+# A.1 modele 1 pour le nord 
 
 vect1n <- c(1:105)
 a <-0
@@ -43,7 +240,7 @@ graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
 
 graph1_nord
 
-# II modele 2 pour le nord 
+# A.2 modele 2 pour le nord 
 
 vect2n <- c(1:105)
 a <-0
@@ -67,7 +264,7 @@ graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
 graph2_nord
 
 
-# III modele 1 pour l'ouest
+# B.1 modele 1 pour l'ouest
 
 vect1w <- c(1:105)
 a <-0
@@ -90,7 +287,7 @@ graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable))
 
 graph1_ouest
 
-# IV modele 2 pour l'ouest
+# B.2 modele 2 pour l'ouest
 
 vect2w <- c(1:105)
 a <-0
@@ -114,7 +311,7 @@ graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable))
 graph2_ouest
 
 
-# V modele 1 pour l'est
+# C.1 modele 1 pour l'est
 
 vect1e <- c(1:105)
 a <-0
@@ -137,7 +334,7 @@ graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
 
 graph1_est
 
-# VI modele 2 pour l'est
+# C.2 modele 2 pour l'est
 
 vect2e <- c(1:105)
 a <-0
@@ -173,9 +370,9 @@ graph2_est
 simulations <- read.csv("fausses_donnees_figure4.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 simulations$scenario <- as.factor(simulations$scenario)
 
-# a) density dependance 
+# A) density dependance 
 
-# a.1 le nord 
+# A.1 le nord 
 
 simulations_nord <- filter(simulations,region==1)
 
@@ -185,7 +382,7 @@ ggplot(simulations_nord) +
   ggtitle("dependance de densités au NORD de la Finlande sous différents scénarios ") +
   xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
 
-# a.2 le sud ouest 
+# A.2 le sud ouest 
 
 simulations_ouest <- filter(simulations,region==2)
 
@@ -195,7 +392,7 @@ ggplot(simulations_ouest) +
   ggtitle("dependance de densités à l'OUEST de la Finlande sous différents scénarios ") +
   xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
 
-# a.3 l'est
+# A.3 l'est
 
 simulations_est <- filter(simulations,region==3)
 
@@ -205,9 +402,9 @@ ggplot(simulations_est) +
   ggtitle("dependance de densités à l'EST de la Finlande sous différents scénarios ") +
   xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
 
-# b) s-index
+# B) s-index
 
-# b.1 le nord 
+# B.1 le nord 
 
 ggplot(simulations_nord, aes(x=scenario, y=s_index)) +
   geom_segment( aes(x=1, xend=scenario, y=0, yend=s_index),linetype="blank") +
@@ -217,7 +414,7 @@ ggplot(simulations_nord, aes(x=scenario, y=s_index)) +
   ggtitle("le s-index des prédictions de densité de campagnols au NORD de la Finlande sous différents scénarios ") +
   xlab("scenario") + ylab("s-index")+ theme_classic()
 
-# b.2 le sud ouest
+# B.2 le sud ouest
 
 ggplot(simulations_ouest, aes(x=scenario, y=s_index)) +
   geom_segment( aes(x=1, xend=scenario, y=0, yend=s_index),linetype="blank") +
@@ -227,7 +424,7 @@ ggplot(simulations_ouest, aes(x=scenario, y=s_index)) +
   ggtitle("le s-index des prédictions de densité de campagnols à l'OUEST de la Finlande sous différents scénarios ") +
   xlab("scenario") + ylab("s-index")+ theme_classic()
 
-# b.3 l'est  
+# B.3 l'est  
 
 ggplot(simulations_est, aes(x=scenario, y=s_index)) +
   geom_segment( aes(x=1, xend=scenario, y=0, yend=s_index),linetype="blank") +
@@ -237,9 +434,9 @@ ggplot(simulations_est, aes(x=scenario, y=s_index)) +
   ggtitle("le s-index des prédictions de densité de campagnols à l'EST de la Finlande sous différents scénarios ") +
   xlab("scenario") + ylab("s-index")+ theme_classic()
 
-# c) saisonnalite
+# C) saisonnalite
 
-# c.1 le nord 
+# C.1 le nord 
 
 ggplot(simulations_nord, aes(x=scenario, y=seasonality)) +
   geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
@@ -249,7 +446,7 @@ ggplot(simulations_nord, aes(x=scenario, y=seasonality)) +
   ggtitle("la saisonnalite des prédictions de densité de campagnols au NORD de la Finlande sous différents scénarios ") +
   xlab("scenario") + ylab("saisonnalite")+ theme_classic()
 
-# c.2 le sud ouest
+# C.2 le sud ouest
 
 ggplot(simulations_ouest, aes(x=scenario, y=seasonality)) +
   geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
@@ -259,7 +456,7 @@ ggplot(simulations_ouest, aes(x=scenario, y=seasonality)) +
   ggtitle("la saisonnalite des prédictions de densité de campagnols à l'OUEST de la Finlande sous différents scénarios ") +
   xlab("scenario") + ylab("saisonnalite")+ theme_classic()
 
-# c.3 l'est  
+# C.3 l'est  
 
 ggplot(simulations_est, aes(x=scenario, y=seasonality)) +
   geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
