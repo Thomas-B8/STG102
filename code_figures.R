@@ -25,8 +25,8 @@ ouest <- read.csv("variances_expliquees_ouest2.csv", sep=",", header=T, dec=".",
 vect1n <- c(1:105)
 a <-0
 
-for (i in 1:21){
-  for (j in 1:5){
+for (j in 1:5){
+  for (i in 1:21){
     a <- a+1
     vect1n[a]<- nord[i,3+j]
   }
@@ -48,8 +48,8 @@ graph1_nord
 vect2n <- c(1:105)
 a <-0
 
-for (i in 1:21){
-  for (j in 1:5){
+for (j in 1:5){
+  for (i in 1:21){
     a <- a+1
     vect2n[a]<- nord[i,9+j]
   }
@@ -72,8 +72,8 @@ graph2_nord
 vect1w <- c(1:105)
 a <-0
 
-for (i in 1:21){
-  for (j in 1:5){
+for (j in 1:5){
+  for (i in 1:21){
     a <- a+1
     vect1w[a]<- ouest[i,3+j]
   }
@@ -95,8 +95,8 @@ graph1_ouest
 vect2w <- c(1:105)
 a <-0
 
-for (i in 1:21){
-  for (j in 1:5){
+for (j in 1:5){
+  for (i in 1:21){
     a <- a+1
     vect2w[a]<- ouest[i,9+j]
   }
@@ -119,8 +119,8 @@ graph2_ouest
 vect1e <- c(1:105)
 a <-0
 
-for (i in 1:21){
-  for (j in 1:5){
+for (j in 1:5){
+  for (i in 1:21){
     a <- a+1
     vect1e[a]<- est[i,3+j]
   }
@@ -142,8 +142,8 @@ graph1_est
 vect2e <- c(1:105)
 a <-0
 
-for (i in 1:21){
-  for (j in 1:5){
+for (j in 1:5){
+  for (i in 1:21){
     a <- a+1
     vect2e[a]<- est[i,9+j]
   }

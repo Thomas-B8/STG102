@@ -24,8 +24,8 @@ donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 # Creation du tableau de stockage des valeurs 
 
-tableau_parametres_regions <- data.frame(matrix(0,6,8))
-names(tableau_parametres_regions)<-c("region","modele","a","b","c","d","e","f")
+tableau_parametres_regions <- data.frame(matrix(0,6,9))
+names(tableau_parametres_regions)<-c("region","modele","a","b","c","d","e","f","sigma")
 
 # A) pour le nord 
 
@@ -60,12 +60,14 @@ tableau_parametres_regions[1,5] <- modele1$coefficients[3]
 tableau_parametres_regions[1,6] <- modele1$coefficients[4]
 tableau_parametres_regions[1,7] <- modele1$coefficients[5]
 tableau_parametres_regions[1,8] <- modele1$coefficients[6]
+tableau_parametres_regions[1,9] <- summary.lm(modele1)$sigma
 tableau_parametres_regions[2,3] <- modele2$coefficients[1]
 tableau_parametres_regions[2,4] <- modele2$coefficients[2]
 tableau_parametres_regions[2,5] <- modele2$coefficients[3]
 tableau_parametres_regions[2,6] <- modele2$coefficients[4]
 tableau_parametres_regions[2,7] <- modele2$coefficients[5]
 tableau_parametres_regions[2,8] <- modele2$coefficients[6]
+tableau_parametres_regions[2,9] <- summary.lm(modele2)$sigma
 
 # B) Pour l'est 
 
@@ -100,12 +102,14 @@ tableau_parametres_regions[3,5] <- modele1$coefficients[3]
 tableau_parametres_regions[3,6] <- modele1$coefficients[4]
 tableau_parametres_regions[3,7] <- modele1$coefficients[5]
 tableau_parametres_regions[3,8] <- modele1$coefficients[6]
+tableau_parametres_regions[3,9] <- summary.lm(modele1)$sigma
 tableau_parametres_regions[4,3] <- modele2$coefficients[1]
 tableau_parametres_regions[4,4] <- modele2$coefficients[2]
 tableau_parametres_regions[4,5] <- modele2$coefficients[3]
 tableau_parametres_regions[4,6] <- modele2$coefficients[4]
 tableau_parametres_regions[4,7] <- modele2$coefficients[5]
 tableau_parametres_regions[4,8] <- modele2$coefficients[6]
+tableau_parametres_regions[4,9] <- summary.lm(modele2)$sigma
 
 # C) Pour l'ouest
 
@@ -140,12 +144,15 @@ tableau_parametres_regions[5,5] <- modele1$coefficients[3]
 tableau_parametres_regions[5,6] <- modele1$coefficients[4]
 tableau_parametres_regions[5,7] <- modele1$coefficients[5]
 tableau_parametres_regions[5,8] <- modele1$coefficients[6]
+tableau_parametres_regions[5,9] <- summary.lm(modele1)$sigma
 tableau_parametres_regions[6,3] <- modele2$coefficients[1]
 tableau_parametres_regions[6,4] <- modele2$coefficients[2]
 tableau_parametres_regions[6,5] <- modele2$coefficients[3]
 tableau_parametres_regions[6,6] <- modele2$coefficients[4]
 tableau_parametres_regions[6,7] <- modele2$coefficients[5]
 tableau_parametres_regions[6,8] <- modele2$coefficients[6]
+tableau_parametres_regions[6,9] <- summary.lm(modele2)$sigma
+
 
 # enregistrement du tableau 
 
@@ -162,11 +169,11 @@ parametres <- read.csv("parametres_modeles_region.csv", sep=",", header=T, dec="
 
 # on va créer nos vecteurs pour calculer les variances et covariances 
 
-Atn <- data.frame(matrix("NA",23,33))
-Stn <- data.frame(matrix("NA",23,33))
-P1tn <- data.frame(matrix("NA",23,33))
-P2tn <- data.frame(matrix("NA",23,33))
-P3tn <- data.frame(matrix("NA",23,33))
+Atn <- data.frame(matrix(0,23,33))
+Stn <- data.frame(matrix(0,23,33))
+P1tn <- data.frame(matrix(0,23,33))
+P2tn <- data.frame(matrix(0,23,33))
+P3tn <- data.frame(matrix(0,23,33))
 
 # on les remplit des valeurs de nos données , une ligne par année et une colonne par localisation 
 
@@ -197,7 +204,7 @@ Atn_2 <- Atn[-c(22,23),] #passé2
 
 # on va créer le tableau qui va stocker les variances et les variances expliquées
 
-tableau_var_nord <- data.frame(matrix("NA",21,13))
+tableau_var_nord <- data.frame(matrix(0,21,13))
 names(tableau_var_nord)<-c("annee","VarY1","dir1","del1","P11","P21","P31","VarY2","dir2","del2","P12","P22","P32")
 
 
@@ -209,12 +216,15 @@ c1 <- parametres[1,6]
 d1 <- parametres[1,7]
 e1 <- parametres[1,8]
 f1 <- parametres[1,9]
+sigma_carre_1 <- parametres[1,10]^2
+
 a2 <- parametres[2,4]
 b2 <- parametres[2,5]
 c2 <- parametres[2,6]
 d2 <- parametres[2,7]
 e2 <- parametres[2,8]
 f2 <- parametres[2,9]
+sigma_carre_2 <- parametres[2,10]^2
 
 
 # boucle pour remplir le tableau 
@@ -248,12 +258,12 @@ for (i in 1:21){ # les i parcourent les années
   P21 <- e1*(e1*var(P2t,na.rm = TRUE)+b1*cov(At_1,P2t,use="pairwise.complete.obs")+c1*cov(At_2,P2t,use="pairwise.complete.obs")+d1*cov(P1t,P2t,use="pairwise.complete.obs")+f1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
   P31 <- f1*(f1*var(P3t_1,na.rm = TRUE)+b1*cov(At_1,P3t_1,use="pairwise.complete.obs")+c1*cov(At_2,P3t_1,use="pairwise.complete.obs")+d1*cov(P1t,P3t_1,use="pairwise.complete.obs")+e1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
   
-  tableau_var_nord[i,2] <- var(St-At_1,na.rm = TRUE) #variance réélle 
-  tableau_var_nord[i,3] <- DD1/var(St-At_1,na.rm = TRUE) # variances expliquees
-  tableau_var_nord[i,4] <- DL1/var(St-At_1,na.rm = TRUE)
-  tableau_var_nord[i,5] <- P11/var(St-At_1,na.rm = TRUE)
-  tableau_var_nord[i,6] <- P21/var(St-At_1,na.rm = TRUE)
-  tableau_var_nord[i,7] <- P31/var(St-At_1,na.rm = TRUE)
+  tableau_var_nord[i,2] <- DD1+DL1+P11+P21+P31+sigma_carre_1
+  tableau_var_nord[i,3] <- DD1/tableau_var_nord[i,2] # variances expliquees
+  tableau_var_nord[i,4] <- DL1/tableau_var_nord[i,2]
+  tableau_var_nord[i,5] <- P11/tableau_var_nord[i,2]
+  tableau_var_nord[i,6] <- P21/tableau_var_nord[i,2]
+  tableau_var_nord[i,7] <- P31/tableau_var_nord[i,2]
   
   DD2 <- b2*(b2*var(St,na.rm = TRUE)+c2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St,P1t,use="pairwise.complete.obs")+e2*cov(St,P2t,use="pairwise.complete.obs")+f2*cov(St,P3t,use="pairwise.complete.obs"))
   DL2 <- c2*(c2*var(St_1,na.rm = TRUE)+b2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St_1,P1t,use="pairwise.complete.obs")+e2*cov(St_1,P2t,use="pairwise.complete.obs")+f2*cov(St_1,P3t,use="pairwise.complete.obs"))
@@ -261,12 +271,12 @@ for (i in 1:21){ # les i parcourent les années
   P22 <- e2*(e2*var(P2t,na.rm = TRUE)+b2*cov(St,P2t,use="pairwise.complete.obs")+c2*cov(St_1,P2t,use="pairwise.complete.obs")+d2*cov(P1t,P2t,use="pairwise.complete.obs")+f2*cov(P2t,P3t,use="pairwise.complete.obs"))
   P32 <- f2*(f2*var(P3t,na.rm = TRUE)+b2*cov(St,P3t,use="pairwise.complete.obs")+c2*cov(St_1,P3t,use="pairwise.complete.obs")+d2*cov(P1t,P3t,use="pairwise.complete.obs")+e2*cov(P2t,P3t,use="pairwise.complete.obs"))
   
-  tableau_var_nord[i,8] <- var(At-St,na.rm = TRUE) # variance réélle 
-  tableau_var_nord[i,9] <-  DD2/var(At-St,na.rm = TRUE) # variances expliquées
-  tableau_var_nord[i,10] <- DL2/var(At-St,na.rm = TRUE) 
-  tableau_var_nord[i,11] <- P12/var(At-St,na.rm = TRUE)
-  tableau_var_nord[i,12] <- P22/var(At-St,na.rm = TRUE)
-  tableau_var_nord[i,13] <- P32/var(At-St,na.rm = TRUE)
+  tableau_var_nord[i,8] <-  DD2+DL2+P12+P22+P32+sigma_carre_2 
+  tableau_var_nord[i,9] <-  DD2/tableau_var_nord[i,8]# variances expliquées
+  tableau_var_nord[i,10] <- DL2/tableau_var_nord[i,8]
+  tableau_var_nord[i,11] <- P12/tableau_var_nord[i,8]
+  tableau_var_nord[i,12] <- P22/tableau_var_nord[i,8]
+  tableau_var_nord[i,13] <- P32/tableau_var_nord[i,8]
 }
 
 # enregistrement des resultats 
@@ -277,7 +287,7 @@ write.csv (tableau_var_nord, "variances_expliquees_nord2.csv", row.names = T, qu
 
 # on va créer le tableau qui va stocker les variances et les variances expliquées
 
-tableau_var_est <- data.frame(matrix("NA",21,13))
+tableau_var_est <- data.frame(matrix(0,21,13))
 names(tableau_var_est)<-c("annee","VarY1","dir1","del1","P11","P21","P31","VarY2","dir2","del2","P12","P22","P32")
 
 
@@ -289,12 +299,15 @@ c1 <- parametres[3,6]
 d1 <- parametres[3,7]
 e1 <- parametres[3,8]
 f1 <- parametres[3,9]
+sigma_carre_1 <- parametres[3,10]^2
+
 a2 <- parametres[4,4]
 b2 <- parametres[4,5]
 c2 <- parametres[4,6]
 d2 <- parametres[4,7]
 e2 <- parametres[4,8]
 f2 <- parametres[4,9]
+sigma_carre_2 <- parametres[4,10]^2
 
 
 # boucle pour remplir le tableau 
@@ -328,12 +341,12 @@ for (i in 1:21){ # les i parcourent les années
   P21 <- e1*(e1*var(P2t,na.rm = TRUE)+b1*cov(At_1,P2t,use="pairwise.complete.obs")+c1*cov(At_2,P2t,use="pairwise.complete.obs")+d1*cov(P1t,P2t,use="pairwise.complete.obs")+f1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
   P31 <- f1*(f1*var(P3t_1,na.rm = TRUE)+b1*cov(At_1,P3t_1,use="pairwise.complete.obs")+c1*cov(At_2,P3t_1,use="pairwise.complete.obs")+d1*cov(P1t,P3t_1,use="pairwise.complete.obs")+e1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
   
-  tableau_var_est[i,2] <- var(St-At_1,na.rm = TRUE) #variance réélle 
-  tableau_var_est[i,3] <- DD1/var(St-At_1,na.rm = TRUE) # variances expliquees
-  tableau_var_est[i,4] <- DL1/var(St-At_1,na.rm = TRUE)
-  tableau_var_est[i,5] <- P11/var(St-At_1,na.rm = TRUE)
-  tableau_var_est[i,6] <- P21/var(St-At_1,na.rm = TRUE)
-  tableau_var_est[i,7] <- P31/var(St-At_1,na.rm = TRUE)
+  tableau_var_est[i,2] <- DD1+DL1+P11+P21+P31+sigma_carre_1 
+  tableau_var_est[i,3] <- DD1/tableau_var_est[i,2] # variances expliquees
+  tableau_var_est[i,4] <- DL1/tableau_var_est[i,2]
+  tableau_var_est[i,5] <- P11/tableau_var_est[i,2]
+  tableau_var_est[i,6] <- P21/tableau_var_est[i,2]
+  tableau_var_est[i,7] <- P31/tableau_var_est[i,2]
   
   DD2 <- b2*(b2*var(St,na.rm = TRUE)+c2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St,P1t,use="pairwise.complete.obs")+e2*cov(St,P2t,use="pairwise.complete.obs")+f2*cov(St,P3t,use="pairwise.complete.obs"))
   DL2 <- c2*(c2*var(St_1,na.rm = TRUE)+b2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St_1,P1t,use="pairwise.complete.obs")+e2*cov(St_1,P2t,use="pairwise.complete.obs")+f2*cov(St_1,P3t,use="pairwise.complete.obs"))
@@ -341,12 +354,12 @@ for (i in 1:21){ # les i parcourent les années
   P22 <- e2*(e2*var(P2t,na.rm = TRUE)+b2*cov(St,P2t,use="pairwise.complete.obs")+c2*cov(St_1,P2t,use="pairwise.complete.obs")+d2*cov(P1t,P2t,use="pairwise.complete.obs")+f2*cov(P2t,P3t,use="pairwise.complete.obs"))
   P32 <- f2*(f2*var(P3t,na.rm = TRUE)+b2*cov(St,P3t,use="pairwise.complete.obs")+c2*cov(St_1,P3t,use="pairwise.complete.obs")+d2*cov(P1t,P3t,use="pairwise.complete.obs")+e2*cov(P2t,P3t,use="pairwise.complete.obs"))
   
-  tableau_var_est[i,8] <- var(At-St,na.rm = TRUE) # variance réélle 
-  tableau_var_est[i,9] <-  DD2/var(At-St,na.rm = TRUE) # variances expliquées
-  tableau_var_est[i,10] <- DL2/var(At-St,na.rm = TRUE) 
-  tableau_var_est[i,11] <- P12/var(At-St,na.rm = TRUE)
-  tableau_var_est[i,12] <- P22/var(At-St,na.rm = TRUE)
-  tableau_var_est[i,13] <- P32/var(At-St,na.rm = TRUE)
+  tableau_var_est[i,8] <-  DD2+DL2+P12+P22+P32+sigma_carre_2  
+  tableau_var_est[i,9] <-  DD2/tableau_var_est[i,8] # variances expliquées
+  tableau_var_est[i,10] <- DL2/tableau_var_est[i,8]
+  tableau_var_est[i,11] <- P12/tableau_var_est[i,8]
+  tableau_var_est[i,12] <- P22/tableau_var_est[i,8]
+  tableau_var_est[i,13] <- P32/tableau_var_est[i,8]
 }
 
 # enregistrement des resultats 
@@ -357,7 +370,7 @@ write.csv (tableau_var_est, "variances_expliquees_est2.csv", row.names = T, quot
 
 # on va créer le tableau qui va stocker les variances et les variances expliquées
 
-tableau_var_ouest <- data.frame(matrix("NA",21,13))
+tableau_var_ouest <- data.frame(matrix(0,21,13))
 names(tableau_var_ouest)<-c("annee","VarY1","dir1","del1","P11","P21","P31","VarY2","dir2","del2","P12","P22","P32")
 
 
@@ -369,12 +382,15 @@ c1 <- parametres[5,6]
 d1 <- parametres[5,7]
 e1 <- parametres[5,8]
 f1 <- parametres[5,9]
+sigma_carre_1 <- parametres[5,10]^2
+
 a2 <- parametres[6,4]
 b2 <- parametres[6,5]
 c2 <- parametres[6,6]
 d2 <- parametres[6,7]
 e2 <- parametres[6,8]
 f2 <- parametres[6,9]
+sigma_carre_2 <- parametres[6,10]^2
 
 
 # boucle pour remplir le tableau 
@@ -408,12 +424,12 @@ for (i in 1:21){ # les i parcourent les années
   P21 <- e1*(e1*var(P2t,na.rm = TRUE)+b1*cov(At_1,P2t,use="pairwise.complete.obs")+c1*cov(At_2,P2t,use="pairwise.complete.obs")+d1*cov(P1t,P2t,use="pairwise.complete.obs")+f1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
   P31 <- f1*(f1*var(P3t_1,na.rm = TRUE)+b1*cov(At_1,P3t_1,use="pairwise.complete.obs")+c1*cov(At_2,P3t_1,use="pairwise.complete.obs")+d1*cov(P1t,P3t_1,use="pairwise.complete.obs")+e1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
   
-  tableau_var_ouest[i,2] <- var(St-At_1,na.rm = TRUE) #variance réélle 
-  tableau_var_ouest[i,3] <- DD1/var(St-At_1,na.rm = TRUE) # variances expliquees
-  tableau_var_ouest[i,4] <- DL1/var(St-At_1,na.rm = TRUE)
-  tableau_var_ouest[i,5] <- P11/var(St-At_1,na.rm = TRUE)
-  tableau_var_ouest[i,6] <- P21/var(St-At_1,na.rm = TRUE)
-  tableau_var_ouest[i,7] <- P31/var(St-At_1,na.rm = TRUE)
+  tableau_var_ouest[i,2] <- DD1+DL1+P11+P21+P31+sigma_carre_1 
+  tableau_var_ouest[i,3] <- DD1/tableau_var_ouest[i,2] # variances expliquees
+  tableau_var_ouest[i,4] <- DL1/tableau_var_ouest[i,2]
+  tableau_var_ouest[i,5] <- P11/tableau_var_ouest[i,2]
+  tableau_var_ouest[i,6] <- P21/tableau_var_ouest[i,2]
+  tableau_var_ouest[i,7] <- P31/tableau_var_ouest[i,2]
   
   DD2 <- b2*(b2*var(St,na.rm = TRUE)+c2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St,P1t,use="pairwise.complete.obs")+e2*cov(St,P2t,use="pairwise.complete.obs")+f2*cov(St,P3t,use="pairwise.complete.obs"))
   DL2 <- c2*(c2*var(St_1,na.rm = TRUE)+b2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St_1,P1t,use="pairwise.complete.obs")+e2*cov(St_1,P2t,use="pairwise.complete.obs")+f2*cov(St_1,P3t,use="pairwise.complete.obs"))
@@ -421,12 +437,12 @@ for (i in 1:21){ # les i parcourent les années
   P22 <- e2*(e2*var(P2t,na.rm = TRUE)+b2*cov(St,P2t,use="pairwise.complete.obs")+c2*cov(St_1,P2t,use="pairwise.complete.obs")+d2*cov(P1t,P2t,use="pairwise.complete.obs")+f2*cov(P2t,P3t,use="pairwise.complete.obs"))
   P32 <- f2*(f2*var(P3t,na.rm = TRUE)+b2*cov(St,P3t,use="pairwise.complete.obs")+c2*cov(St_1,P3t,use="pairwise.complete.obs")+d2*cov(P1t,P3t,use="pairwise.complete.obs")+e2*cov(P2t,P3t,use="pairwise.complete.obs"))
   
-  tableau_var_ouest[i,8] <- var(At-St,na.rm = TRUE) # variance réélle 
-  tableau_var_ouest[i,9] <-  DD2/var(At-St,na.rm = TRUE) # variances expliquées
-  tableau_var_ouest[i,10] <- DL2/var(At-St,na.rm = TRUE) 
-  tableau_var_ouest[i,11] <- P12/var(At-St,na.rm = TRUE)
-  tableau_var_ouest[i,12] <- P22/var(At-St,na.rm = TRUE)
-  tableau_var_ouest[i,13] <- P32/var(At-St,na.rm = TRUE)
+  tableau_var_ouest[i,8] <-  DD2+DL2+P12+P22+P32+sigma_carre_2
+  tableau_var_ouest[i,9] <-  DD2/tableau_var_ouest[i,8] # variances expliquées
+  tableau_var_ouest[i,10] <- DL2/tableau_var_ouest[i,8]
+  tableau_var_ouest[i,11] <- P12/tableau_var_ouest[i,8]
+  tableau_var_ouest[i,12] <- P22/tableau_var_ouest[i,8]
+  tableau_var_ouest[i,13] <- P32/tableau_var_ouest[i,8]
 }
 
 # enregistrement des resultats 
