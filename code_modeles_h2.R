@@ -169,21 +169,21 @@ parametres <- read.csv("parametres_modeles_region.csv", sep=",", header=T, dec="
 
 # on va créer nos vecteurs pour calculer les variances et covariances 
 
-Atn <- data.frame(matrix(0,23,33))
 Stn <- data.frame(matrix(0,23,33))
+Atn <- data.frame(matrix(0,23,33))
 P1tn <- data.frame(matrix(0,23,33))
 P2tn <- data.frame(matrix(0,23,33))
 P3tn <- data.frame(matrix(0,23,33))
 
 # on les remplit des valeurs de nos données , une ligne par année et une colonne par localisation 
 
-for (i in 1:33){ # on parcourt les localisations 
+for (i in 0:32){ # on parcourt les localisations 
   for(j in 1:23){ # on parcourt les années 
-    Atn[j,i] <- donnees[i+j,4]
-    Stn[j,i] <- donnees[i+j,5]
-    P1tn[j,i] <- donnees[i+j,6]
-    P2tn[j,i] <- donnees[i+j,7]
-    P3tn[j,i] <- donnees[i+j,8]
+    Stn[j,i+1] <- donnees[23*i+j,4]
+    Atn[j,i+1] <- donnees[23*i+j,5]
+    P1tn[j,i+1] <- donnees[23*i+j,6]
+    P2tn[j,i+1] <- donnees[23*i+j,7]
+    P3tn[j,i+1] <- donnees[23*i+j,8]
     
   }
 }
@@ -448,3 +448,4 @@ for (i in 1:21){ # les i parcourent les années
 # enregistrement des resultats 
 
 write.csv (tableau_var_ouest, "variances_expliquees_ouest2.csv", row.names = T, quote = F) 
+
