@@ -472,12 +472,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -546,12 +545,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -620,12 +618,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -701,12 +698,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
   # on calcule direct density dependance et delayed density dependance 
-  Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-  Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-  tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-  tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
   # s index 
-  s_index <- Var(Vole)
+  s_index <- sqrt(Var(Vole))
   tableau_s_index[i,1] <- s_index
   # saisonnalité 
   saisonalite_moyenne <- saisonalite/25
@@ -773,12 +769,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -849,7 +844,7 @@ for (i in 1:1000){
     tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
     tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -922,12 +917,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -992,12 +986,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1062,12 +1055,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1141,12 +1133,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1213,12 +1204,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1285,12 +1275,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1363,12 +1352,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1433,12 +1421,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1503,12 +1490,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1582,12 +1568,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1654,12 +1639,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1726,12 +1710,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1805,12 +1788,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1875,12 +1857,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -1945,12 +1926,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -2023,12 +2003,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -2091,12 +2070,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25
@@ -2159,12 +2137,11 @@ for (i in 1:1000){
   # tous les 25 ans, on passe une section 
   if (i %%25 ==0){
     # on calcule direct density dependance et delayed density dependance 
-    Direct <- lm(formula = Yt ~ Vole, na.action=na.omit)
-    Delayed <- lm(formula = Yt ~ Vole_1, na.action=na.omit)
-    tableau_density_dependance[i,1] <- summary(Direct)$r.squared
-    tableau_density_dependance[i,2] <- summary(Delayed)$r.squared
+    Density_dependance <- lm(formula = Yt ~ Vole+Vole_1, na.action=na.omit)
+    tableau_density_dependance[i,1] <- summary(Density_dependance)$coefficient[1]
+    tableau_density_dependance[i,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
-    s_index <- Var(Vole)
+    s_index <- sqrt(Var(Vole))
     tableau_s_index[i,1] <- s_index
     # saisonnalité 
     saisonalite_moyenne <- saisonalite/25

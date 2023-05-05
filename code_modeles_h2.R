@@ -22,10 +22,13 @@ donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 # Tentative numéro 4 estimation des paramètres  ( 1 seul estimateur par cobinaison modele x region )
 
-# Creation du tableau de stockage des valeurs 
+# Creation des tableaux de stockage des valeurs 
 
-tableau_parametres_regions <- data.frame(matrix(0,6,9))
+tableau_parametres_regions <- data.frame(matrix(0,6,7))
 names(tableau_parametres_regions)<-c("region","modele","a","b","c","d","e","f","sigma")
+
+tableau_parametres_regions_predateurs <- data.frame(matrix(0,9,7))
+names(tableau_parametres_regions)<-c("region","modele","a","b","c","d","sigma")
 
 # A) pour le nord 
 
@@ -46,9 +49,15 @@ At_2    <-Passe_2$Vole.Autumn
 
 modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 ,offset = At_1 )
 modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t ,offset = St   )
+modele3 <- lm(formula = P1t ~ At_1 + St_1 + At_2 ,offset = P1t_1 )
+modele4 <- lm(formula = P2t ~ At_1 + St_1 + At_2 ,offset = P2t_1 )
+modele5 <- lm(formula = P3t ~ St + At_1 + St_1 ,offset = P3t_1 )
 
 summary(modele1)
 summary(modele2)
+summary(modele3)
+summary(modele4)
+summary(modele5)
 
 tableau_parametres_regions[1,1] <- "nord"
 tableau_parametres_regions[2,1] <- "nord"
@@ -69,6 +78,30 @@ tableau_parametres_regions[2,7] <- modele2$coefficients[5]
 tableau_parametres_regions[2,8] <- modele2$coefficients[6]
 tableau_parametres_regions[2,9] <- summary.lm(modele2)$sigma
 
+tableau_parametres_regions_predateurs[1,1] <- "nord"
+tableau_parametres_regions_predateurs[2,1] <- "nord"
+tableau_parametres_regions_predateurs[3,1] <- "nord"
+tableau_parametres_regions_predateurs[1,2] <- 3
+tableau_parametres_regions_predateurs[2,2] <- 4
+tableau_parametres_regions_predateurs[3,2] <- 5
+tableau_parametres_regions_predateurs[1,3] <- modele3$coefficients[1]
+tableau_parametres_regions_predateurs[1,4] <- modele3$coefficients[2]
+tableau_parametres_regions_predateurs[1,5] <- modele3$coefficients[3]
+tableau_parametres_regions_predateurs[1,6] <- modele3$coefficients[4]
+tableau_parametres_regions_predateurs[1,7] <- summary.lm(modele3)$sigma
+tableau_parametres_regions_predateurs[2,3] <- modele4$coefficients[1]
+tableau_parametres_regions_predateurs[2,4] <- modele4$coefficients[2]
+tableau_parametres_regions_predateurs[2,5] <- modele4$coefficients[3]
+tableau_parametres_regions_predateurs[2,6] <- modele4$coefficients[4]
+tableau_parametres_regions_predateurs[2,7] <- summary.lm(modele4)$sigma
+tableau_parametres_regions_predateurs[3,3] <- modele5$coefficients[1]
+tableau_parametres_regions_predateurs[3,4] <- modele5$coefficients[2]
+tableau_parametres_regions_predateurs[3,5] <- modele5$coefficients[3]
+tableau_parametres_regions_predateurs[3,6] <- modele5$coefficients[4]
+tableau_parametres_regions_predateurs[3,7] <- summary.lm(modele5)$sigma
+
+
+
 # B) Pour l'est 
 
 donnees_est <- filter(donnees,cardinalite=="est")
@@ -88,9 +121,15 @@ At_2    <-Passe_2$Vole.Autumn
 
 modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 ,offset = At_1 )
 modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t ,offset = St   )
+modele3 <- lm(formula = P1t ~ At_1 + St_1 + At_2 ,offset = P1t_1 )
+modele4 <- lm(formula = P2t ~ At_1 + St_1 + At_2 ,offset = P2t_1 )
+modele5 <- lm(formula = P3t ~ St + At_1 + St_1 ,offset = P3t_1 )
 
 summary(modele1)
 summary(modele2)
+summary(modele3)
+summary(modele4)
+summary(modele5)
 
 tableau_parametres_regions[3,1] <- "est"
 tableau_parametres_regions[4,1] <- "est"
@@ -111,6 +150,28 @@ tableau_parametres_regions[4,7] <- modele2$coefficients[5]
 tableau_parametres_regions[4,8] <- modele2$coefficients[6]
 tableau_parametres_regions[4,9] <- summary.lm(modele2)$sigma
 
+tableau_parametres_regions_predateurs[4,1] <- "est"
+tableau_parametres_regions_predateurs[5,1] <- "est"
+tableau_parametres_regions_predateurs[6,1] <- "est"
+tableau_parametres_regions_predateurs[4,2] <- 3
+tableau_parametres_regions_predateurs[5,2] <- 4
+tableau_parametres_regions_predateurs[6,2] <- 5
+tableau_parametres_regions_predateurs[4,3] <- modele3$coefficients[1]
+tableau_parametres_regions_predateurs[4,4] <- modele3$coefficients[2]
+tableau_parametres_regions_predateurs[4,5] <- modele3$coefficients[3]
+tableau_parametres_regions_predateurs[4,6] <- modele3$coefficients[4]
+tableau_parametres_regions_predateurs[4,7] <- summary.lm(modele3)$sigma
+tableau_parametres_regions_predateurs[5,3] <- modele4$coefficients[1]
+tableau_parametres_regions_predateurs[5,4] <- modele4$coefficients[2]
+tableau_parametres_regions_predateurs[5,5] <- modele4$coefficients[3]
+tableau_parametres_regions_predateurs[5,6] <- modele4$coefficients[4]
+tableau_parametres_regions_predateurs[5,7] <- summary.lm(modele4)$sigma
+tableau_parametres_regions_predateurs[6,3] <- modele5$coefficients[1]
+tableau_parametres_regions_predateurs[6,4] <- modele5$coefficients[2]
+tableau_parametres_regions_predateurs[6,5] <- modele5$coefficients[3]
+tableau_parametres_regions_predateurs[6,6] <- modele5$coefficients[4]
+tableau_parametres_regions_predateurs[6,7] <- summary.lm(modele5)$sigma
+
 # C) Pour l'ouest
 
 donnees_ouest <- filter(donnees,cardinalite=="sud_ouest")
@@ -130,9 +191,15 @@ At_2    <-Passe_2$Vole.Autumn
 
 modele1 <- lm(formula = St ~ At_1 + At_2 + P1t + P2t + P3t_1 ,offset = At_1 )
 modele2 <- lm(formula = At ~ St + St_1 + P1t + P2t + P3t ,offset = St   )
+modele3 <- lm(formula = P1t ~ At_1 + St_1 + At_2 ,offset = P1t_1 )
+modele4 <- lm(formula = P2t ~ At_1 + St_1 + At_2 ,offset = P2t_1 )
+modele5 <- lm(formula = P3t ~ St + At_1 + St_1 ,offset = P3t_1 )
 
 summary(modele1)
 summary(modele2)
+summary(modele3)
+summary(modele4)
+summary(modele5)
 
 tableau_parametres_regions[5,1] <- "ouest"
 tableau_parametres_regions[6,1] <- "ouest"
@@ -153,10 +220,33 @@ tableau_parametres_regions[6,7] <- modele2$coefficients[5]
 tableau_parametres_regions[6,8] <- modele2$coefficients[6]
 tableau_parametres_regions[6,9] <- summary.lm(modele2)$sigma
 
+tableau_parametres_regions_predateurs[7,1] <- "ouest"
+tableau_parametres_regions_predateurs[8,1] <- "ouest"
+tableau_parametres_regions_predateurs[9,1] <- "ouest"
+tableau_parametres_regions_predateurs[7,2] <- 3
+tableau_parametres_regions_predateurs[8,2] <- 4
+tableau_parametres_regions_predateurs[9,2] <- 5
+tableau_parametres_regions_predateurs[7,3] <- modele3$coefficients[1]
+tableau_parametres_regions_predateurs[7,4] <- modele3$coefficients[2]
+tableau_parametres_regions_predateurs[7,5] <- modele3$coefficients[3]
+tableau_parametres_regions_predateurs[7,6] <- modele3$coefficients[4]
+tableau_parametres_regions_predateurs[7,7] <- summary.lm(modele3)$sigma
+tableau_parametres_regions_predateurs[8,3] <- modele4$coefficients[1]
+tableau_parametres_regions_predateurs[8,4] <- modele4$coefficients[2]
+tableau_parametres_regions_predateurs[8,5] <- modele4$coefficients[3]
+tableau_parametres_regions_predateurs[8,6] <- modele4$coefficients[4]
+tableau_parametres_regions_predateurs[8,7] <- summary.lm(modele4)$sigma
+tableau_parametres_regions_predateurs[9,3] <- modele5$coefficients[1]
+tableau_parametres_regions_predateurs[9,4] <- modele5$coefficients[2]
+tableau_parametres_regions_predateurs[9,5] <- modele5$coefficients[3]
+tableau_parametres_regions_predateurs[9,6] <- modele5$coefficients[4]
+tableau_parametres_regions_predateurs[9,7] <- summary.lm(modele5)$sigma
+
 
 # enregistrement du tableau 
 
 write.csv (tableau_parametres_regions, "parametres_modeles_region.csv", row.names = T, quote = F)
+write.csv (tableau_parametres_regions_predateurs, "parametres_modeles_region_predateurs.csv", row.names = T, quote = F)
 
 #------------------------------------------------------------------------------------------------------------------------------------------
 

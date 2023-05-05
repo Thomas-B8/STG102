@@ -241,7 +241,7 @@ df1_nord <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small m
 
 graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("proportion de la variance du taux de croissance des campagnols en HIVER expliquée selon différentes variables au NORD de la Finlande ") +
+  ggtitle("hiver-nord") +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph1_nord
@@ -264,7 +264,7 @@ df2_nord <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small m
 
 graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("proportion de la variance du taux de croissance des campagnols en ETE expliquée selon différentes variables au NORD de la Finlande ") +
+  ggtitle("ete-nord") +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph2_nord
@@ -288,7 +288,7 @@ df1_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small 
 
 graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("proportion de la variance du taux de croissance des campagnols en HIVER expliquée selon différentes variables à l'OUEST de la Finlande ") +
+  ggtitle("hiver-ouest") +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph1_ouest
@@ -311,7 +311,7 @@ df2_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small 
 
 graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("proportion de la variance du taux de croissance des campagnols en ETE expliquée selon différentes variables à l'OUEST de la Finlande ") +
+  ggtitle("ete-ouest") +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph2_ouest
@@ -335,7 +335,7 @@ df1_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mu
 
 graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("proportion de la variance du taux de croissance des campagnols en HIVER expliquée selon différentes variables à l'EST de la Finlande ") +
+  ggtitle("hiver-est") +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph1_est
@@ -358,10 +358,14 @@ df2_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mu
 
 graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("proportion de la variance du taux de croissance des campagnols en ETE expliquée selon différentes variables à l'EST de la Finlande ") +
+  ggtitle("ete-est") +
   xlab("année") + ylab("proportion de la variance expliquée") + theme_classic()
 
 graph2_est
+
+# tous les graphiques résumés 
+
+plot_grid(graph1_nord,graph1_ouest,graph1_est,graph2_nord,graph2_ouest,graph2_est, labels=c("1", "2","3","4","5","6"), ncol = 3, nrow = 2)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
