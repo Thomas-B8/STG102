@@ -24,7 +24,7 @@ donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 # Creation des tableaux de stockage des valeurs 
 
-tableau_parametres_regions <- data.frame(matrix(0,6,7))
+tableau_parametres_regions <- data.frame(matrix(0,6,9))
 names(tableau_parametres_regions)<-c("region","modele","a","b","c","d","e","f","sigma")
 
 tableau_parametres_regions_predateurs <- data.frame(matrix(0,9,7))
@@ -43,6 +43,8 @@ P3t   <-Present$Avian.predator
 Passe_1 <-filter(donnees_nord,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
 At_1    <-Passe_1$Vole.Autumn
 St_1    <-Passe_1$Vole.Spring
+P1t_1   <-Passe_1$Small.mustelid
+P2t_1   <-Passe_1$Generalist.predator
 P3t_1   <-Passe_1$Avian.predator
 Passe_2 <-filter(donnees_nord,year<2010) # on ne prend pas les 2 dernières années  
 At_2    <-Passe_2$Vole.Autumn
@@ -115,6 +117,8 @@ P3t   <-Present$Avian.predator
 Passe_1 <-filter(donnees_est,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
 At_1    <-Passe_1$Vole.Autumn
 St_1    <-Passe_1$Vole.Spring
+P1t_1   <-Passe_1$Small.mustelid
+P2t_1   <-Passe_1$Generalist.predator
 P3t_1   <-Passe_1$Avian.predator
 Passe_2 <-filter(donnees_est,year<2010) # on ne prend pas les 2 dernières années  
 At_2    <-Passe_2$Vole.Autumn
@@ -185,6 +189,8 @@ P3t   <-Present$Avian.predator
 Passe_1 <-filter(donnees_ouest,year>1989,year<2011) # on ne prend ni la première ni la dernière année 
 At_1    <-Passe_1$Vole.Autumn
 St_1    <-Passe_1$Vole.Spring
+P1t_1   <-Passe_1$Small.mustelid
+P2t_1   <-Passe_1$Generalist.predator
 P3t_1   <-Passe_1$Avian.predator
 Passe_2 <-filter(donnees_ouest,year<2010) # on ne prend pas les 2 dernières années  
 At_2    <-Passe_2$Vole.Autumn

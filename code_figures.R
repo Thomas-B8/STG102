@@ -131,7 +131,7 @@ must_graph_e
 # les prédateurs généralistes 
 
 gene_graph_e <- ggplot(data=Gene_e,aes(x=Gene_e[,2],y=Gene_e[,1]))+geom_line(color="orange",size=1.5) +
-  ggtitle("Fow_and_pine_marten_east") +
+  ggtitle("Fox_and_pine_marten_east") +
   xlab("years") + ylab("log density") + theme_classic()
 
 gene_graph_e
@@ -240,8 +240,8 @@ df1_nord <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_m
                               variances=vect1n)
 
 graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "#FF0033", "#333333" , "#000000")) +
-  ggtitle("winter-nortth") +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
+  ggtitle("winter-north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
 graph1_nord
@@ -263,7 +263,7 @@ df2_nord <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_m
                         variances=vect2n)
 
 graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC","darkolivegreen4", "#FF0033", "#333333" , "#000000")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("summer_north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -287,7 +287,7 @@ df1_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_
                         variances=vect1w)
 
 graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC","darkolivegreen4", "#FF0033", "#333333" , "#000000")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("winter-west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -310,7 +310,7 @@ df2_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_
                         variances=vect2w)
 
 graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "#FF0033", "#333333" , "#000000")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("summer-west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -334,7 +334,7 @@ df1_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mu
                         variances=vect1e)
 
 graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "#FF0033", "#333333" , "#000000")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("winter-east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -357,7 +357,7 @@ df2_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mu
                         variances=vect2e)
 
 graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "#FF0033", "#333333" , "#000000")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("summer-east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -393,12 +393,12 @@ for (j in 1:3){
   }
 }
 
-df3_nord <-  data.frame(variable=rep(c("autumn_t-1", "spring_t-1", "autumn_t-2"), each=21),
+df3_nord <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_t-2"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect3n)
 
 graph3_nord <- ggplot(data=df3_nord, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("small_mustelids_north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -416,12 +416,12 @@ for (j in 1:3){
   }
 }
 
-df4_nord <-  data.frame(variable=rep(c("autumn_t-1", "spring_t-1", "autumn_t-2"), each=21),
+df4_nord <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_t-2"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect4n)
 
 graph4_nord <- ggplot(data=df4_nord, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("fox_and_pine_marten_north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -439,12 +439,12 @@ for (j in 1:3){
   }
 }
 
-df5_nord <-  data.frame(variable=rep(c("spring_t", "autumn_t-1", "spring_t-1"), each=21),
+df5_nord <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_t-1"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect5n)
 
 graph5_nord <- ggplot(data=df5_nord, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("avian_predators_north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -462,12 +462,12 @@ for (j in 1:3){
   }
 }
 
-df3_ouest <-  data.frame(variable=rep(c("autumn_t-1", "spring_t-1", "autumn_t-2"), each=21),
+df3_ouest <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_t-2"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect3o)
 
 graph3_ouest <- ggplot(data=df3_ouest, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("small_mustelids_west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -485,12 +485,12 @@ for (j in 1:3){
   }
 }
 
-df4_ouest <-  data.frame(variable=rep(c("autumn_t-1", "spring_t-1", "autumn_t-2"), each=21),
+df4_ouest <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_t-2"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect4o)
 
 graph4_ouest <- ggplot(data=df4_ouest, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("fox_and_pine_marten_west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -508,12 +508,12 @@ for (j in 1:3){
   }
 }
 
-df5_ouest <-  data.frame(variable=rep(c("spring_t", "autumn_t-1", "spring_t-1"), each=21),
+df5_ouest <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_t-1"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect5o)
 
 graph5_ouest <- ggplot(data=df5_ouest, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("avian_predators_west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -531,12 +531,12 @@ for (j in 1:3){
   }
 }
 
-df3_est <-  data.frame(variable=rep(c("autumn_t-1", "spring_t-1", "autumn_t-2"), each=21),
+df3_est <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_t-2"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect3e)
 
 graph3_est <- ggplot(data=df3_est, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("small_mustelids_east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -554,12 +554,12 @@ for (j in 1:3){
   }
 }
 
-df4_est <-  data.frame(variable=rep(c("autumn_t-1", "spring_t-1", "autumn_t-2"), each=21),
+df4_est <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_t-2"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect4e)
 
 graph4_est <- ggplot(data=df4_est, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("fox_and_pine_marten_east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -577,12 +577,12 @@ for (j in 1:3){
   }
 }
 
-df5_est <-  data.frame(variable=rep(c("spring_t", "autumn_t-1", "spring_t-1"), each=21),
+df5_est <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_t-1"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect5e)
 
 graph5_est <- ggplot(data=df5_est, aes(x=annee, y=variances, fill=variable)) +
-  geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "darkolivegreen4", "darkolivegreen1")) +
+  geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
   ggtitle("avian_predators_east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()
 
@@ -703,6 +703,17 @@ ggplot(simulations_est, aes(x=scenario, y=seasonality)) +
   xlab("scenario") + ylab("saisonnalite")+ theme_classic()
 
 
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# IV Les simulations : densités de campagnols 
 
+Vole <- read.csv("Vole_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+
+s1n_data <- Vole[,1:2]
+
+s1n_graph <- ggplot(data=s1n_data,aes(x=s1n_data[,1],y=s1n_data[,2]))+geom_line(color="darkblue",size=0.01) +
+  ggtitle("Vole_s1_north") +
+  xlab("time") + ylab("Vole index") + theme_classic()
+
+s1n_graph
 
