@@ -313,7 +313,7 @@ tableau_density_dependance <- data.frame(matrix(0,40,2))
 tableau_s_index <- data.frame(matrix(0,40,1))
 tableau_saisonalite <- data.frame(matrix(0,40,1))
 saisonalite <- 0
-j <- 0
+j <- 0 #number of section 
 
 # 1000 years loop 
 
