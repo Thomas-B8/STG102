@@ -571,3 +571,78 @@ variance_voleS_north <-
   # Pour chacun des 20 modèles, il faut donc faire un graphique avec les variances expliquées 
   
   # Simulations pour le futur et dépendances de densité ( fit avec le test set)
+  
+  
+# simulations 
+  
+  # east 
+  
+  a1e <- parametres[3,4]
+b1e <- parametres[3,5]
+c1e <- parametres[3,6]
+d1e <- parametres[3,7]
+e1e <- parametres[3,8]
+f1e <- parametres[3,9]
+sigma1e <- parametres[3,10]
+
+a2e <- parametres[4,4]
+b2e <- parametres[4,5]
+c2e <- parametres[4,6]
+d2e <- parametres[4,7]
+e2e <- parametres[4,8]
+f2e <- parametres[4,9]
+sigma2e <- parametres[4,10]
+
+a3e <- parametres_pred[4,4]
+b3e <- parametres_pred[4,5]
+c3e <- parametres_pred[4,6]
+d3e <- parametres_pred[4,7]
+sigma3e <- parametres_pred[4,8]
+
+a4e <- parametres_pred[5,4]
+b4e <- parametres_pred[5,5]
+c4e <- parametres_pred[5,6]
+d4e <- parametres_pred[5,7]
+sigma4e <- parametres_pred[5,8]
+
+a5e <- parametres_pred[6,4]
+b5e <- parametres_pred[6,5]
+c5e <- parametres_pred[6,6]
+d5e <- parametres_pred[6,7]
+sigma5e <- parametres_pred[6,8]
+
+# west 
+
+a1o <- parametres[5,4]
+b1o <- parametres[5,5]
+c1o <- parametres[5,6]
+d1o <- parametres[5,7]
+e1o <- parametres[5,8]
+f1o <- parametres[5,9]
+sigma1o <- parametres[5,10]
+
+a2o <- parametres[6,4]
+b2o <- parametres[6,5]
+c2o <- parametres[6,6]
+d2o <- parametres[6,7]
+e2o <- parametres[6,8]
+f2o <- parametres[6,9]
+sigma2o <- parametres[6,10]
+
+a3o <- parametres_pred[7,4]
+b3o <- parametres_pred[7,5]
+c3o <- parametres_pred[7,6]
+d3o <- parametres_pred[7,7]
+sigma3o <- parametres_pred[7,8]
+
+a4o <- parametres_pred[8,4]
+b4o <- parametres_pred[8,5]
+c4o <- parametres_pred[8,6]
+d4o <- parametres_pred[8,7]
+sigma4o <- parametres_pred[8,8]
+
+a5o <- parametres_pred[9,4]
+b5o <- parametres_pred[9,5]
+c5o <- parametres_pred[9,6]
+d5o <- parametres_pred[9,7]
+sigma5o <- parametres_pred[9,8]

@@ -717,3 +717,4 @@ s1n_graph <- ggplot(data=s1n_data,aes(x=s1n_data[,1],y=s1n_data[,2]))+geom_line(
 
 s1n_graph
 
+acf(s1n_data[,2])
