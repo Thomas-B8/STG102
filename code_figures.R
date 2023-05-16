@@ -599,110 +599,151 @@ plot_grid(graph3_nord,graph3_ouest,graph3_est,graph4_nord,graph4_ouest,graph4_es
 
 # les données ne sont pas encore disponibles, donc je vais créer un tableua fictif pour travailler dessus 
 
-simulations <- read.csv("simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
-simulations$scenario <- as.factor(simulations$scenario)
+simulations <- read.csv("simulations_sansva.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+simulations$scenario <- as.integer(simulations$scenario)
+
+simulations$direct.density.dependance_p <- simulations$direct.density.dependance+1
+
+simulations_nord <- filter(simulations,region==1)
+simulations_est <- filter(simulations,region==2)
+simulations_ouest <- filter(simulations,region==3)
 
 # A) density dependance 
 
 # A.1 le nord 
 
-simulations_nord <- filter(simulations,region==1)
-
-ggplot(simulations_nord) +
-  geom_point(aes(x = direct.density.dependance,y = delayed.density.dependance,color = scenario, size = 0.5))+
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("dependance de densités au NORD de la Finlande sous différents scénarios ") +
+ a1 <- ggplot(simulations_nord) +
+  geom_point(aes(x = direct.density.dependance_p,y = delayed.density.dependance,color = factor(scenario),size=0.5))+
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
+  geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
+  geom_segment(aes(x = 0, y = 1, xend = 2, yend = -1))+
+  geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
+  coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
+  ggtitle("density dependance north") +
   xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
 
-# triangle ? 
-abline(a = -1, b = 0, lty="dashed")
-abline(a = 1, b = -1, lty="dashed")
-polygon(x = phi1[6:46], y = 1-abs(phi1[6:46]), col="gray")
-lines(phi1,-phi1^2/4)
+a1
+
 
 # A.2 le sud ouest 
 
-simulations_ouest <- filter(simulations,region==3)
+a2 <- ggplot(simulations_ouest) +
+  geom_point(aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario),size=0.5))+
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
+  geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
+  geom_segment(aes(x = 0, y = 1, xend = 2, yend = -1))+
+  geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
+  coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
+  ggtitle("density dependance west") +
+  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()+
+  guides(size = guide_legend(override.aes = list(size = NULL)))
 
-ggplot(simulations_ouest) +
-  geom_point(aes(x =direct.density.dependance,y =delayed.density.dependance,color = scenario, size = 0.5))+
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("dependance de densités à l'OUEST de la Finlande sous différents scénarios ") +
-  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+a2
 
 # A.3 l'est
 
-simulations_est <- filter(simulations,region==2)
-
-ggplot(simulations_est) +
-  geom_point(aes(x =direct.density.dependance,y =delayed.density.dependance,color = scenario, size = 0.5))+
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("dependance de densités à l'EST de la Finlande sous différents scénarios ") +
+a3 <- ggplot(simulations_est) +
+  geom_point(aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario),size=0.5))+
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
+  geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
+  geom_segment(aes(x = 0, y = 1, xend = 2, yend = -1))+
+  geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
+  coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
+  ggtitle("density dependance east") +
   xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+
+a3
+
+# A.4 Graphique global 
+
+plot_grid(a1,a2,a3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
 # B) s-index
 
 # B.1 le nord 
 
-ggplot(simulations_nord, aes(x=scenario, y=s.index)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=s.index),linetype="blank") +
-  geom_point(aes(x = scenario,y = s.index,color = scenario, size = 0.5))+
-  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.1 ) +
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("le s-index des prédictions de densité de campagnols au NORD de la Finlande sous différents scénarios ") +
-  xlab("scenario") + ylab("s-index")+ theme_classic()
+b1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
+  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=.1, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  xlab("scenario") + ylab("s-index")+
+  ggtitle("s-index north ") +
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  theme_classic() 
+
+b1
 
 # B.2 le sud ouest
 
-ggplot(simulations_ouest, aes(x=scenario, y=s.index)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=s.index),linetype="blank") +
-  geom_point(aes(x = scenario,y = s.index,color = scenario, size = 0.5))+
-  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.1 ) +
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("le s-index des prédictions de densité de campagnols à l'OUEST de la Finlande sous différents scénarios ") +
-  xlab("scenario") + ylab("s-index")+ theme_classic()
+b2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
+  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=.1, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  xlab("scenario") + ylab("s-index")+
+  ggtitle("s-index west ") +
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  theme_classic() 
+
+b2
 
 # B.3 l'est  
 
-ggplot(simulations_est, aes(x=scenario, y=s.index)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=s.index),linetype="blank") +
-  geom_point(aes(x = scenario,y = s.index,color = scenario, size = 0.5))+
-  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.1 ) +
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("le s-index des prédictions de densité de campagnols à l'EST de la Finlande sous différents scénarios ") +
-  xlab("scenario") + ylab("s-index")+ theme_classic()
+b3 <- ggplot(simulations_est, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
+  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=.1, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  xlab("scenario") + ylab("s-index")+
+  ggtitle("s-index east ") +
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  theme_classic() 
+
+b3
+
+# B.4 Graphique global 
+
+plot_grid(b1,b2,b3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
 # C) saisonnalite
 
 # C.1 le nord 
 
-ggplot(simulations_nord, aes(x=scenario, y=seasonality)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
-  geom_point(aes(x = scenario,y = seasonality,color = scenario, size = 0.5))+
-  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.1 ) +
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("la saisonnalite des prédictions de densité de campagnols au NORD de la Finlande sous différents scénarios ") +
-  xlab("scenario") + ylab("saisonnalite")+ theme_classic()
+c1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
+  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=.1, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  xlab("scenario") + ylab("seasonality")+
+  ggtitle("seasonality north ") +
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  theme_classic() 
+
+c1
 
 # C.2 le sud ouest
 
-ggplot(simulations_ouest, aes(x=scenario, y=seasonality)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
-  geom_point(aes(x = scenario,y = seasonality,color = scenario, size = 0.5))+
-  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.1 ) +
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("la saisonnalite des prédictions de densité de campagnols à l'OUEST de la Finlande sous différents scénarios ") +
-  xlab("scenario") + ylab("saisonnalite")+ theme_classic()
+c2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
+  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=.1, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  xlab("scenario") + ylab("seasonality")+
+  ggtitle("seasonality west ") +
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  theme_classic()
+
+c2
 
 # C.3 l'est  
 
-ggplot(simulations_est, aes(x=scenario, y=seasonality)) +
-  geom_segment( aes(x=1, xend=scenario, y=0, yend=seasonality),linetype="blank") +
-  geom_point(aes(x = scenario,y = seasonality,color = scenario, size = 0.5))+
-  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.1 ) +
-  scale_color_manual(values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  ggtitle("la saisonnalite des prédictions de densité de campagnols à l'EST de la Finlande sous différents scénarios ") +
-  xlab("scenario") + ylab("saisonnalite")+ theme_classic()
+c3 <- ggplot(simulations_est, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
+  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=.1, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  xlab("scenario") + ylab("seasonality")+
+  ggtitle("seasonality east ") +
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  theme_classic()
+
+c3
+
+# B.4 Graphique global 
+
+plot_grid(c1,c2,c3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

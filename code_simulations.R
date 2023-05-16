@@ -16,11 +16,11 @@ simulations <-data.frame(matrix(0,24,10))
 names(simulations) <- c("scenario","region","direct density dependance","delayed density dependance","s-index","min_s","max_s","seasonality","min_n","max_n")
 
 Vole <- data.frame(matrix(0,2000,24)) 
-names(Vole) <- c("1n","1o","1e","2n","2o","2e","3n","3o","3e","4n","4o","4e","5n","5o","5e","6n","6o","6e","7n","7o","7e","8n","8o","8e")
+names(Vole) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
 Vole_1 <- data.frame(matrix(0,2000,24)) 
-names(Vole_1) <- c("1n","1o","1e","2n","2o","2e","3n","3o","3e","4n","4o","4e","5n","5o","5e","6n","6o","6e","7n","7o","7e","8n","8o","8e")
+names(Vole_1) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
 Yt <- data.frame(matrix(0,2000,24)) 
-names(Yt) <- c("1n","1o","1e","2n","2o","2e","3n","3o","3e","4n","4o","4e","5n","5o","5e","6n","6o","6e","7n","7o","7e","8n","8o","8e")
+names(Yt) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
 
 # We open the parameters estimated previously and create variable to stock them
 
