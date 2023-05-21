@@ -119,7 +119,10 @@ a6_acf
 
 s7n_data <- Vole[1:100,c(1,20)]
 
-s7n_graph <- ggplot(data=s7n_data,aes(x=s7n_data[,1],y=s7n_data[,2]))+geom_line(color="darkblue",size=1) +
+s7n_data[,1] <- as.numeric(s7n_data[,1])
+s7n_data[,2] <- as.numeric(s7n_data[,2])
+
+s7n_graph <- ggplot(data=s7n_data,aes(x=s7n_data[,1],y=s7n_data[,2],group=1))+geom_line(color="blue",size=1) +
   ggtitle("Vole_s7_north") +
   xlab("time") + ylab("Vole index") + theme_classic()
 
@@ -218,6 +221,9 @@ a4_acf
 # S5 - East
 
 s5e_data <- Vole[1:100,c(1,15)]
+
+s5e_data[,1] <- as.numeric(s5e_data[,1])
+s5e_data[,2] <- as.numeric(s5e_data[,2])
 
 s5e_graph <- ggplot(data=s5e_data,aes(x=s5e_data[,1],y=s5e_data[,2]))+geom_line(color="orange2",size=1) +
   ggtitle("Vole_s5_east") +
