@@ -32,7 +32,7 @@ simulations_ouest <- filter(simulations,region==3)
 # A.1 le nord 
 
 a1 <- ggplot(simulations_nord) +
-  geom_point(aes(x = direct.density.dependance_p,y = delayed.density.dependance,color = factor(scenario),size=0.5))+
+  geom_point(size=6,aes(x = direct.density.dependance_p,y = delayed.density.dependance,color = factor(scenario)))+
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
   geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
   geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
@@ -40,7 +40,7 @@ a1 <- ggplot(simulations_nord) +
   geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
   coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
   ggtitle("density dependance north") +
-  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()
 
 a1
 
@@ -48,7 +48,7 @@ a1
 # A.2 le sud ouest 
 
 a2 <- ggplot(simulations_ouest) +
-  geom_point(aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario),size=0.5))+
+  geom_point(size=6,aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario)))+
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
   geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
   geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
@@ -56,14 +56,14 @@ a2 <- ggplot(simulations_ouest) +
   geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
   coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
   ggtitle("density dependance west") +
-  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()
 
 a2
 
 # A.3 l'est
 
 a3 <- ggplot(simulations_est) +
-  geom_point(aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario),size=0.5))+
+  geom_point(size=6,aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario)))+
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
   geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
   geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
@@ -71,7 +71,7 @@ a3 <- ggplot(simulations_est) +
   geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
   coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
   ggtitle("density dependance east") +
-  xlab("direct density dependance ") + ylab("delayed density dependance")+ theme_classic()
+  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()
 
 a3
 
@@ -84,8 +84,8 @@ plot_grid(a1,a2,a3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 # B.1 le nord 
 
 b1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
-  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=.1, position=position_dodge(0.1)) +
-  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.4, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("s-index")+
   ggtitle("s-index north ") +
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
@@ -96,8 +96,8 @@ b1
 # B.2 le sud ouest
 
 b2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
-  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=.1, position=position_dodge(0.1)) +
-  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.4, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("s-index")+
   ggtitle("s-index west ") +
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
@@ -108,8 +108,8 @@ b2
 # B.3 l'est  
 
 b3 <- ggplot(simulations_est, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
-  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=.1, position=position_dodge(0.1)) +
-  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.4, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("s-index")+
   ggtitle("s-index east ") +
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
@@ -126,8 +126,8 @@ plot_grid(b1,b2,b3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 # C.1 le nord 
 
 c1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
-  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=.1, position=position_dodge(0.1)) +
-  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.4, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("seasonality")+
   ggtitle("seasonality north ") +
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
@@ -138,8 +138,8 @@ c1
 # C.2 le sud ouest
 
 c2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
-  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=.1, position=position_dodge(0.1)) +
-  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.4, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("seasonality")+
   ggtitle("seasonality west ") +
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
@@ -150,8 +150,8 @@ c2
 # C.3 l'est  
 
 c3 <- ggplot(simulations_est, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
-  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=.1, position=position_dodge(0.1)) +
-  geom_point(position=position_dodge(0.1), size=3, shape=15, fill="white") +
+  geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.4, position=position_dodge(0.1)) +
+  geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("seasonality")+
   ggtitle("seasonality east ") +
   scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
