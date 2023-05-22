@@ -191,7 +191,7 @@ a <-0
 for (j in 1:3){
   for (i in 1:21){
     a <- a+1
-    vect4e[a]<- nord[i,7+j]
+    vect4e[a]<- est[i,7+j]
   }
 }
 
@@ -214,7 +214,7 @@ a <-0
 for (j in 1:3){
   for (i in 1:21){
     a <- a+1
-    vect5e[a]<- nord[i,11+j]
+    vect5e[a]<- est[i,11+j]
   }
 }
 
