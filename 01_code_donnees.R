@@ -1,4 +1,4 @@
-# Besognet Thomas, 03/04/23 , Stage : Traitement des données 
+# Besognet Thomas, 03/04/23 , Data management 
 
 # packages 
 install.packages("dplyr")
@@ -8,14 +8,14 @@ library(epiR)
 install.packages("epiDisplay")
 library(epiDisplay)
 
-# importation des données 
-tableau <- read.table("donnees_brutes_korpela.txt", sep="\t", header=T, dec=",") # ouverture des données de base 
+# original data importation 
+tableau <- read.table("donnees_brutes_korpela.txt", sep="\t", header=T, dec=",") 
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------
 
 
-# modificationdes données : les types de variable 
+# we will modify some types of variables 
 summary(tableau)
 tableau$Vole.Spring <- as.numeric(tableau$Vole.Spring)
 tableau$Vole.Autumn  <- as.numeric(tableau$Vole.Autumn )
@@ -23,23 +23,24 @@ tableau$Small.mustelid   <- as.numeric(tableau$Small.mustelid  )
 tableau$Generalist.predator <- as.numeric(tableau$Generalist.predator)
 tableau$Avian.predator   <- as.numeric(tableau$Avian.predator  )
 
-# rajouter : longitudes, latitudes, cardinalité et une variable qualitiative ordinale pour les sites 
+# we add longitude,latitude,region and a number for each site 
 
 new_colonnes<-data.frame(matrix("centre",891,4))
 names(new_colonnes)<-c("longitude","latitude","cardinalite","site_ordo")
 new_colonnes
 
-donnees<-cbind(tableau,new_colonnes) # on rajoute les 4 colonnes 
+# we add the 4 columns
+donnees<-cbind(tableau,new_colonnes) 
 
 
-# recodage des noms des sites qui se sont mal importés 
+# we recodee some of the names : encoding problems 
 donnees$site[donnees$site == "pallasjSrvi"] <- "pallasjarvi"
 donnees$site[donnees$site == "luumSki"] <- "luumaki"
 donnees$site[donnees$site == "sodankylS"] <- "sodankyla"
 donnees$site[donnees$site == "tohmajSrvi"] <- "tohmajarvi"
 donnees$site[donnees$site == "ShtSri"] <- "ahtari"
 
-# remplissage des 4 colonnes 
+# we can complete our new columns with data from google map for longitude and latitude 
 
   donnees$latitude[donnees$site == "hauho"] <- 61.17193795784571
   donnees$longitude[donnees$site == "hauho"] <- 24.563394493033037
@@ -171,28 +172,31 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
   
   donnees$latitude[donnees$site == "ahtari"] <-62.55004929863743
   donnees$longitude[donnees$site == "ahtari"] <-24.066963604038467
-  donnees$site_ordo[donnees$site == "ahtari"] <-33
+  donnees$site_ordo[donnees$site == "ahtari"] <-33*
     
+  
+  # we complet with regions from criteria of the Korpela study 
   donnees$cardinalite[donnees$latitude >66 ] <-"nord"
   donnees$cardinalite[donnees$latitude < 64 & donnees$longitude<25] <- "sud_ouest"
   donnees$cardinalite[donnees$longitude >29.2 & donnees$latitude <66 ] <- "est"
   
+  # we will modify some types of variables 
   donnees$latitude <- as.numeric(donnees$latitude)
   donnees$longitude <- as.numeric(donnees$longitude)
   donnees$cardinalite<- as.factor(tableau$cardinalite)
   donnees$site_ordo <- as.numeric(donnees$site_ordo)
   
-# on retire les années qui ne sont pas étudiées par la suite 
+# we can supress some years that aren't in  the models 
   
   donnees <- filter(donnees,year<2012,year>1988)
   
-# on vérifie que tout est bon 
+# verifications 
   
   summary(donnees)
   
   tab1(donnees$cardinalite)
   
-# on enregistre dans un nouveau fichier de donnéess pour ne pas avor besoin de tout réexecuter si besoin 
+# we can register our clean data 
   
 write.csv (donnees, "donnees_completees.csv", row.names = T, quote = F)
   

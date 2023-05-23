@@ -14,3 +14,5 @@ The point of this project is the replication of  Korpela et al. Proceedings B 20
 7 ) code_figures_figure3 replicate the variance/proportion explained for predator's models
 8 ) code_figures_figure4 replicate the density dependance, s index and seasonlity graph for simulations 
 9 ) code_figures_vole_density_simulation present the vole density by region predicted for all 24 simulations 
+
+codes with a number at the top are new versions with less lines and commentary in english for better replicability 
