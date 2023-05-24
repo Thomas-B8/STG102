@@ -1,4 +1,8 @@
-# Besognet Thomas, 17/05/23 , Stage : Figures et tableaux : Réplication de la figure 2 : variance et variance expliquées pour les modèles de campagnols 
+
+# author = "Besognet Thomas"
+# date = " 24/05/23" 
+# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# name =  "figure 2 replication "
 
 # packages 
 install.packages("ggplot2")                                       
@@ -10,19 +14,16 @@ library(cowplot)
 install.packages("ggplotify")
 library(ggplotify)
 
-# Figures et tableaux 
-
-# Réplication de la figure 2
+# Graphics 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Importation des données
-
+# data importation 
 nord <- read.csv("variances_expliquees_nord2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 est <- read.csv("variances_expliquees_est2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 ouest <- read.csv("variances_expliquees_ouest2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
-# A.1 modele 1 pour le nord 
+# A.1 modele 1 north 
 
 vect1n <- c(1:105)
 a <-0
@@ -45,7 +46,7 @@ graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
 
 graph1_nord
 
-# A.2 modele 2 pour le nord 
+# A.2 modele 2 north 
 
 vect2n <- c(1:105)
 a <-0
@@ -69,7 +70,7 @@ graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
 graph2_nord
 
 
-# B.1 modele 1 pour l'ouest
+# B.1 modele 1 west 
 
 vect1w <- c(1:105)
 a <-0
@@ -92,7 +93,7 @@ graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable))
 
 graph1_ouest
 
-# B.2 modele 2 pour l'ouest
+# B.2 modele 2 west 
 
 vect2w <- c(1:105)
 a <-0
@@ -116,7 +117,7 @@ graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable))
 graph2_ouest
 
 
-# C.1 modele 1 pour l'est
+# C.1 modele 1 east 
 
 vect1e <- c(1:105)
 a <-0
@@ -139,7 +140,7 @@ graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
 
 graph1_est
 
-# C.2 modele 2 pour l'est
+# C.2 modele 2 east 
 
 vect2e <- c(1:105)
 a <-0
@@ -162,6 +163,6 @@ graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
 
 graph2_est
 
-# tous les graphiques résumés 
+# Global figure 
 
 plot_grid(graph1_nord,graph1_ouest,graph1_est,graph2_nord,graph2_ouest,graph2_est, labels=c("1", "2","3","4","5","6"), ncol = 3, nrow = 2)

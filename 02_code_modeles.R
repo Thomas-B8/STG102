@@ -85,17 +85,17 @@ for (region in 1:3){
   for (j in 3:8) {
      
     
-    tableau_parametres_regions[1,j] <- modele1$coefficients[j-2]
-    tableau_parametres_regions[2,j] <- modele2$coefficients[j-2]
+    tableau_parametres_regions[2*(region-1)+1,j] <- modele1$coefficients[j-2]
+    tableau_parametres_regions[2*(region-1)+2,j] <- modele2$coefficients[j-2]
     
   }
   
   # 3.2) parameters for models 3,4 and 5  
   for (j in 3:6) {
     
-    tableau_parametres_regions_predateurs[1,j] <- modele3$coefficients[j-2]
-    tableau_parametres_regions_predateurs[2,j] <- modele4$coefficients[j-2]
-    tableau_parametres_regions_predateurs[3,j] <- modele5$coefficients[j-2]
+    tableau_parametres_regions_predateurs[3*(region-1)+1,j] <- modele3$coefficients[j-2]
+    tableau_parametres_regions_predateurs[3*(region-1)+2,j] <- modele4$coefficients[j-2]
+    tableau_parametres_regions_predateurs[3*(region-1)+3,j] <- modele5$coefficients[j-2]
     
   }
   
@@ -228,11 +228,11 @@ for (region in 1:3){
     tableau_var[i,12*(region-1)+2] <- DD1+DL1+P11+P21+P31+sigma_carre_1
     
     # proportion of variance explained for model 1
-    tableau_var[i,12*(region-1)+3] <- DD1/tableau_var_nord[i,2] 
-    tableau_var[i,12*(region-1)+4] <- DL1/tableau_var_nord[i,2]
-    tableau_var[i,12*(region-1)+5] <- P11/tableau_var_nord[i,2]
-    tableau_var[i,12*(region-1)+6] <- P21/tableau_var_nord[i,2]
-    tableau_var[i,12*(region-1)+7] <- P31/tableau_var_nord[i,2]
+    tableau_var[i,12*(region-1)+3] <- DD1/tableau_var[i,12*(region-1)+2] 
+    tableau_var[i,12*(region-1)+4] <- DL1/tableau_var[i,12*(region-1)+2]
+    tableau_var[i,12*(region-1)+5] <- P11/tableau_var[i,12*(region-1)+2]
+    tableau_var[i,12*(region-1)+6] <- P21/tableau_var[i,12*(region-1)+2]
+    tableau_var[i,12*(region-1)+7] <- P31/tableau_var[i,12*(region-1)+2]
     
     # variance explained by each variables for model 2
     DD2 <- b2*(b2*var(St,na.rm = TRUE)+c2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St,P1t,use="pairwise.complete.obs")+e2*cov(St,P2t,use="pairwise.complete.obs")+f2*cov(St,P3t,use="pairwise.complete.obs"))
@@ -242,14 +242,14 @@ for (region in 1:3){
     P32 <- f2*(f2*var(P3t,na.rm = TRUE)+b2*cov(St,P3t,use="pairwise.complete.obs")+c2*cov(St_1,P3t,use="pairwise.complete.obs")+d2*cov(P1t,P3t,use="pairwise.complete.obs")+e2*cov(P2t,P3t,use="pairwise.complete.obs"))
     
     # total variance for model 2
-    tableau_var_nord[i,12*(region-1)+8] <-  DD2+DL2+P12+P22+P32+sigma_carre_2 
+    tableau_var[i,12*(region-1)+8] <-  DD2+DL2+P12+P22+P32+sigma_carre_2 
     
     # proportion of variance explained for model 2
-    tableau_var[i,12*(region-1)+9] <-  DD2/tableau_var_nord[i,8]
-    tableau_var[i,12*(region-1)+10] <- DL2/tableau_var_nord[i,8]
-    tableau_var[i,12*(region-1)+11] <- P12/tableau_var_nord[i,8]
-    tableau_var[i,12*(region-1)+12] <- P22/tableau_var_nord[i,8]
-    tableau_var[i,12*(region-1)+13] <- P32/tableau_var_nord[i,8]
+    tableau_var[i,12*(region-1)+9] <-  DD2/tableau_var[i,12*(region-1)+8]
+    tableau_var[i,12*(region-1)+10] <- DL2/tableau_var[i,12*(region-1)+8]
+    tableau_var[i,12*(region-1)+11] <- P12/tableau_var[i,12*(region-1)+8]
+    tableau_var[i,12*(region-1)+12] <- P22/tableau_var[i,12*(region-1)+8]
+    tableau_var[i,12*(region-1)+13] <- P32/tableau_var[i,12*(region-1)+8]
     
   
   # end of the year's loop
@@ -267,13 +267,13 @@ write.csv (tableau_var, "variances_explained_vole.csv", row.names = T, quote = F
 
 # we open our parameters  
 
-parametres <- read.csv("parametres_modeles_region_predateurs.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres <- read.csv("parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 # we create our data frame for our results 
 tableau_var_pred <- data.frame(matrix(0,21,37))
 names(tableau_var_pred)<-c("annee","VarY3n","a_1_3n","s_1_3n","a_2_3n","VarY4n","a_1_4n","s_1_4n","a_2_4n","VarY5n","s_5n","a_1_5n","s_1_5n",
                                 "VarY3e","a_1_3e","s_1_3e","a_2_3e","VarY4e","a_1_4e","s_1_4e","a_2_4e","VarY5e","s_5e","a_1_5e","s_1_5e",
-                                "VarY3w","a_1_3w","s_1_3w","a_2_3w","VarY4w","a_1_4w","s_1_4w","a_2_4w","VarY5w","s_5w","a_1_5w","s_1_5w",)
+                                "VarY3w","a_1_3w","s_1_3w","a_2_3w","VarY4w","a_1_4w","s_1_4w","a_2_4w","VarY5w","s_5w","a_1_5w","s_1_5w")
 
 # 1) Creation of density's vectors for calculated variance in the whole data set 
 # we create our two vectors 
@@ -356,9 +356,9 @@ for (i in 1:21){
   tableau_var_pred[i,12*(region-1)+2] <- V13+V23+V33+sigma_carre_3
   
   # proportion of variance explained for model 3
-  tableau_var_pred[i,12*(region-1)+3] <- V13/tableau_var_nord_pred[i,2] 
-  tableau_var_pred[i,12*(region-1)+4] <- V23/tableau_var_nord_pred[i,2]
-  tableau_var_pred[i,12*(region-1)+5] <- V33/tableau_var_nord_pred[i,2]
+  tableau_var_pred[i,12*(region-1)+3] <- V13/tableau_var_pred[i,12*(region-1)+2] 
+  tableau_var_pred[i,12*(region-1)+4] <- V23/tableau_var_pred[i,12*(region-1)+2]
+  tableau_var_pred[i,12*(region-1)+5] <- V33/tableau_var_pred[i,12*(region-1)+2]
   
   # variance explained by each variables for model 4
   V14 <- b4*(b4*var(At_1,na.rm = TRUE)+c4*cov(At_1,St_1,use="pairwise.complete.obs")+d4*cov(At_1,At_2,use="pairwise.complete.obs"))
@@ -369,9 +369,9 @@ for (i in 1:21){
   tableau_var_pred[i,12*(region-1)+6] <- V14+V24+V34+sigma_carre_4
   
   # proportion of variance explained for model 4
-  tableau_var_pred[i,12*(region-1)+7] <- V14/tableau_var_nord_pred[i,6] 
-  tableau_var_pred[i,12*(region-1)+8] <- V24/tableau_var_nord_pred[i,6]
-  tableau_var_pred[i,12*(region-1)+9] <- V34/tableau_var_nord_pred[i,6]
+  tableau_var_pred[i,12*(region-1)+7] <- V14/tableau_var_pred[i,12*(region-1)+6] 
+  tableau_var_pred[i,12*(region-1)+8] <- V24/tableau_var_pred[i,12*(region-1)+6]
+  tableau_var_pred[i,12*(region-1)+9] <- V34/tableau_var_pred[i,12*(region-1)+6]
   
   # variance explained by each variables for model 5
   V15 <- b5*(b5*var(St,na.rm = TRUE)+c5*cov(St,At_1,use="pairwise.complete.obs")+d5*cov(St,St_1,use="pairwise.complete.obs"))
@@ -382,9 +382,9 @@ for (i in 1:21){
   tableau_var_pred[i,12*(region-1)+10] <- V15+V25+V35+sigma_carre_5
   
   # proportion of variance explained for model 5
-  tableau_var_pred[i,12*(region-1)+11] <- V15/tableau_var_nord_pred[i,10] 
-  tableau_var_pred[i,12*(region-1)+12] <- V25/tableau_var_nord_pred[i,10]
-  tableau_var_pred[i,12*(region-1)+13] <- V35/tableau_var_nord_pred[i,10]
+  tableau_var_pred[i,12*(region-1)+11] <- V15/tableau_var_pred[i,12*(region-1)+10] 
+  tableau_var_pred[i,12*(region-1)+12] <- V25/tableau_var_pred[i,12*(region-1)+10]
+  tableau_var_pred[i,12*(region-1)+13] <- V35/tableau_var_pred[i,12*(region-1)+10]
   
   # end of the year's loop
    }

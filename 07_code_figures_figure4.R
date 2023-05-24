@@ -1,4 +1,8 @@
-# Besognet Thomas, 17/05/23 , Stage : Figures et tableaux : Réplication de la figure 4 du modèle : density dependance, s-index et  seasonality
+
+# author = "Besognet Thomas"
+# date = " 24/05/23" 
+# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# name =  "figure 4 replication "
 
 # packages 
 install.packages("ggplot2")                                       
@@ -10,14 +14,11 @@ library(cowplot)
 install.packages("ggplotify")
 library(ggplotify)
 
-# Figures et tableaux 
-
-# Réplication de la figure 4
+# Graphics 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Importation des données
-
+# data importation 
 simulations <- read.csv("simulations_sansva.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 simulations$scenario <- as.integer(simulations$scenario)
@@ -29,7 +30,7 @@ simulations_ouest <- filter(simulations,region==3)
 
 # A) density dependance 
 
-# A.1 le nord 
+# A.1 north 
 
 a1 <- ggplot(simulations_nord) +
   geom_point(size=6,aes(x = direct.density.dependance_p,y = delayed.density.dependance,color = factor(scenario)))+
@@ -45,7 +46,7 @@ a1 <- ggplot(simulations_nord) +
 a1
 
 
-# A.2 le sud ouest 
+# A.2 west  
 
 a2 <- ggplot(simulations_ouest) +
   geom_point(size=6,aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario)))+
@@ -60,7 +61,7 @@ a2 <- ggplot(simulations_ouest) +
 
 a2
 
-# A.3 l'est
+# A.3 east 
 
 a3 <- ggplot(simulations_est) +
   geom_point(size=6,aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario)))+
@@ -75,13 +76,13 @@ a3 <- ggplot(simulations_est) +
 
 a3
 
-# A.4 Graphique global 
+# A.4 Global figure 
 
 plot_grid(a1,a2,a3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
 # B) s-index
 
-# B.1 le nord 
+# B.1 north 
 
 b1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
   geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.4, position=position_dodge(0.1)) +
@@ -93,7 +94,7 @@ b1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=s.index, color=factor
 
 b1
 
-# B.2 le sud ouest
+# B.2 west 
 
 b2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
   geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.4, position=position_dodge(0.1)) +
@@ -105,7 +106,7 @@ b2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=s.index, color=facto
 
 b2
 
-# B.3 l'est  
+# B.3 east  
 
 b3 <- ggplot(simulations_est, aes(x = factor(scenario), y=s.index, color=factor(scenario))) +
   geom_errorbar(aes(ymin = min_s, ymax = max_s), colour="black", width=0.4, position=position_dodge(0.1)) +
@@ -117,13 +118,13 @@ b3 <- ggplot(simulations_est, aes(x = factor(scenario), y=s.index, color=factor(
 
 b3
 
-# B.4 Graphique global 
+# B.4 Global figure  
 
 plot_grid(b1,b2,b3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
-# C) saisonnalite
+# C) seasonality 
 
-# C.1 le nord 
+# C.1 north 
 
 c1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
   geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.4, position=position_dodge(0.1)) +
@@ -135,7 +136,7 @@ c1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=seasonality, color=fa
 
 c1
 
-# C.2 le sud ouest
+# C.2 west
 
 c2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
   geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.4, position=position_dodge(0.1)) +
@@ -147,7 +148,7 @@ c2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=seasonality, color=f
 
 c2
 
-# C.3 l'est  
+# C.3 east  
 
 c3 <- ggplot(simulations_est, aes(x = factor(scenario), y=seasonality, color=factor(scenario))) +
   geom_errorbar(aes(ymin = min_n, ymax = max_n), colour="black", width=0.4, position=position_dodge(0.1)) +
@@ -159,7 +160,7 @@ c3 <- ggplot(simulations_est, aes(x = factor(scenario), y=seasonality, color=fac
 
 c3
 
-# B.4 Graphique global 
+# B.4 Global figure 
 
 plot_grid(c1,c2,c3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 

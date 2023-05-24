@@ -1,4 +1,8 @@
-# Besognet Thomas, 17/05/23 , Stage : Figures et tableaux : Les Simulations : desnités de campagnols 
+
+# author = "Besognet Thomas"
+# date = " 24/05/23" 
+# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# name =  "Vole density simulations " 
 
 # packages 
 install.packages("ggplot2")                                       
@@ -10,13 +14,11 @@ library(cowplot)
 install.packages("ggplotify")
 library(ggplotify)
 
-# Figures et tableaux 
-
-#Les simulations : densités de campagnols 
+# Graphics 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+# data importation 
 Vole <- read.csv("Vole_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # S1 - North 
@@ -150,7 +152,7 @@ a8_acf <- ggplot(data=a8_data, mapping=aes(x=lag, y=acf)) +
   geom_bar(stat = "identity", position = "identity")+ theme_classic()
 a8_acf
 
-# big graph north 
+# Global figure north 
 
 plot_grid(s1n_graph,a1_acf,s2n_graph,a2_acf,s3n_graph,a3_acf,s4n_graph,a4_acf,s5n_graph,a5_acf,s6n_graph,a6_acf,s7n_graph,a7_acf,s8n_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
 
@@ -285,7 +287,7 @@ a8_acf <- ggplot(data=a8_data, mapping=aes(x=lag, y=acf)) +
   geom_bar(stat = "identity", position = "identity")+ theme_classic()
 a8_acf
 
-# big graph east 
+# Global figure east 
 
 plot_grid(s1e_graph,a1_acf,s2e_graph,a2_acf,s3e_graph,a3_acf,s4e_graph,a4_acf,s5e_graph,a5_acf,s6e_graph,a6_acf,s7e_graph,a7_acf,s8e_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
 
@@ -418,7 +420,7 @@ a8_acf <- ggplot(data=a8_data, mapping=aes(x=lag, y=acf)) +
   geom_bar(stat = "identity", position = "identity")+ theme_classic()
 a8_acf
 
-# big graph west
+# Global figure west 
 
 plot_grid(s1o_graph,a1_acf,s2o_graph,a2_acf,s3o_graph,a3_acf,s4o_graph,a4_acf,s5o_graph,a5_acf,s6o_graph,a6_acf,s7o_graph,a7_acf,s8o_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
 

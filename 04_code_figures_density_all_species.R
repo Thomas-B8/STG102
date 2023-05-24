@@ -1,4 +1,8 @@
-# Besognet Thomas, 17/05/23 , Stage : Figures et tableaux : densités moyennes par région des différentes espéces 
+
+# author = "Besognet Thomas"
+# date = " 24/05/23" 
+# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# name =  "mean density for each species "
 
 # packages 
 install.packages("ggplot2")                                       
@@ -10,20 +14,15 @@ library(cowplot)
 install.packages("ggplotify")
 library(ggplotify)
 
-# Figures et tableaux 
-
-# Densités moyennes des différentes espéces par régions 
+# Graphic
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# Importation des données
-
+# data importation
 donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
-# A : le nord 
-
-# A.1 Récupération des données 
-
+# A : north 
+# A.1 data management 
 donnees_nord <- filter(donnees,cardinalite=="nord")
 
 Vole_n <- data.frame(matrix(0,46,2))
@@ -49,9 +48,8 @@ Aeri_n[i,2] <- 1988+i +0.5 # car été
 
 }
 
-# A.2 les graphiques
-
-# les campagnols 
+# A.2 graphics 
+# vole
 
 vole_graph_n <- ggplot(data=Vole_n,aes(x=Vole_n[,2],y=Vole_n[,1]))+geom_line(color="darkgreen",size=1.5) +
  ggtitle("Vole_north") +
@@ -59,7 +57,7 @@ vole_graph_n <- ggplot(data=Vole_n,aes(x=Vole_n[,2],y=Vole_n[,1]))+geom_line(col
 
 vole_graph_n
 
-# les petits mustélidés 
+# small mustelids 
 
 must_graph_n <- ggplot(data=Must_n,aes(x=Must_n[,2],y=Must_n[,1]))+geom_line(color="darkred",size=1.5) +
   ggtitle("Small_mustelids_north") +
@@ -67,7 +65,7 @@ must_graph_n <- ggplot(data=Must_n,aes(x=Must_n[,2],y=Must_n[,1]))+geom_line(col
 
 must_graph_n
 
-# les prédateurs généralistes 
+# red fox and pine marten  
 
 gene_graph_n <- ggplot(data=Gene_n,aes(x=Gene_n[,2],y=Gene_n[,1]))+geom_line(color="orange",size=1.5) +
   ggtitle("Fox_and_pine_marten_north") +
@@ -75,7 +73,7 @@ gene_graph_n <- ggplot(data=Gene_n,aes(x=Gene_n[,2],y=Gene_n[,1]))+geom_line(col
 
 gene_graph_n
 
-# les prédateurs aériens 
+# avian predators 
 
 aeri_graph_n <- ggplot(data=Aeri_n,aes(x=Aeri_n[,2],y=Aeri_n[,1]))+geom_line(color="darkblue",size=1.5) +
   ggtitle("Avian_predators_north") +
@@ -83,10 +81,8 @@ aeri_graph_n <- ggplot(data=Aeri_n,aes(x=Aeri_n[,2],y=Aeri_n[,1]))+geom_line(col
 
 aeri_graph_n
 
-# B : l'est
-
-# B.1 Récupération des données 
-
+# B : east 
+# B.1 data managment 
 donnees_est <- filter(donnees,cardinalite=="est")
 
 Vole_e <- data.frame(matrix(0,46,2))
@@ -112,9 +108,8 @@ for (i in 1:23){
   
 }
 
-# B.2 les graphiques
-
-# les campagnols 
+# B.2 Graphics 
+# Vole
 
 vole_graph_e <- ggplot(data=Vole_e,aes(x=Vole_e[,2],y=Vole_e[,1]))+geom_line(color="darkgreen",size=1.5) +
   ggtitle("Vole_east") +
@@ -122,7 +117,7 @@ vole_graph_e <- ggplot(data=Vole_e,aes(x=Vole_e[,2],y=Vole_e[,1]))+geom_line(col
 
 vole_graph_e
 
-# les petits mustélidés 
+# small mustelids
 
 must_graph_e <- ggplot(data=Must_e,aes(x=Must_e[,2],y=Must_e[,1]))+geom_line(color="darkred",size=1.5) +
   ggtitle("Small_mustelids_east") +
@@ -130,7 +125,7 @@ must_graph_e <- ggplot(data=Must_e,aes(x=Must_e[,2],y=Must_e[,1]))+geom_line(col
 
 must_graph_e
 
-# les prédateurs généralistes 
+# red fox and pine marten  
 
 gene_graph_e <- ggplot(data=Gene_e,aes(x=Gene_e[,2],y=Gene_e[,1]))+geom_line(color="orange",size=1.5) +
   ggtitle("Fox_and_pine_marten_east") +
@@ -138,7 +133,7 @@ gene_graph_e <- ggplot(data=Gene_e,aes(x=Gene_e[,2],y=Gene_e[,1]))+geom_line(col
 
 gene_graph_e
 
-# les prédateurs aériens 
+# avian predators 
 
 aeri_graph_e <- ggplot(data=Aeri_e,aes(x=Aeri_e[,2],y=Aeri_e[,1]))+geom_line(color="darkblue",size=1.5) +
   ggtitle("Avian_predators_east") +
@@ -146,9 +141,8 @@ aeri_graph_e <- ggplot(data=Aeri_e,aes(x=Aeri_e[,2],y=Aeri_e[,1]))+geom_line(col
 
 aeri_graph_e
 
-# C : l'ouest
-
-# C.1 Récupération des données 
+# C : west
+# C.1 data managment 
 
 donnees_ouest <- filter(donnees,cardinalite=="sud_ouest")
 
@@ -175,9 +169,8 @@ for (i in 1:23){
   
 }
 
-# C.2 les graphiques
-
-# les campagnols 
+# C.2 Graphics 
+# Vole
 
 vole_graph_o <- ggplot(data=Vole_o,aes(x=Vole_o[,2],y=Vole_o[,1]))+geom_line(color="darkgreen",size=1.5) +
   ggtitle("Vole_west") +
@@ -185,7 +178,7 @@ vole_graph_o <- ggplot(data=Vole_o,aes(x=Vole_o[,2],y=Vole_o[,1]))+geom_line(col
 
 vole_graph_o
 
-# les petits mustélidés 
+# small mustelids
 
 must_graph_o <- ggplot(data=Must_o,aes(x=Must_o[,2],y=Must_o[,1]))+geom_line(color="darkred",size=1.5) +
   ggtitle("Small_mustelids_west") +
@@ -193,7 +186,7 @@ must_graph_o <- ggplot(data=Must_o,aes(x=Must_o[,2],y=Must_o[,1]))+geom_line(col
 
 must_graph_o
 
-# les prédateurs généralistes 
+# red fox and pine marten 
 
 gene_graph_o <- ggplot(data=Gene_o,aes(x=Gene_o[,2],y=Gene_o[,1]))+geom_line(color="orange",size=1.5) +
   ggtitle("Fox_and_pine_marten_west") +
@@ -201,7 +194,7 @@ gene_graph_o <- ggplot(data=Gene_o,aes(x=Gene_o[,2],y=Gene_o[,1]))+geom_line(col
 
 gene_graph_o
 
-# les prédateurs aériens 
+# avian predators 
 
 aeri_graph_o <- ggplot(data=Aeri_o,aes(x=Aeri_o[,2],y=Aeri_o[,1]))+geom_line(color="darkblue",size=1.5) +
   ggtitle("Avian_predators_west") +
@@ -209,7 +202,7 @@ aeri_graph_o <- ggplot(data=Aeri_o,aes(x=Aeri_o[,2],y=Aeri_o[,1]))+geom_line(col
 
 aeri_graph_o
 
-# faire apparaitre tous les graphiques sur la même figure et l'enregistrer 
+# Final figure 
 
 plot_grid(vole_graph_n,vole_graph_o,vole_graph_e,must_graph_n,must_graph_o,must_graph_e,gene_graph_n,gene_graph_o,gene_graph_e,aeri_graph_n,aeri_graph_o,aeri_graph_e, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12"), ncol = 3, nrow = 4) 
 
