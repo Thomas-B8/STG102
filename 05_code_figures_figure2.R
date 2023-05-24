@@ -19,9 +19,12 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-nord <- read.csv("variances_expliquees_nord2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
-est <- read.csv("variances_expliquees_est2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
-ouest <- read.csv("variances_expliquees_ouest2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("variances_explained_vole.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+
+# data selection by region 
+nord <- data[,c(1:14)]
+est <- data[,c(1,2,15:26)]
+ouest <-data[,c(1,2,27:38)]
 
 # A.1 modele 1 north 
 
