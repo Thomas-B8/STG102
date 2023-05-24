@@ -1,167 +1,54 @@
-# Besognet Thomas, 10/05/23 , Stage : Simulations 
+
+# author = "Besognet Thomas"
+# date = " 24/05/23" 
+# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# name = "Simulations"
 
 # packages 
 install.packages("dplyr")
 library(dplyr)
 
 # Opening data 
-
 donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
-# Simulations 
+#-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # We create the data frame with data that we will produce 
 
+# simulation's indicators 
 simulations <-data.frame(matrix(0,24,10)) 
 names(simulations) <- c("scenario","region","direct density dependance","delayed density dependance","s-index","min_s","max_s","seasonality","min_n","max_n")
 
+# vole density 
 Vole <- data.frame(matrix(0,2000,24)) 
 names(Vole) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
+
+# vole density with a one year gap 
 Vole_1 <- data.frame(matrix(0,2000,24)) 
 names(Vole_1) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
+
+# vole density with a two years gap 
+Vole_2 <- data.frame(matrix(0,2000,24)) 
+names(Vole_2) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
+
+# vole gowth rate 
 Yt <- data.frame(matrix(0,2000,24)) 
 names(Yt) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n","5e","5o","6n","6e","6o","7n","7e","7o","8n","8e","8o")
 
+
 # We open the parameters estimated previously and create variable to stock them
-
-parametres <- read.csv("parametres_modeles_region.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
-parametres_pred <- read.csv("parametres_modeles_region_predateurs.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
-
-# north 
-
-a1n <- parametres[1,4]
-b1n <- parametres[1,5]
-c1n <- parametres[1,6]
-d1n <- parametres[1,7]
-e1n <- parametres[1,8]
-f1n <- parametres[1,9]
-sigma1n <- parametres[1,10]
-
-a2n <- parametres[2,4]
-b2n <- parametres[2,5]
-c2n <- parametres[2,6]
-d2n <- parametres[2,7]
-e2n <- parametres[2,8]
-f2n <- parametres[2,9]
-sigma2n <- parametres[2,10]
-
-a3n <- parametres_pred[1,4]
-b3n <- parametres_pred[1,5]
-c3n <- parametres_pred[1,6]
-d3n <- parametres_pred[1,7]
-sigma3n <- parametres_pred[1,8]
-
-a4n <- parametres_pred[2,4]
-b4n <- parametres_pred[2,5]
-c4n <- parametres_pred[2,6]
-d4n <- parametres_pred[2,7]
-sigma4n <- parametres_pred[2,8]
-
-a5n <- parametres_pred[3,4]
-b5n <- parametres_pred[3,5]
-c5n <- parametres_pred[3,6]
-d5n <- parametres_pred[3,7]
-sigma5n <- parametres_pred[3,8]
+parametres <- read.csv("parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres_pred <- read.csv("parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 
 # Now we can do the simulations for each region (3) and each scenario (8) , ie 24 simulations 
-
-#_______________________________________________________________________________________________________________________________
-
-
-# First, we will create a code only for the first simulation 
-
-
-# initialisation 
-
-Present <- filter(donnees,cardinalite=="nord",year==1990)
-Retard <- filter(donnees,cardinalite=="nord",year==1989)
-At <- mean(na.omit(Present$Vole.Autumn))
-At_1 <- mean(na.omit(Retard$Vole.Autumn))
-St <- mean(na.omit(Present$Vole.Spring))
-St_1 <- mean(na.omit(Retard$Vole.Spring))
-P1t <- mean(na.omit(Present$Small.mustelid))
-P2t <- mean(na.omit(Present$Generalist.predator))
-P3t <-mean(na.omit(Present$Avian.predator))
-saisonalite <- 0
-j <- 0
-
-# We create vectors to store our data 
-
-tableau_density_dependance <- data.frame(matrix(0,40,2))
-tableau_s_index <- data.frame(matrix(0,40,1))
-tableau_saisonalite <- data.frame(matrix(0,40,1))
-
-
-# 1000 years loop 
-
-for (i in 1:1000){
-  # Chronologicaly calculated 
-  P1t <- a3n + P1t +b3n*At +c3n*St + d3n*At_1 + rnorm(1,0,sigma3n) # winter 
-  P2t <- a4n + P2t +b4n*At +c4n*St +d4n*At_1 + rnorm(1,0,sigma4n)
-  St_1 <- St # spring
-  St <- a1n + (b1n+1)*At +c1n*At_1 +d1n*P1t +e1n*P2t + f1n*P3t+ rnorm(1,0,sigma1n)  
-  P3t <- a5n + P3t +b5n*St+c5n*At+d5n*St_1 + rnorm(1,0,sigma5n) # summer 
-  At_1 <- At 
-  At <- a2n + (b2n+1)*St + c2n*St_1 +d2n*P1t +e2n*P2t +f2n*P3t+ rnorm(1,0,sigma2n) # autumn
-  # Store the density 
-  Vole[2*i-1,1] <- St
-  Vole[2*i,1] <- At
-  Vole_1[2*i-1,1] <- St_1
-  Vole_1[2*i,1] <- At_1
-  # Calculate growth rate 
-  Y1 <- St-At_1
-  Yt[2*i-1,1] <- Y1
-  Y2 <- At-St
-  Yt[2*i,1] <- Y2
-  saisonalite <- saisonalite+(Y1-Y2)
-  # each 25 years, we have a section 
-  if (i %%25 ==0){
-    j<- j+1
-    # Calculate indicators 
-    # Density dependance 
-    Vole_section <- Vole[25*(j-1)+1:25*j,1]
-    Vole_1_section <- Vole_1[25*(j-1)+1:25*j,1]
-    Yt_section <- Yt[25*(j-1)+1:25*j,1]
-    Density_dependance <- lm(formula = Yt_section ~ Vole_section+Vole_1_section, na.action=na.omit)
-    tableau_density_dependance[j,1] <- summary(Density_dependance)$coefficient[1]
-    tableau_density_dependance[j,2] <- summary(Density_dependance)$coefficient[2]
-    # s index 
-    s_index <- sqrt(var(Vole_section))
-    tableau_s_index[j,1] <- s_index
-    # saisonnality 
-    saisonalite_moyenne <- saisonalite/25
-    tableau_saisonalite[j,1] <- saisonalite_moyenne
-    saisonalite <- 0
-  }
-}
-
-# Register results 
-
-simulations[1,1] <- 1
-simulations[1,2] <- 1
-simulations[1,3] <- mean(tableau_density_dependance[,1])
-simulations[1,4]<- mean(tableau_density_dependance[,2])
-simulations[1,5] <- mean(tableau_s_index[,1])
-simulations[1,6]<- mean(tableau_s_index[,1])-1.96*(var(tableau_s_index[,1])/sqrt(40)) #IC 95% ( bas) 
-simulations[1,7]<- mean(tableau_s_index[,1])+1.96*(var(tableau_s_index[,1])/sqrt(40)) #IC 95% ( haut )
-simulations[1,8] <- mean(tableau_saisonalite[,1])
-simulations[1,9]<- mean(tableau_saisonalite[,1])-1.96*(var(tableau_saisonalite[,1])/sqrt(40)) #IC 95% ( bas) 
-simulations[1,10]<- mean(tableau_saisonalite[,1])+1.96*(var(tableau_saisonalite[,1])/sqrt(40)) #IC 95% ( haut ) 
-
-write.csv (Vole, "Vole_simulations1.csv", row.names = T, quote = F) 
-write.csv (simulations, "simulations1.csv",row.names=T,quote=F)
-
-
-
-# Now we have the loop with all scenarios and all regions 
-
 for (scenario in 1:8){ 
+  
   for (region in 1:3){
     
     # for each region, we have to select data and estimators for this region 
-    
     if (region==1){
+      
       Present <- filter(donnees,cardinalite=="nord",year==1990)
       Retard <- filter(donnees,cardinalite=="nord",year==1989)
       
@@ -198,8 +85,11 @@ for (scenario in 1:8){
       c5 <- parametres_pred[3,6]
       d5<- parametres_pred[3,7]
       sigma5 <- parametres_pred[3,8]
+      
     }
+    
     if (region==2){
+      
       Present <- filter(donnees,cardinalite=="est",year==1990)
       Retard <- filter(donnees,cardinalite=="est",year==1989)
       
@@ -236,7 +126,9 @@ for (scenario in 1:8){
       c5 <- parametres_pred[6,6]
       d5 <- parametres_pred[6,7]
       sigma5 <- parametres_pred[6,8]
+      
     }
+    
     if (region==3){
       Present <- filter(donnees,cardinalite=="sud_ouest",year==1990)
       Retard <- filter(donnees,cardinalite=="sud_ouest",year==1989)
@@ -278,45 +170,56 @@ for (scenario in 1:8){
     }
     
 # we initialize Vole density
-    
 At <- mean(na.omit(Present$Vole.Autumn))
 At_1 <- mean(na.omit(Retard$Vole.Autumn))
 St <- mean(na.omit(Present$Vole.Spring))
 St_1 <- mean(na.omit(Retard$Vole.Spring)) 
 
 # we initialize predators density depending of the scenario 
-
-
 if (scenario ==2 ||scenario ==5 ||scenario ==7 ||scenario ==8 ){
+  
   P1t  <-min(na.omit(donnees$Small.mustelid))
+  
 }
+
 else {
+  
   P1t <- mean(na.omit(Present$Small.mustelid))
+  
 }
 
 if (scenario ==3 ||scenario ==4 ||scenario ==7 ||scenario ==8 ){
-  P2t <-min(na.omit(Present$Generalist.predator))
+  
+  P2t <-min(na.omit(donnees$Generalist.predator))
+  
 }
+
 else {
+  
   P2t <- mean(na.omit(Present$Generalist.predator))
+  
 }    
   
 if (scenario ==3 ||scenario ==5 ||scenario ==6 ||scenario ==8 ){
-    P3t <- min(na.omit(Present$Avian.predator))
+  
+    P3t <- min(na.omit(donnees$Avian.predator))
+    
 }
+
 else {
+  
   P3t <-mean(na.omit(Present$Avian.predator))
+  
 }  
 
- # We create vectors to store our data and initializing some variables to 0 
+# We create vectors to store our data for each section of 25 years and initializing some variables to 0 
 tableau_density_dependance <- data.frame(matrix(0,40,2))
 tableau_s_index <- data.frame(matrix(0,40,1))
 tableau_saisonalite <- data.frame(matrix(0,40,1))
 saisonalite <- 0
-j <- 0 #number of section 
+j <- 0 
 
-# 1000 years loop 
-
+# we can begin our 1000 years loop 
 for (i in 1:1000){
   # Chronologically calculated 
   # Predators are calculated only if there are taken in the model 
@@ -328,35 +231,38 @@ for (i in 1:1000){
   P2t <- a4 + P2t +b4*At +c4*St +d4*At_1 + rnorm(1,0,sigma4)
   }
   # Spring
+  St_2 <- St_1
   St_1 <- St
   St <- a1 + (b1+1)*At +c1*At_1 +d1*P1t +e1*P2t + f1*P3t+ rnorm(1,0,sigma1) 
   # Summer 
   if (scenario ==1 ||scenario ==2 ||scenario ==4 ||scenario ==7 ){
-  P3t <- a5 + P3t +b5*St +c5*At +d5*St_1 + rnorm(1,0,sigma5) # été 
+  P3t <- a5 + P3t +b5*St +c5*At +d5*St_1 + rnorm(1,0,sigma5) 
   }
   # Autumn 
+  At_2 <- At_1
   At_1 <- At 
-  At <- a2 + (b2+1)*St + c2*St_1 +d2*P1t +e2*P2t +f2*P3t+ rnorm(1,0,sigma2) # automne 
+  At <- a2 + (b2+1)*St + c2*St_1 +d2*P1t +e2*P2t +f2*P3t+ rnorm(1,0,sigma2)  
   # Vole density Storage 
-  Vole[2*i-1,(3*(scenario-1)+region)] <- St
-  Vole[2*i,(3*(scenario-1)+region)] <- At
+  Vole_2[2*i-1,(3*(scenario-1)+region)] <- St_2
+  Vole_2[2*i,(3*(scenario-1)+region)] <- At_2
   Vole_1[2*i-1,(3*(scenario-1)+region)] <- St_1
   Vole_1[2*i,(3*(scenario-1)+region)] <- At_1
+  Vole[2*i-1,(3*(scenario-1)+region)] <- St
+  Vole[2*i,(3*(scenario-1)+region)] <- At
   # Growth rate and seasonality 
-  Y1 <- St-At_1
-  Yt[2*i-1,(3*(scenario-1)+region)] <- Y1
-  Y2 <- At-St
-  Yt[2*i,(3*(scenario-1)+region)] <- Y2
-  saisonalite <- saisonalite+(Y1-Y2)
+  Yt[2*i-1,(3*(scenario-1)+region)] <- At_1-St_1
+  Yt[2*i,(3*(scenario-1)+region)] <- St-At_1
+  saisonalite <- saisonalite + (At-St)-(St-At_1)
   # Each 25 years, we have a section 
   if (i %%25 ==0){
     j<- j+1
     # We can calculate our indicators , first we have to select data for our section 
     Vole_section <- Vole[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
     Vole_1_section <- Vole_1[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
+    Vole_2_section <- Vole_2[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
     Yt_section <- Yt[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
     # Density dependance 
-    Density_dependance <- lm(formula = Yt_section ~ Vole_section+Vole_1_section, na.action=na.omit)
+    Density_dependance <- lm(formula = Yt_section ~ Vole_1_section+Vole_2_section, na.action=na.omit)
     tableau_density_dependance[j,1] <- summary(Density_dependance)$coefficient[1]
     tableau_density_dependance[j,2] <- summary(Density_dependance)$coefficient[2]
     # s index 
@@ -364,11 +270,14 @@ for (i in 1:1000){
     # saisonnality 
     tableau_saisonalite[j,1] <- saisonalite/25
     saisonalite <- 0
+  
+  # end of the section's calculs  
   }
+  
+# end of the 1000 years loop 
 }
 
-# we complete our table 
-
+# we complete our data table 
 simulations[(3*(scenario-1)+region),1] <- scenario
 simulations[(3*(scenario-1)+region),2] <- region
 simulations[(3*(scenario-1)+region),3] <- mean(tableau_density_dependance[,1])
@@ -380,15 +289,15 @@ simulations[(3*(scenario-1)+region),8] <- mean(tableau_saisonalite[,1])
 simulations[(3*(scenario-1)+region),9]<- mean(tableau_saisonalite[,1])-1.96*(var(tableau_saisonalite[,1])/sqrt(40)) #IC 95% ( bas) 
 simulations[(3*(scenario-1)+region),10]<- mean(tableau_saisonalite[,1])+1.96*(var(tableau_saisonalite[,1])/sqrt(40)) #IC 95% ( haut )
 
-
-
+# end of the region's loop
   }
+  
+  # end of the scenario's loop 
 }
 
-# Register results 
-
-write.csv (Vole, "Vole_simulations.csv", row.names = T, quote = F) 
-write.csv (simulations, "simulations.csv",row.names=T,quote=F)
+# we register our results 
+write.csv (Vole, "Vole_simulations_2.csv", row.names = T, quote = F) 
+write.csv (simulations, "simulations_2.csv",row.names=T,quote=F)
 
 
 

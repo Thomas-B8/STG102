@@ -1,4 +1,8 @@
-# Besognet Thomas, 03/04/23 , Data management 
+
+# author = "Besognet Thomas"
+# date = " 23/05/23" 
+# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# name = "Data management"
 
 # packages 
 install.packages("dplyr")
