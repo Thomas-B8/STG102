@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-simulations <- read.csv("simulations_indicators_without_big_values.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+simulations <- read.csv("simulations_indicators_without_big_values2.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 simulations$scenario <- as.integer(simulations$scenario)
 simulations$direct.density.dependance_p <- simulations$direct.density.dependance+1

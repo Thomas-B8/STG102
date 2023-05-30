@@ -58,6 +58,9 @@ for (scenario in 1:8){
   
   for (region in 1:3){
     
+    # the simulation's number 
+    sim <- 3*(scenario-1)+region
+    
     # for each region, we have to select data and estimators for this region 
     if (region==1){
       
@@ -224,12 +227,9 @@ else {
   
 }  
 
-# We create vectors to store our data for each section of 25 years and initializing some variables to 0 
-tableau_density_dependance <- data.frame(matrix(0,40,4))
-tableau_s_index <- data.frame(matrix(0,40,1))
-tableau_saisonalite <- data.frame(matrix(0,40,1))
-saisonalite <- 0
-j <- 0 
+# We create some vectors and initialize some variables 
+saisonality_vector <- 1:1000
+saison <- 0
 
 # we can begin our 1000 years loop 
 for (i in 1:1000){
@@ -255,66 +255,45 @@ for (i in 1:1000){
   At_1 <- At 
   At <- a2 + (b2+1)*St + c2*St_1 +d2*P1t +e2*P2t +f2*P3t+ rnorm(1,0,sigma2)  
   # Vole density Storage 
-  Vole_autumn_2[i,(3*(scenario-1)+region)] <- At_2
-  Vole_autumn_1[i,(3*(scenario-1)+region)] <- At_1
-  Vole_spring_1[i,(3*(scenario-1)+region)] <- St_1
-  Vole_spring[2*i,(3*(scenario-1)+region)] <- St
-  Vole[2*i-1,(3*(scenario-1)+region)] <- St
-  Vole[2*i,(3*(scenario-1)+region)] <- At
-  # Growth rate and seasonality 
-  Yt_1[i,(3*(scenario-1)+region)] <- St-At_1
-  Yt_2[i,(3*(scenario-1)+region)] <- At-St
-  saisonalite <- saisonalite + (At-St)-(St-At_1)
-  # Each 25 years, we have a section 
-  if (i %%25 ==0){
-    j<- j+1
-    # We can calculate our indicators , first we have to select data for our section 
-    Vole_section <- Vole[25*(j-1)+1:50*j,(3*(scenario-1)+region)]
-    Vole_autumn_2_section <- Vole_autumn_2[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
-    Vole_autumn_1_section <- Vole_autumn_1[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
-    Vole_spring_1_section <- Vole_spring_1[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
-    Vole_spring_section <- Vole_spring[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
-    Yt_1_section <- Yt_1[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
-    Yt_2_section <- Yt_2[25*(j-1)+1:25*j,(3*(scenario-1)+region)]
-    # Density dependance 
-    Density_dependance_1 <- lm(formula = Yt_1_section ~ Vole_autumn_1_section +  Vole_autumn_2_section , na.action=na.omit)
-    Density_dependance_2 <- lm(formula = Yt_2_section ~ Vole_spring_section +  Vole_spring_1_section , na.action=na.omit)
-    tableau_density_dependance[j,1] <- Density_dependance_1$coefficient[2]
-    tableau_density_dependance[j,2] <- Density_dependance_1$coefficient[3]
-    tableau_density_dependance[j,3] <- Density_dependance_2$coefficient[2]
-    tableau_density_dependance[j,4] <- Density_dependance_2$coefficient[3]
-    # s index 
-    # s index 
-    tableau_s_index[j,1] <- sqrt(var(Vole_section))
-    # saisonnality 
-    tableau_saisonalite[j,1] <- saisonalite/25
-    saisonalite <- 0
-  
-  # end of the section's calculs  
-  }
+  Vole_autumn_2[i,sim] <- At_2
+  Vole_autumn_1[i,sim] <- At_1
+  Vole_spring_1[i,sim] <- St_1
+  Vole_spring[i,sim] <- St
+  Vole[2*i-1,sim] <- St
+  Vole[2*i,sim] <- At
+  # Growth rate 
+  Yt_1[i,sim] <- St-At_1
+  Yt_2[i,sim] <- At-St
+  # seasonality 
+  saison <- saison + (At-St)-(St-At_1)
+  saisonality_vector[i] <-  saisonalite
   
 # end of the 1000 years loop 
 }
 
 # calcul : from seasonal density dependance to annual density dependancd 
-B1 <- mean(tableau_density_dependance[,1])
-C1 <- mean(tableau_density_dependance[,2])
-B2 <- mean(tableau_density_dependance[,3])
-C2 <- mean(tableau_density_dependance[,4])
+Density_dependance_1 <- lm(formula = Yt_1[,sim] ~ Vole_autumn_1[,sim] +  Vole_autumn_2[,sim] )
+Density_dependance_2 <- lm(formula = Yt_2[,sim] ~ Vole_spring[,sim] +  Vole_spring_1[,sim] )
+
+B1 <- Density_dependance_1$coefficient[2]
+C1 <- Density_dependance_1$coefficient[3]
+B2 <- Density_dependance_2$coefficient[2]
+C2 <- Density_dependance_2$coefficient[3]
+
 DR <- B1 + B2 + B2*B1 - 0.20 
 DL <- C1 + C2 + C2*B1 + B2*C1 
 
 # we complete our data table 
-simulations[(3*(scenario-1)+region),1] <- scenario
-simulations[(3*(scenario-1)+region),2] <- region
-simulations[(3*(scenario-1)+region),3] <- DR
-simulations[(3*(scenario-1)+region),4] <- DL
-simulations[(3*(scenario-1)+region),5] <- mean(tableau_s_index[,1])
-simulations[(3*(scenario-1)+region),6] <- mean(tableau_s_index[,1])-1.96*(var(tableau_s_index[,1])/sqrt(40)) 
-simulations[(3*(scenario-1)+region),7] <- mean(tableau_s_index[,1])+1.96*(var(tableau_s_index[,1])/sqrt(40)) 
-simulations[(3*(scenario-1)+region),8] <- mean(tableau_saisonalite[,1])
-simulations[(3*(scenario-1)+region),9] <- mean(tableau_saisonalite[,1])-1.96*(var(tableau_saisonalite[,1])/sqrt(40))  
-simulations[(3*(scenario-1)+region),10] <- mean(tableau_saisonalite[,1])+1.96*(var(tableau_saisonalite[,1])/sqrt(40)) 
+simulations[sim,1] <- scenario
+simulations[sim,2] <- region
+simulations[sim,3] <- DR
+simulations[sim,4] <- DL
+simulations[sim,5] <- sqrt(var(Vole[,sim]))
+simulations[sim,6] <- sqrt((999)*var(Vole[,sim])/qchisq(p=0.975,df=999))
+simulations[sim,7] <- sqrt((999)*var(Vole[,sim])/qchisq(p=0.025,df=999))
+simulations[sim,8] <- saison/1000
+simulations[sim,9] <- saison/1000-1.96*(var(saisonality_vector)/sqrt(1000))  
+simulations[sim,10] <- saison/1000+1.96*(var(saisonality_vector)/sqrt(1000)) 
 
 # end of the region's loop
   }
@@ -323,8 +302,8 @@ simulations[(3*(scenario-1)+region),10] <- mean(tableau_saisonalite[,1])+1.96*(v
 }
 
 # we register our results 
-write.csv (Vole, "vole_density_simulations.csv", row.names = T, quote = F) 
-write.csv (simulations, "simulations_indicators.csv",row.names=T,quote=F)
+write.csv (Vole, "vole_density_simulations2.csv", row.names = T, quote = F) 
+write.csv (simulations, "simulations_indicators2.csv",row.names=T,quote=F)
 
 
 
