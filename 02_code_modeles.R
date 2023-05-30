@@ -152,6 +152,54 @@ for (i in 0:32){
   
 }
 
+# missing values 
+for (i2 in 0:32){
+  
+  # if the first data of a column is a NA, we replace it with the column's mean 
+  if (is.na(Stn[1,i2+1])){
+    Stn[1,i2+1] <- mean(Stn[,i2+1],na.rm=TRUE)
+  }
+  
+  if (is.na(Atn[1,i2+1])){
+    Atn[1,i2+1] <- mean(Atn[,i2+1],na.rm=TRUE)
+  }
+  
+  if (is.na(P1tn[1,i2+1])){
+    P1tn[1,i2+1] <- mean(P1tn[,i2+1],na.rm=TRUE)
+  }
+  
+  if (is.na(P2tn[1,i2+1])){
+    P2tn[1,i2+1] <- mean(P2tn[,i2+1],na.rm=TRUE)
+  }
+  
+  if (is.na(P3tn[1,i2+1])){
+    P3tn[1,i2+1] <- mean(P3tn[,i2+1],na.rm=TRUE)
+  }
+  
+  
+  for(j2 in 2:23){ 
+    
+    # then, if there are NA for other years, we use the "last observation carry forward"
+    if (is.na(Stn[j2,i2+1])){
+      Stn[j2,i2+1] <- Stn[j2-1,i2+1]
+    }
+    if (is.na(Atn[j2,i2+1])){
+      Atn[j2,i2+1] <- Atn[j2-1,i2+1]
+    }
+    if (is.na(P1tn[j2,i2+1])){
+      P1tn[j2,i2+1] <- P1tn[j2-1,i2+1]
+    }
+    if (is.na(P2tn[j2,i2+1])){
+      P2tn[j2,i2+1] <- P2tn[j2-1,i2+1]
+    }
+    if (is.na(P3tn[j2,i2+1])){
+      P3tn[j2,i2+1] <- P3tn[j2-1,i2+1]
+    }
+    
+  }    
+}
+
+
 # we can create our temporal gap 
 # no gap 
 Atn_ <- Atn[-c(1,2),]  
@@ -218,11 +266,11 @@ for (region in 1:3){
     tableau_var[i,1] <-1990 + i
     
     # variance explained by each variables for model 1 
-    DD1 <- b1*(b1*var(At_1,na.rm = TRUE)+c1*cov(At_1,At_2,use="pairwise.complete.obs")+d1*cov(At_1,P1t,use="pairwise.complete.obs")+e1*cov(At_1,P2t,use="pairwise.complete.obs")+f1*cov(At_1,P3t_1,use="pairwise.complete.obs"))
-    DL1 <- c1*(c1*var(At_2,na.rm = TRUE)+b1*cov(At_1,At_2,use="pairwise.complete.obs")+d1*cov(At_2,P1t,use="pairwise.complete.obs")+e1*cov(At_2,P2t,use="pairwise.complete.obs")+f1*cov(At_2,P3t_1,use="pairwise.complete.obs"))
-    P11 <- d1*(d1*var(P1t,na.rm = TRUE)+b1*cov(At_1,P1t,use="pairwise.complete.obs")+c1*cov(At_2,P1t,use="pairwise.complete.obs")+e1*cov(P1t,P2t,use="pairwise.complete.obs")+f1*cov(P1t,P3t_1,use="pairwise.complete.obs"))
-    P21 <- e1*(e1*var(P2t,na.rm = TRUE)+b1*cov(At_1,P2t,use="pairwise.complete.obs")+c1*cov(At_2,P2t,use="pairwise.complete.obs")+d1*cov(P1t,P2t,use="pairwise.complete.obs")+f1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
-    P31 <- f1*(f1*var(P3t_1,na.rm = TRUE)+b1*cov(At_1,P3t_1,use="pairwise.complete.obs")+c1*cov(At_2,P3t_1,use="pairwise.complete.obs")+d1*cov(P1t,P3t_1,use="pairwise.complete.obs")+e1*cov(P2t,P3t_1,use="pairwise.complete.obs"))
+    DD1 <- b1*(b1*var(At_1)+c1*cov(At_1,At_2)+d1*cov(At_1,P1t)+e1*cov(At_1,P2t)+f1*cov(At_1,P3t_1))
+    DL1 <- c1*(c1*var(At_2)+b1*cov(At_1,At_2)+d1*cov(At_2,P1t)+e1*cov(At_2,P2t)+f1*cov(At_2,P3t_1))
+    P11 <- d1*(d1*var(P1t)+b1*cov(At_1,P1t)+c1*cov(At_2,P1t)+e1*cov(P1t,P2t)+f1*cov(P1t,P3t_1))
+    P21 <- e1*(e1*var(P2t)+b1*cov(At_1,P2t)+c1*cov(At_2,P2t)+d1*cov(P1t,P2t)+f1*cov(P2t,P3t_1))
+    P31 <- f1*(f1*var(P3t_1)+b1*cov(At_1,P3t_1)+c1*cov(At_2,P3t_1)+d1*cov(P1t,P3t_1)+e1*cov(P2t,P3t_1))
     
     # total variance for model 1
     tableau_var[i,12*(region-1)+2] <- DD1+DL1+P11+P21+P31+sigma_carre_1
@@ -235,11 +283,11 @@ for (region in 1:3){
     tableau_var[i,12*(region-1)+7] <- P31/tableau_var[i,12*(region-1)+2]
     
     # variance explained by each variables for model 2
-    DD2 <- b2*(b2*var(St,na.rm = TRUE)+c2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St,P1t,use="pairwise.complete.obs")+e2*cov(St,P2t,use="pairwise.complete.obs")+f2*cov(St,P3t,use="pairwise.complete.obs"))
-    DL2 <- c2*(c2*var(St_1,na.rm = TRUE)+b2*cov(St,St_1,use="pairwise.complete.obs")+d2*cov(St_1,P1t,use="pairwise.complete.obs")+e2*cov(St_1,P2t,use="pairwise.complete.obs")+f2*cov(St_1,P3t,use="pairwise.complete.obs"))
-    P12 <- d2*(d2*var(P1t,na.rm = TRUE)+b2*cov(St,P1t,use="pairwise.complete.obs")+c2*cov(St_1,P1t,use="pairwise.complete.obs")+e2*cov(P1t,P2t,use="pairwise.complete.obs")+f2*cov(P1t,P3t,use="pairwise.complete.obs"))
-    P22 <- e2*(e2*var(P2t,na.rm = TRUE)+b2*cov(St,P2t,use="pairwise.complete.obs")+c2*cov(St_1,P2t,use="pairwise.complete.obs")+d2*cov(P1t,P2t,use="pairwise.complete.obs")+f2*cov(P2t,P3t,use="pairwise.complete.obs"))
-    P32 <- f2*(f2*var(P3t,na.rm = TRUE)+b2*cov(St,P3t,use="pairwise.complete.obs")+c2*cov(St_1,P3t,use="pairwise.complete.obs")+d2*cov(P1t,P3t,use="pairwise.complete.obs")+e2*cov(P2t,P3t,use="pairwise.complete.obs"))
+    DD2 <- b2*(b2*var(St)+c2*cov(St,St_1)+d2*cov(St,P1t)+e2*cov(St,P2t)+f2*cov(St,P3t))
+    DL2 <- c2*(c2*var(St_1)+b2*cov(St,St_1)+d2*cov(St_1,P1t)+e2*cov(St_1,P2t)+f2*cov(St_1,P3t))
+    P12 <- d2*(d2*var(P1t)+b2*cov(St,P1t)+c2*cov(St_1,P1t)+e2*cov(P1t,P2t)+f2*cov(P1t,P3t))
+    P22 <- e2*(e2*var(P2t)+b2*cov(St,P2t)+c2*cov(St_1,P2t)+d2*cov(P1t,P2t)+f2*cov(P2t,P3t))
+    P32 <- f2*(f2*var(P3t)+b2*cov(St,P3t)+c2*cov(St_1,P3t)+d2*cov(P1t,P3t)+e2*cov(P2t,P3t))
     
     # total variance for model 2
     tableau_var[i,12*(region-1)+8] <-  DD2+DL2+P12+P22+P32+sigma_carre_2 
@@ -258,7 +306,7 @@ for (region in 1:3){
 }
 
 # we can register our results  
-write.csv (tableau_var, "variances_explained_vole.csv", row.names = T, quote = F) 
+write.csv (tableau_var, "variances_explained_vole2.csv", row.names = T, quote = F) 
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -290,6 +338,32 @@ for (i in 0:32){
     
   }
   
+}
+
+# missing values 
+for (i2 in 0:32){
+  
+  # if the first data of a column is a NA, we replace it with the column's mean 
+  if (is.na(Stn[1,i2+1])){
+    Stn[1,i2+1] <- mean(Stn[,i2+1],na.rm=TRUE)
+  }
+  
+  if (is.na(Atn[1,i2+1])){
+    Atn[1,i2+1] <- mean(Atn[,i2+1],na.rm=TRUE)
+  }
+  
+  
+  for(j2 in 2:23){ 
+    
+    # then, if there are NA for other years, we use the "last observation carry forward"
+    if (is.na(Stn[j2,i2+1])){
+      Stn[j2,i2+1] <- Stn[j2-1,i2+1]
+    }
+    if (is.na(Atn[j2,i2+1])){
+      Atn[j2,i2+1] <- Atn[j2-1,i2+1]
+    }
+    
+  }    
 }
 
 # we can create our temporal gap 
@@ -348,9 +422,9 @@ for (i in 1:21){
   tableau_var_pred[i,1] <-1990 + i
   
   # variance explained by each variables for model 3
-  V13 <- b3*(b3*var(At_1,na.rm = TRUE)+c3*cov(At_1,St_1,use="pairwise.complete.obs")+d3*cov(At_1,At_2,use="pairwise.complete.obs"))
-  V23 <- c3*(c3*var(St_1,na.rm = TRUE)+b3*cov(At_1,St_1,use="pairwise.complete.obs")+d3*cov(At_2,St_1,use="pairwise.complete.obs"))
-  V33 <- d3*(d3*var(At_2,na.rm = TRUE)+b3*cov(At_1,At_2,use="pairwise.complete.obs")+c3*cov(At_2,St_1,use="pairwise.complete.obs"))
+  V13 <- b3*(b3*var(At_1)+c3*cov(At_1,St_1)+d3*cov(At_1,At_2))
+  V23 <- c3*(c3*var(St_1)+b3*cov(At_1,St_1)+d3*cov(At_2,St_1))
+  V33 <- d3*(d3*var(At_2)+b3*cov(At_1,At_2)+c3*cov(At_2,St_1))
   
   # total variance for model 3
   tableau_var_pred[i,12*(region-1)+2] <- V13+V23+V33+sigma_carre_3
@@ -361,9 +435,9 @@ for (i in 1:21){
   tableau_var_pred[i,12*(region-1)+5] <- V33/tableau_var_pred[i,12*(region-1)+2]
   
   # variance explained by each variables for model 4
-  V14 <- b4*(b4*var(At_1,na.rm = TRUE)+c4*cov(At_1,St_1,use="pairwise.complete.obs")+d4*cov(At_1,At_2,use="pairwise.complete.obs"))
-  V24 <- c4*(c4*var(St_1,na.rm = TRUE)+b4*cov(At_1,St_1,use="pairwise.complete.obs")+d4*cov(At_2,St_1,use="pairwise.complete.obs"))
-  V34 <- d4*(d4*var(At_2,na.rm = TRUE)+b4*cov(At_1,At_2,use="pairwise.complete.obs")+c4*cov(At_2,St_1,use="pairwise.complete.obs"))
+  V14 <- b4*(b4*var(At_1)+c4*cov(At_1,St_1)+d4*cov(At_1,At_2))
+  V24 <- c4*(c4*var(St_1)+b4*cov(At_1,St_1)+d4*cov(At_2,St_1))
+  V34 <- d4*(d4*var(At_2)+b4*cov(At_1,At_2)+c4*cov(At_2,St_1))
   
   # total variance for model 4
   tableau_var_pred[i,12*(region-1)+6] <- V14+V24+V34+sigma_carre_4
@@ -374,9 +448,9 @@ for (i in 1:21){
   tableau_var_pred[i,12*(region-1)+9] <- V34/tableau_var_pred[i,12*(region-1)+6]
   
   # variance explained by each variables for model 5
-  V15 <- b5*(b5*var(St,na.rm = TRUE)+c5*cov(St,At_1,use="pairwise.complete.obs")+d5*cov(St,St_1,use="pairwise.complete.obs"))
-  V25 <- c5*(c5*var(At_1,na.rm = TRUE)+b5*cov(St,At_1,use="pairwise.complete.obs")+d5*cov(St_1,At_1,use="pairwise.complete.obs"))
-  V35 <- d5*(d5*var(St_1,na.rm = TRUE)+b5*cov(St,St_1,use="pairwise.complete.obs")+c5*cov(St_1,At_1,use="pairwise.complete.obs"))
+  V15 <- b5*(b5*var(St)+c5*cov(St,At_1)+d5*cov(St,St_1))
+  V25 <- c5*(c5*var(At_1)+b5*cov(St,At_1)+d5*cov(St_1,At_1))
+  V35 <- d5*(d5*var(St_1)+b5*cov(St,St_1)+c5*cov(St_1,At_1))
   
   # total variance for model 5
   tableau_var_pred[i,12*(region-1)+10] <- V15+V25+V35+sigma_carre_5
@@ -393,5 +467,5 @@ for (i in 1:21){
 }
 
 # we register our results 
-write.csv (tableau_var_pred, "variances_explained_predators.csv", row.names = T, quote = F) 
+write.csv (tableau_var_pred, "variances_explained_predators2.csv", row.names = T, quote = F) 
 

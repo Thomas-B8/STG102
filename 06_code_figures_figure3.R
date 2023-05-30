@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-data <- read.csv("variances_explained_predators.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("variances_explained_predators2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # data selection by region 
 nord <- data[,c(1:14)]
