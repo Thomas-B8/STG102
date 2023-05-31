@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-data <- read.csv("variances_explained_vole2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("variances_explained_vole.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # data selection by region 
 nord <- data[,c(1:14)]
@@ -44,7 +44,7 @@ df1_nord <-  data.frame(variable=rep(c("5 direct density dependance ", "4 delaye
 
 graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
-  ggtitle("winter-north") +
+  ggtitle("winter north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -75,7 +75,7 @@ df2_nord <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_m
 
 graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
-  ggtitle("summer_north") +
+  ggtitle("summer north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -105,7 +105,7 @@ df1_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_
 
 graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
-  ggtitle("winter-west") +
+  ggtitle("winter west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -134,7 +134,7 @@ df2_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_
 
 graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
-  ggtitle("summer-west") +
+  ggtitle("summer west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -164,7 +164,7 @@ df1_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mu
 
 graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
-  ggtitle("winter-east") +
+  ggtitle("winter east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -193,7 +193,7 @@ df2_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mu
 
 graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
-  ggtitle("summer-east") +
+  ggtitle("summer east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -210,3 +210,4 @@ legend<- get_legend(graph1_nord + theme(legend.position = 'right'))
 # Global figure 
 
 plot_grid(graph1_nord+ theme(legend.position = 'none'),graph1_ouest,graph1_est,legend,graph2_nord,graph2_ouest,graph2_est, labels=c("1", "2","3","","4","5","6"), ncol = 4, nrow = 2)
+

@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-data <- read.csv("variances_explained_predators2.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("variances_explained_predators.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # data selection by region 
 nord <- data[,c(1:14)]
@@ -44,7 +44,7 @@ df3_nord <-  data.frame(variable=rep(c("3 vole autumn (t-1)", "2 vole spring (t-
 
 graph3_nord <- ggplot(data=df3_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("small_mustelids_north") +
+  ggtitle("small mustelids north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -75,7 +75,7 @@ df4_nord <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn
 
 graph4_nord <- ggplot(data=df4_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("fox_and_pine_marten_north") +
+  ggtitle("fox and pine marten north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -104,7 +104,7 @@ df5_nord <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_t
 
 graph5_nord <- ggplot(data=df5_nord, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("avian_predators_north") +
+  ggtitle("avian predators north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -133,7 +133,7 @@ df3_ouest <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autum
 
 graph3_ouest <- ggplot(data=df3_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("small_mustelids_west") +
+  ggtitle("small mustelids west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -162,7 +162,7 @@ df4_ouest <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autum
 
 graph4_ouest <- ggplot(data=df4_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("fox_and_pine_marten_west") +
+  ggtitle("fox and pine marten west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -191,7 +191,7 @@ df5_ouest <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_
 
 graph5_ouest <- ggplot(data=df5_ouest, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("avian_predators_west") +
+  ggtitle("avian predators west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -220,7 +220,7 @@ df3_est <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_
 
 graph3_est <- ggplot(data=df3_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("small_mustelids_east") +
+  ggtitle("small mustelids east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -249,7 +249,7 @@ df4_est <-  data.frame(variable=rep(c("3_autumn_t-1", "2_spring_t-1", "1_autumn_
 
 graph4_est <- ggplot(data=df4_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("fox_and_pine_marten_east") +
+  ggtitle("fox and pine marten east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
@@ -278,7 +278,7 @@ df5_est <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_t-
 
 graph5_est <- ggplot(data=df5_est, aes(x=annee, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("gray60", "gray30", "gray0")) +
-  ggtitle("avian_predators_east") +
+  ggtitle("avian predators east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),

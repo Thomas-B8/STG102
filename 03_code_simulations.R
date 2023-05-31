@@ -302,8 +302,8 @@ simulations[sim,10] <- saison/1000+1.96*(var(saisonality_vector)/sqrt(1000))
 }
 
 # we register our results 
-write.csv (Vole, "vole_density_simulations2.csv", row.names = T, quote = F) 
-write.csv (simulations, "simulations_indicators2.csv",row.names=T,quote=F)
+write.csv (Vole, "vole_density_simulations.csv", row.names = T, quote = F) 
+write.csv (simulations, "simulations_indicators.csv",row.names=T,quote=F)
 
 
 

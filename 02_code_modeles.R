@@ -306,7 +306,7 @@ for (region in 1:3){
 }
 
 # we can register our results  
-write.csv (tableau_var, "variances_explained_vole2.csv", row.names = T, quote = F) 
+write.csv (tableau_var, "variances_explained_vole.csv", row.names = T, quote = F) 
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -467,5 +467,5 @@ for (i in 1:21){
 }
 
 # we register our results 
-write.csv (tableau_var_pred, "variances_explained_predators2.csv", row.names = T, quote = F) 
+write.csv (tableau_var_pred, "variances_explained_predators.csv", row.names = T, quote = F) 
 

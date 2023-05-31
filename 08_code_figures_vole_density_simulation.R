@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-Vole <- read.csv("vole_density_simulations2.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+Vole <- read.csv("vole_density_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # S1 - North 
 
