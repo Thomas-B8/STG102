@@ -52,32 +52,52 @@ Aeri_n[i,2] <- 1988+i +0.5 # car été
 # vole
 
 vole_graph_n <- ggplot(data=Vole_n,aes(x=Vole_n[,2],y=Vole_n[,1]))+geom_line(color="darkgreen",size=1.5) +
- ggtitle("Vole_north") +
-  xlab("years") + ylab("log density") + theme_classic()
+ ggtitle("Vole north") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 vole_graph_n
 
 # small mustelids 
 
 must_graph_n <- ggplot(data=Must_n,aes(x=Must_n[,2],y=Must_n[,1]))+geom_line(color="darkred",size=1.5) +
-  ggtitle("Small_mustelids_north") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Small mustelids north") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=6, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 must_graph_n
 
 # red fox and pine marten  
 
 gene_graph_n <- ggplot(data=Gene_n,aes(x=Gene_n[,2],y=Gene_n[,1]))+geom_line(color="orange",size=1.5) +
-  ggtitle("Fox_and_pine_marten_north") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Fox and pine marten north") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 gene_graph_n
 
 # avian predators 
 
 aeri_graph_n <- ggplot(data=Aeri_n,aes(x=Aeri_n[,2],y=Aeri_n[,1]))+geom_line(color="darkblue",size=1.5) +
-  ggtitle("Avian_predators_north") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Avian predators north") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 aeri_graph_n
 
@@ -112,32 +132,52 @@ for (i in 1:23){
 # Vole
 
 vole_graph_e <- ggplot(data=Vole_e,aes(x=Vole_e[,2],y=Vole_e[,1]))+geom_line(color="darkgreen",size=1.5) +
-  ggtitle("Vole_east") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Vole east") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 vole_graph_e
 
 # small mustelids
 
 must_graph_e <- ggplot(data=Must_e,aes(x=Must_e[,2],y=Must_e[,1]))+geom_line(color="darkred",size=1.5) +
-  ggtitle("Small_mustelids_east") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Small mustelids east") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 must_graph_e
 
 # red fox and pine marten  
 
 gene_graph_e <- ggplot(data=Gene_e,aes(x=Gene_e[,2],y=Gene_e[,1]))+geom_line(color="orange",size=1.5) +
-  ggtitle("Fox_and_pine_marten_east") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Fox and pine marten east") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 gene_graph_e
 
 # avian predators 
 
 aeri_graph_e <- ggplot(data=Aeri_e,aes(x=Aeri_e[,2],y=Aeri_e[,1]))+geom_line(color="darkblue",size=1.5) +
-  ggtitle("Avian_predators_east") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Avian predators east") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 aeri_graph_e
 
@@ -173,32 +213,52 @@ for (i in 1:23){
 # Vole
 
 vole_graph_o <- ggplot(data=Vole_o,aes(x=Vole_o[,2],y=Vole_o[,1]))+geom_line(color="darkgreen",size=1.5) +
-  ggtitle("Vole_west") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Vole west") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 vole_graph_o
 
 # small mustelids
 
 must_graph_o <- ggplot(data=Must_o,aes(x=Must_o[,2],y=Must_o[,1]))+geom_line(color="darkred",size=1.5) +
-  ggtitle("Small_mustelids_west") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Small mustelids west") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 must_graph_o
 
 # red fox and pine marten 
 
 gene_graph_o <- ggplot(data=Gene_o,aes(x=Gene_o[,2],y=Gene_o[,1]))+geom_line(color="orange",size=1.5) +
-  ggtitle("Fox_and_pine_marten_west") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Fox and pine marten west") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 gene_graph_o
 
 # avian predators 
 
 aeri_graph_o <- ggplot(data=Aeri_o,aes(x=Aeri_o[,2],y=Aeri_o[,1]))+geom_line(color="darkblue",size=1.5) +
-  ggtitle("Avian_predators_west") +
-  xlab("years") + ylab("log density") + theme_classic()
+  ggtitle("Avian predators west") +
+  xlab("years") + ylab("log density") + theme_classic()+ 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"))
 
 aeri_graph_o
 

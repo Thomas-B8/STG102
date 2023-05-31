@@ -34,30 +34,45 @@ simulations_ouest <- filter(simulations,region==3)
 
 a1 <- ggplot(simulations_nord) +
   geom_point(size=6,aes(x = direct.density.dependance_p,y = delayed.density.dependance,color = factor(scenario)))+
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
   geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
   geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
   geom_segment(aes(x = 0, y = 1, xend = 2, yend = -1))+
   geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
   coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
   ggtitle("density dependance north") +
-  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()
-
+  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic() + 
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+    axis.title.x = element_text( size=18, face="bold"),
+    axis.title.y = element_text( size=18, face="bold"),
+    axis.text.x = element_text(face="bold", size=12,color="black") ,
+    axis.text.y = element_text(face="bold", size=12,color="black"),
+    legend.background = element_rect(fill="grey70",linewidth=1, linetype="solid", colour ="black"),
+    legend.text = element_text(colour="black", size=20, face="bold"),
+    legend.title = element_text(colour="black", size=20, face="bold"))
+                                    
 a1
+
 
 
 # A.2 west  
 
 a2 <- ggplot(simulations_ouest) +
   geom_point(size=6,aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario)))+
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
   geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
   geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
   geom_segment(aes(x = 0, y = 1, xend = 2, yend = -1))+
   geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
   coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
   ggtitle("density dependance west") +
-  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()
+  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()+
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+      axis.title.x = element_text( size=18, face="bold"),
+      axis.title.y = element_text( size=18, face="bold"),
+      axis.text.x = element_text(face="bold", size=12,color="black") ,
+      axis.text.y = element_text(face="bold", size=12,color="black"),
+      legend.position='none')
 
 a2
 
@@ -65,20 +80,28 @@ a2
 
 a3 <- ggplot(simulations_est) +
   geom_point(size=6,aes(x =direct.density.dependance_p,y =delayed.density.dependance,color = factor(scenario)))+
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
   geom_function(fun=function(x) -x^2 / 4, xlim=c(-2, 2))+
   geom_segment(aes(x = -2, y = -1, xend = 0, yend = 1))+
   geom_segment(aes(x = 0, y = 1, xend = 2, yend = -1))+
   geom_segment(aes(x = -2, y = -1, xend = 2, yend = -1))+
   coord_cartesian(xlim = c(-2, 2), ylim = c(-1, 1))+
   ggtitle("density dependance east") +
-  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()
+  xlab("direct density dependance+1") + ylab("delayed density dependance")+ theme_classic()+
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 a3
 
+legend_a <- get_legend(a1+ theme(legend.position = 'right'))
+
 # A.4 Global figure 
 
-plot_grid(a1,a2,a3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
+plot_grid(a1+ theme(legend.position = 'none'),a2,a3, legend_a ,labels=c("1", "2","3"), ncol = 4, nrow = 1)
 
 # B) s-index
 
@@ -89,8 +112,14 @@ b1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=s.index, color=factor
   geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("s-index")+
   ggtitle("s-index north ") +
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  theme_classic() 
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
+  theme_classic() +
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 b1
 
@@ -101,8 +130,14 @@ b2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=s.index, color=facto
   geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("s-index")+
   ggtitle("s-index west ") +
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  theme_classic() 
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
+  theme_classic() +
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 b2
 
@@ -113,14 +148,21 @@ b3 <- ggplot(simulations_est, aes(x = factor(scenario), y=s.index, color=factor(
   geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("s-index")+
   ggtitle("s-index east ") +
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  theme_classic() 
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
+  theme_classic() +
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 b3
 
+
 # B.4 Global figure  
 
-plot_grid(b1,b2,b3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
+plot_grid(b1,b2,b3,legend_b, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
 # C) seasonality 
 
@@ -131,8 +173,14 @@ c1 <- ggplot(simulations_nord, aes(x = factor(scenario), y=seasonality, color=fa
   geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("seasonality")+
   ggtitle("seasonality north ") +
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  theme_classic() 
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
+  theme_classic() +
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 c1
 
@@ -143,8 +191,14 @@ c2 <- ggplot(simulations_ouest, aes(x = factor(scenario), y=seasonality, color=f
   geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("seasonality")+
   ggtitle("seasonality west ") +
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  theme_classic()
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
+  theme_classic()+
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 c2
 
@@ -155,8 +209,14 @@ c3 <- ggplot(simulations_est, aes(x = factor(scenario), y=seasonality, color=fac
   geom_point(position=position_dodge(0.1), size=8, shape=20) +
   xlab("scenario") + ylab("seasonality")+
   ggtitle("seasonality east ") +
-  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","darkgreen","darkblue","purple"))+
-  theme_classic()
+  scale_color_manual(name="scenario",values=c('black','pink','red',"yellow","orange","lightseagreen","darkblue","cornsilk4"))+
+  theme_classic()+
+  theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
+        axis.title.x = element_text( size=18, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
+        axis.text.x = element_text(face="bold", size=12,color="black") ,
+        axis.text.y = element_text(face="bold", size=12,color="black"),
+        legend.position='none')
 
 c3
 
