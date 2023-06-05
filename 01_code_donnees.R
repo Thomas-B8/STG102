@@ -203,6 +203,8 @@ donnees$site[donnees$site == "ShtSri"] <- "ahtari"
 # we can register our clean data 
   
 write.csv (donnees, "donnees_completees.csv", row.names = T, quote = F)
+
+# we will recreate the map 
   
 
   
