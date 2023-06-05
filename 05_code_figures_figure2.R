@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-data <- read.csv("variances_explained_vole.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("../Donnees/variances_explained_vole.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # data selection by region 
 nord <- data[,c(1:14)]
@@ -207,7 +207,19 @@ graph2_est
 legend<- get_legend(graph1_nord + theme(legend.position = 'right'))
 
 
-# Global figure 
+# Global figure and register 
 
-plot_grid(graph1_nord+ theme(legend.position = 'none'),graph1_ouest,graph1_est,legend,graph2_nord,graph2_ouest,graph2_est, labels=c("1", "2","3","","4","5","6"), ncol = 4, nrow = 2)
+A <- plot_grid(graph1_nord+ theme(legend.position = 'none'),graph1_ouest,graph1_est,legend,graph2_nord,graph2_ouest,graph2_est, labels=c("1", "2","3","","4","5","6"), ncol = 4, nrow = 2)
+
+# Opening the graphic device 
+pdf("../Figures/Graph2_figure2.pdf",  
+    width = 14, height = 8, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(A)
+
+# Closing the graphical device
+dev.off() 
 

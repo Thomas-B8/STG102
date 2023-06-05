@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-simulations <- read.csv("simulations_indicators_without_big_values.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+simulations <- read.csv("../Donnees/simulations_indicators_without_big_values.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 simulations$scenario <- as.integer(simulations$scenario)
 simulations$direct.density.dependance_p <- simulations$direct.density.dependance+1
@@ -99,9 +99,21 @@ a3
 
 legend_a <- get_legend(a1+ theme(legend.position = 'right'))
 
-# A.4 Global figure 
+# A.4 Global figure and register 
 
-plot_grid(a1+ theme(legend.position = 'none'),a2,a3, legend_a ,labels=c("1", "2","3"), ncol = 4, nrow = 1)
+A <- plot_grid(a1+ theme(legend.position = 'none'),a2,a3, legend_a ,labels=c("1", "2","3"), ncol = 4, nrow = 1)
+
+# Opening the graphic device 
+pdf("../Figures/Graph4_1_figure4_density.pdf",  
+    width = 14, height = 8, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(A)
+
+# Closing the graphical device
+dev.off() 
 
 # B) s-index
 
@@ -160,9 +172,22 @@ b3 <- ggplot(simulations_est, aes(x = factor(scenario), y=s.index, color=factor(
 b3
 
 
-# B.4 Global figure  
+# B.4 Global figure and register 
 
-plot_grid(b1,b2,b3,legend_b, labels=c("1", "2","3"), ncol = 3, nrow = 1)
+B <- plot_grid(b1,b2,b3,legend_b, labels=c("1", "2","3"), ncol = 3, nrow = 1)
+
+# Opening the graphic device 
+pdf("../Figures/Graph4_2_figure4_s_index.pdf",  
+    width = 14, height = 8, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(B)
+
+# Closing the graphical device
+dev.off() 
+
 
 # C) seasonality 
 
@@ -220,9 +245,20 @@ c3 <- ggplot(simulations_est, aes(x = factor(scenario), y=seasonality, color=fac
 
 c3
 
-# B.4 Global figure 
+# C.4 Global figure and register 
 
-plot_grid(c1,c2,c3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
+C <- plot_grid(c1,c2,c3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
+# Opening the graphic device 
+pdf("../Figures/Graph4_3_figure4_saisonnality.pdf",  
+    width = 14, height = 8, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(C)
+
+# Closing the graphical device
+dev.off() 
 
 #---------------------------------------------------------------------

@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-data <- read.csv("variances_explained_predators.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("../Donnees/variances_explained_predators.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # data selection by region 
 nord <- data[,c(1:14)]
@@ -291,7 +291,19 @@ graph5_est
 
 legend<- get_legend(graph3_nord + theme(legend.position = 'right'))
 
-# Global figure 
+# Global figure and register 
 
-plot_grid(graph3_nord + theme(legend.position = 'none'),graph3_ouest,graph3_est,graph4_nord,graph4_ouest,graph4_est,graph5_nord,graph5_ouest,graph5_est,legend, labels=c("1", "2","3","4","5","6","7","8","9"), ncol = 3, nrow = 4)
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+A <- plot_grid(graph3_nord + theme(legend.position = 'none'),graph3_ouest,graph3_est,graph4_nord,graph4_ouest,graph4_est,graph5_nord,graph5_ouest,graph5_est,legend, labels=c("1", "2","3","4","5","6","7","8","9"), ncol = 3, nrow = 4)
+
+# Opening the graphic device 
+pdf("../Figures/Graph3_figure3.pdf",  
+    width = 10, height = 8, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(A)
+
+# Closing the graphical device
+dev.off() 
+

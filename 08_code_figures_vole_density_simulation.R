@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-Vole <- read.csv("vole_density_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+Vole <- read.csv("../Donnees/vole_density_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # S1 - North 
 
@@ -232,9 +232,21 @@ a8_acf <- ggplot(data=a8_data, mapping=aes(x=lag, y=acf)) +
         axis.text.y = element_text(face="bold", size=12,color="black"))
 a8_acf
 
-# Global figure north 
+# Global figure north and register 
 
-plot_grid(s1n_graph,a1_acf,s2n_graph,a2_acf,s3n_graph,a3_acf,s4n_graph,a4_acf,s5n_graph,a5_acf,s6n_graph,a6_acf,s7n_graph,a7_acf,s8n_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
+A <- plot_grid(s1n_graph,a1_acf,s2n_graph,a2_acf,s3n_graph,a3_acf,s4n_graph,a4_acf,s5n_graph,a5_acf,s6n_graph,a6_acf,s7n_graph,a7_acf,s8n_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
+
+# Opening the graphic device 
+pdf("../Figures/Graph5_1_simulations_north.pdf",  
+    width = 8, height = 18, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(A)
+
+# Closing the graphical device
+dev.off() 
 
 # S1 - East
 
@@ -447,9 +459,21 @@ a8_acf <- ggplot(data=a8_data, mapping=aes(x=lag, y=acf)) +
         axis.text.y = element_text(face="bold", size=12,color="black"))
 a8_acf
 
-# Global figure east 
+# Global figure east and register 
 
-plot_grid(s1e_graph,a1_acf,s2e_graph,a2_acf,s3e_graph,a3_acf,s4e_graph,a4_acf,s5e_graph,a5_acf,s6e_graph,a6_acf,s7e_graph,a7_acf,s8e_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
+B <- plot_grid(s1e_graph,a1_acf,s2e_graph,a2_acf,s3e_graph,a3_acf,s4e_graph,a4_acf,s5e_graph,a5_acf,s6e_graph,a6_acf,s7e_graph,a7_acf,s8e_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
+
+# Opening the graphic device 
+pdf("../Figures/Graph5_2_simulations_east.pdf",  
+    width = 8, height = 18, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(B)
+
+# Closing the graphical device
+dev.off() 
 
 
 # S1 - West
@@ -662,5 +686,16 @@ a8_acf
 
 # Global figure west 
 
-plot_grid(s1o_graph,a1_acf,s2o_graph,a2_acf,s3o_graph,a3_acf,s4o_graph,a4_acf,s5o_graph,a5_acf,s6o_graph,a6_acf,s7o_graph,a7_acf,s8o_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
+C <- plot_grid(s1o_graph,a1_acf,s2o_graph,a2_acf,s3o_graph,a3_acf,s4o_graph,a4_acf,s5o_graph,a5_acf,s6o_graph,a6_acf,s7o_graph,a7_acf,s8o_graph,a8_acf, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"), ncol = 2, nrow = 8)
 
+# Opening the graphic device 
+pdf("../Figures/Graph5_3_simulations_west.pdf",  
+    width = 8, height = 18, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(C)
+
+# Closing the graphical device
+dev.off() 

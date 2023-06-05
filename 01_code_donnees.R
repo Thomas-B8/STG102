@@ -13,7 +13,7 @@ install.packages("epiDisplay")
 library(epiDisplay)
 
 # original data importation 
-tableau <- read.table("donnees_brutes_korpela.txt", sep="\t", header=T, dec=",") 
+tableau <- read.table("../Donnees/Korpela et al PRSL 2014 data.txt", sep="\t", header=T, dec=",") 
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------

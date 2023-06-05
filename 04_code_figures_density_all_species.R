@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation
-donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
+donnees <- read.csv("../Donnees/donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 # A : north 
 # A.1 data management 
@@ -69,7 +69,7 @@ must_graph_n <- ggplot(data=Must_n,aes(x=Must_n[,2],y=Must_n[,1]))+geom_line(col
   xlab("years") + ylab("log density") + theme_classic()+ 
   theme(plot.title = element_text(size=18, face="bold",hjust = 0.5),
         axis.title.x = element_text( size=18, face="bold"),
-        axis.title.y = element_text( size=6, face="bold"),
+        axis.title.y = element_text( size=18, face="bold"),
         axis.text.x = element_text(face="bold", size=12,color="black") ,
         axis.text.y = element_text(face="bold", size=12,color="black"))
 
@@ -262,7 +262,18 @@ aeri_graph_o <- ggplot(data=Aeri_o,aes(x=Aeri_o[,2],y=Aeri_o[,1]))+geom_line(col
 
 aeri_graph_o
 
-# Final figure 
+# Final figure and register 
 
-plot_grid(vole_graph_n,vole_graph_o,vole_graph_e,must_graph_n,must_graph_o,must_graph_e,gene_graph_n,gene_graph_o,gene_graph_e,aeri_graph_n,aeri_graph_o,aeri_graph_e, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12"), ncol = 3, nrow = 4) 
+A <- plot_grid(vole_graph_n,vole_graph_o,vole_graph_e,must_graph_n,must_graph_o,must_graph_e,gene_graph_n,gene_graph_o,gene_graph_e,aeri_graph_n,aeri_graph_o,aeri_graph_e, labels=c("1", "2","3","4","5","6","7","8","9","10","11","12"), ncol = 3, nrow = 4) 
 
+# Opening the graphic device 
+pdf("../Figures/Graph1_averages_density2.pdf",  
+    width = 14, height = 8, 
+    bg = "white",         
+    colormodel = "cmyk")
+
+# Creating a plot
+plot(A)
+
+# Closing the graphical device
+dev.off() 

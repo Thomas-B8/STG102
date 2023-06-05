@@ -9,7 +9,7 @@ install.packages("dplyr")
 library(dplyr)
 
 # We open clean data 
-donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
+donnees <- read.csv("../Donnees/donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 
 #------------------------------------------------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ write.csv (tableau_parametres_regions_predateurs, "parameters_predators.csv", ro
 # II Variance and proportion of variance explained for Vole's models 
 
 # we open our parameters 
-parametres <- read.csv("parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres <- read.csv("../Donnees/parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 # we create our data frame for our results 
 tableau_var<- data.frame(matrix(0,21,37))
@@ -306,7 +306,7 @@ for (region in 1:3){
 }
 
 # we can register our results  
-write.csv (tableau_var, "variances_explained_vole.csv", row.names = T, quote = F) 
+write.csv (tableau_var, "../Donnees/variances_explained_vole.csv", row.names = T, quote = F) 
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ write.csv (tableau_var, "variances_explained_vole.csv", row.names = T, quote = F
 
 # we open our parameters  
 
-parametres <- read.csv("parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres <- read.csv("../Donnees/parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 # we create our data frame for our results 
 tableau_var_pred <- data.frame(matrix(0,21,37))
@@ -467,5 +467,5 @@ for (i in 1:21){
 }
 
 # we register our results 
-write.csv (tableau_var_pred, "variances_explained_predators.csv", row.names = T, quote = F) 
+write.csv (tableau_var_pred, "../Donnees/variances_explained_predators.csv", row.names = T, quote = F) 
 

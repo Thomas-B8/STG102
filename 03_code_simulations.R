@@ -9,7 +9,7 @@ install.packages("dplyr")
 library(dplyr)
 
 # Opening data 
-donnees <- read.csv("donnees_propres_korpela.csv", sep=",", header=T, dec=".")
+donnees <- read.csv("../Donnees/donnees_propres_korpela.csv", sep=",", header=T, dec=".")
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -49,8 +49,8 @@ names(Yt_2) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n
 
 
 # We open the parameters estimated previously and create variable to stock them
-parametres <- read.csv("parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
-parametres_pred <- read.csv("parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres <- read.csv("../Donnees/parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parametres_pred <- read.csv("../Donnees/parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 
 # Now we can do the simulations for each region (3) and each scenario (8) , ie 24 simulations 
@@ -302,8 +302,8 @@ simulations[sim,10] <- saison/1000+1.96*(var(saisonality_vector)/sqrt(1000))
 }
 
 # we register our results 
-write.csv (Vole, "vole_density_simulations.csv", row.names = T, quote = F) 
-write.csv (simulations, "simulations_indicators.csv",row.names=T,quote=F)
+write.csv (Vole, "../Donnees/vole_density_simulations.csv", row.names = T, quote = F) 
+write.csv (simulations, "../Donnees/simulations_indicators.csv",row.names=T,quote=F)
 
 
 
