@@ -1,8 +1,8 @@
 
 # author = "Besognet Thomas"
 # date = " 24/05/23" 
-# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
-# name =  "Vole density simulations " 
+# project = "Korpela et al. Proceedings B Replication work"
+# name =  "Vole density simulations" 
 
 # packages 
 install.packages("ggplot2")                                       
@@ -19,7 +19,7 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-Vole <- read.csv("../Donnees/vole_density_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+Vole <- read.csv("../data/vole_density_simulations.csv",sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # S1 - North 
 

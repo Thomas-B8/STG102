@@ -1,7 +1,7 @@
 
 # author = "Besognet Thomas"
 # date = " 24/05/23" 
-# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# project = "Korpela et al. Proceedings B Replication work"
 # name = "Simulations"
 
 # packages 
@@ -9,7 +9,7 @@ install.packages("dplyr")
 library(dplyr)
 
 # Opening data 
-donnees <- read.csv("../Donnees/donnees_propres_korpela.csv", sep=",", header=T, dec=".")
+data <- read.csv("../data/data_Korpela.csv", sep=",", header=T, dec=".")
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ donnees <- read.csv("../Donnees/donnees_propres_korpela.csv", sep=",", header=T,
 
 # simulation's indicators 
 simulations <-data.frame(matrix(0,24,10)) 
-names(simulations) <- c("scenario","region","direct density dependance","delayed density dependance","s-index","min_s","max_s","seasonality","min_n","max_n")
+names(simulations) <- c("scenario","zone","direct density dependance","delayed density dependance","s-index","min_s","max_s","seasonality","min_n","max_n")
 
 # vole density 
 Vole <- data.frame(matrix(0,2000,24)) 
@@ -49,151 +49,151 @@ names(Yt_2) <- c("1n","1e","1o","2n","2e","2o","3n","3e","3o","4n","4e","4o","5n
 
 
 # We open the parameters estimated previously and create variable to stock them
-parametres <- read.csv("../Donnees/parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
-parametres_pred <- read.csv("../Donnees/parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parameters <- read.csv("../data/parameters_vole.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
+parameters_pred <- read.csv("../data/parameters_predators.csv", sep=",", header=T, dec=".",stringsAsFactors=FALSE)
 
 
-# Now we can do the simulations for each region (3) and each scenario (8) , ie 24 simulations 
+# Now we can do the simulations for each zone (3) and each scenario (8) , ie 24 simulations 
 for (scenario in 1:8){ 
   
-  for (region in 1:3){
+  for (zone in 1:3){
     
     # the simulation's number 
-    sim <- 3*(scenario-1)+region
+    sim <- 3*(scenario-1)+zone
     
-    # for each region, we have to select data and estimators for this region 
-    if (region==1){
+    # for each zone, we have to select data and estimators for this zone 
+    if (zone==1){
       
-      Present <- filter(donnees,cardinalite=="nord",year==2011)
-      Retard <- filter(donnees,cardinalite=="nord",year==2010)
+      Present <- filter(data,zone=="north",year==2011)
+      Delay <- filter(data,zone=="north",year==2010)
       
-      a1 <- parametres[1,4]
-      b1 <- parametres[1,5]
-      c1 <- parametres[1,6]
-      d1 <- parametres[1,7]
-      e1 <- parametres[1,8]
-      f1 <- parametres[1,9]
-      sigma1 <- parametres[1,10]
+      a1 <- parameters[1,4]
+      b1 <- parameters[1,5]
+      c1 <- parameters[1,6]
+      d1 <- parameters[1,7]
+      e1 <- parameters[1,8]
+      f1 <- parameters[1,9]
+      sigma1 <- parameters[1,10]
       
-      a2 <- parametres[2,4]
-      b2 <- parametres[2,5]
-      c2 <- parametres[2,6]
-      d2 <- parametres[2,7]
-      e2 <- parametres[2,8]
-      f2 <- parametres[2,9]
-      sigma2 <- parametres[2,10]
+      a2 <- parameters[2,4]
+      b2 <- parameters[2,5]
+      c2 <- parameters[2,6]
+      d2 <- parameters[2,7]
+      e2 <- parameters[2,8]
+      f2 <- parameters[2,9]
+      sigma2 <- parameters[2,10]
       
-      a3 <- parametres_pred[1,4]
-      b3 <- parametres_pred[1,5]
-      c3 <- parametres_pred[1,6]
-      d3 <- parametres_pred[1,7]
-      sigma3 <- parametres_pred[1,8]
+      a3 <- parameters_pred[1,4]
+      b3 <- parameters_pred[1,5]
+      c3 <- parameters_pred[1,6]
+      d3 <- parameters_pred[1,7]
+      sigma3 <- parameters_pred[1,8]
       
-      a4 <- parametres_pred[2,4]
-      b4 <- parametres_pred[2,5]
-      c4 <- parametres_pred[2,6]
-      d4 <- parametres_pred[2,7]
-      sigma4 <- parametres_pred[2,8]
+      a4 <- parameters_pred[2,4]
+      b4 <- parameters_pred[2,5]
+      c4 <- parameters_pred[2,6]
+      d4 <- parameters_pred[2,7]
+      sigma4 <- parameters_pred[2,8]
       
-      a5 <- parametres_pred[3,4]
-      b5 <- parametres_pred[3,5]
-      c5 <- parametres_pred[3,6]
-      d5<- parametres_pred[3,7]
-      sigma5 <- parametres_pred[3,8]
+      a5 <- parameters_pred[3,4]
+      b5 <- parameters_pred[3,5]
+      c5 <- parameters_pred[3,6]
+      d5<- parameters_pred[3,7]
+      sigma5 <- parameters_pred[3,8]
       
     }
     
-    if (region==2){
+    if (zone==2){
       
-      Present <- filter(donnees,cardinalite=="est",year==2011)
-      Retard <- filter(donnees,cardinalite=="est",year==2010)
+      Present <- filter(data,zone=="east",year==2011)
+      Delay <- filter(data,zone=="east",year==2010)
       
-      a1 <- parametres[3,4]
-      b1 <- parametres[3,5]
-      c1 <- parametres[3,6]
-      d1 <- parametres[3,7]
-      e1 <- parametres[3,8]
-      f1 <- parametres[3,9]
-      sigma1 <- parametres[3,10]
+      a1 <- parameters[3,4]
+      b1 <- parameters[3,5]
+      c1 <- parameters[3,6]
+      d1 <- parameters[3,7]
+      e1 <- parameters[3,8]
+      f1 <- parameters[3,9]
+      sigma1 <- parameters[3,10]
       
-      a2 <- parametres[4,4]
-      b2 <- parametres[4,5]
-      c2 <- parametres[4,6]
-      d2 <- parametres[4,7]
-      e2 <- parametres[4,8]
-      f2 <- parametres[4,9]
-      sigma2 <- parametres[4,10]
+      a2 <- parameters[4,4]
+      b2 <- parameters[4,5]
+      c2 <- parameters[4,6]
+      d2 <- parameters[4,7]
+      e2 <- parameters[4,8]
+      f2 <- parameters[4,9]
+      sigma2 <- parameters[4,10]
       
-      a3 <- parametres_pred[4,4]
-      b3 <- parametres_pred[4,5]
-      c3 <- parametres_pred[4,6]
-      d3 <- parametres_pred[4,7]
-      sigma3 <- parametres_pred[4,8]
+      a3 <- parameters_pred[4,4]
+      b3 <- parameters_pred[4,5]
+      c3 <- parameters_pred[4,6]
+      d3 <- parameters_pred[4,7]
+      sigma3 <- parameters_pred[4,8]
       
-      a4 <- parametres_pred[5,4]
-      b4 <- parametres_pred[5,5]
-      c4 <- parametres_pred[5,6]
-      d4 <- parametres_pred[5,7]
-      sigma4 <- parametres_pred[5,8]
+      a4 <- parameters_pred[5,4]
+      b4 <- parameters_pred[5,5]
+      c4 <- parameters_pred[5,6]
+      d4 <- parameters_pred[5,7]
+      sigma4 <- parameters_pred[5,8]
       
-      a5 <- parametres_pred[6,4]
-      b5 <- parametres_pred[6,5]
-      c5 <- parametres_pred[6,6]
-      d5 <- parametres_pred[6,7]
-      sigma5 <- parametres_pred[6,8]
+      a5 <- parameters_pred[6,4]
+      b5 <- parameters_pred[6,5]
+      c5 <- parameters_pred[6,6]
+      d5 <- parameters_pred[6,7]
+      sigma5 <- parameters_pred[6,8]
       
     }
     
-    if (region==3){
-      Present <- filter(donnees,cardinalite=="sud_ouest",year==2011)
-      Retard <- filter(donnees,cardinalite=="sud_ouest",year==2010)
+    if (zone==3){
+      Present <- filter(data,zone=="west",year==2011)
+      Delay <- filter(data,zone=="west",year==2010)
       
-      a1 <- parametres[5,4]
-      b1 <- parametres[5,5]
-      c1 <- parametres[5,6]
-      d1 <- parametres[5,7]
-      e1 <- parametres[5,8]
-      f1 <- parametres[5,9]
-      sigma1 <- parametres[5,10]
+      a1 <- parameters[5,4]
+      b1 <- parameters[5,5]
+      c1 <- parameters[5,6]
+      d1 <- parameters[5,7]
+      e1 <- parameters[5,8]
+      f1 <- parameters[5,9]
+      sigma1 <- parameters[5,10]
       
-      a2 <- parametres[6,4]
-      b2 <- parametres[6,5]
-      c2 <- parametres[6,6]
-      d2 <- parametres[6,7]
-      e2 <- parametres[6,8]
-      f2 <- parametres[6,9]
-      sigma2 <- parametres[6,10]
+      a2 <- parameters[6,4]
+      b2 <- parameters[6,5]
+      c2 <- parameters[6,6]
+      d2 <- parameters[6,7]
+      e2 <- parameters[6,8]
+      f2 <- parameters[6,9]
+      sigma2 <- parameters[6,10]
       
-      a3 <- parametres_pred[7,4]
-      b3 <- parametres_pred[7,5]
-      c3 <- parametres_pred[7,6]
-      d3 <- parametres_pred[7,7]
-      sigma3 <- parametres_pred[7,8]
+      a3 <- parameters_pred[7,4]
+      b3 <- parameters_pred[7,5]
+      c3 <- parameters_pred[7,6]
+      d3 <- parameters_pred[7,7]
+      sigma3 <- parameters_pred[7,8]
       
-      a4 <- parametres_pred[8,4]
-      b4 <- parametres_pred[8,5]
-      c4 <- parametres_pred[8,6]
-      d4 <- parametres_pred[8,7]
-      sigma4 <- parametres_pred[8,8]
+      a4 <- parameters_pred[8,4]
+      b4 <- parameters_pred[8,5]
+      c4 <- parameters_pred[8,6]
+      d4 <- parameters_pred[8,7]
+      sigma4 <- parameters_pred[8,8]
       
-      a5 <- parametres_pred[9,4]
-      b5 <- parametres_pred[9,5]
-      c5 <- parametres_pred[9,6]
-      d5 <- parametres_pred[9,7]
-      sigma5 <- parametres_pred[9,8]
+      a5 <- parameters_pred[9,4]
+      b5 <- parameters_pred[9,5]
+      c5 <- parameters_pred[9,6]
+      d5 <- parameters_pred[9,7]
+      sigma5 <- parameters_pred[9,8]
       
     }
     
 # we initialize Vole density
 At <- mean(na.omit(Present$Vole.Autumn))
-At_1 <- mean(na.omit(Retard$Vole.Autumn))
+At_1 <- mean(na.omit(Delay$Vole.Autumn))
 St <- mean(na.omit(Present$Vole.Spring))
-St_1 <- mean(na.omit(Retard$Vole.Spring)) 
+St_1 <- mean(na.omit(Delay$Vole.Spring)) 
 
 # we initialize predators density depending of the scenario 
 if (scenario ==2 ||scenario ==5 ||scenario ==7 ||scenario ==8 ){
   
-  P1t  <-min(na.omit(donnees$Small.mustelid))
+  P1t  <-min(na.omit(data$Small.mustelid))
   
 }
 
@@ -205,7 +205,7 @@ else {
 
 if (scenario ==3 ||scenario ==4 ||scenario ==7 ||scenario ==8 ){
   
-  P2t <-min(na.omit(donnees$Generalist.predator))
+  P2t <-min(na.omit(data$Generalist.predator))
   
 }
 
@@ -217,7 +217,7 @@ else {
   
 if (scenario ==3 ||scenario ==5 ||scenario ==6 ||scenario ==8 ){
   
-    P3t <- min(na.omit(donnees$Avian.predator))
+    P3t <- min(na.omit(data$Avian.predator))
     
 }
 
@@ -266,7 +266,7 @@ for (i in 1:1000){
   Yt_2[i,sim] <- At-St
   # seasonality 
   saison <- saison + (At-St)-(St-At_1)
-  saisonality_vector[i] <-  saisonalite
+  saisonality_vector[i] <-  saison
   
 # end of the 1000 years loop 
 }
@@ -285,7 +285,7 @@ DL <- C1 + C2 + C2*B1 + B2*C1
 
 # we complete our data table 
 simulations[sim,1] <- scenario
-simulations[sim,2] <- region
+simulations[sim,2] <- zone
 simulations[sim,3] <- DR
 simulations[sim,4] <- DL
 simulations[sim,5] <- sqrt(var(Vole[,sim]))
@@ -295,15 +295,15 @@ simulations[sim,8] <- saison/1000
 simulations[sim,9] <- saison/1000-1.96*(var(saisonality_vector)/sqrt(1000))  
 simulations[sim,10] <- saison/1000+1.96*(var(saisonality_vector)/sqrt(1000)) 
 
-# end of the region's loop
+# end of the zone's loop
   }
   
   # end of the scenario's loop 
 }
 
 # we register our results 
-write.csv (Vole, "../Donnees/vole_density_simulations.csv", row.names = T, quote = F) 
-write.csv (simulations, "../Donnees/simulations_indicators.csv",row.names=T,quote=F)
+write.csv (Vole, "../data/vole_density_simulations.csv", row.names = T, quote = F) 
+write.csv (simulations, "../data/simulations_indicators.csv",row.names=T,quote=F)
 
 
 

@@ -1,7 +1,7 @@
 
 # author = "Besognet Thomas"
 # date = " 24/05/23" 
-# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# project = "Korpela et al. Proceedings B Replication work"
 # name =  "figure 2 replication "
 
 # packages 
@@ -19,12 +19,12 @@ library(ggplotify)
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # data importation 
-data <- read.csv("../Donnees/variances_explained_vole.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
+data <- read.csv("../data/variances_explained_vole.csv", sep=",", header=T, dec=".", stringsAsFactors=FALSE)
 
 # data selection by region 
-nord <- data[,c(1:14)]
-est <- data[,c(1,2,15:26)]
-ouest <-data[,c(1,2,27:38)]
+north <- data[,c(1:14)]
+east <- data[,c(1,2,15:26)]
+west <-data[,c(1,2,27:38)]
 
 # A.1 modele 1 north 
 
@@ -34,15 +34,15 @@ a <-0
 for (j in 1:5){
   for (i in 1:21){
     a <- a+1
-    vect1n[a]<- nord[i,3+j]
+    vect1n[a]<- north[i,3+j]
   }
 }
 
-df1_nord <-  data.frame(variable=rep(c("5 direct density dependance ", "4 delayed density dependance", "3 small mustelids","2 generalists predators","1 avian predators"), each=21),
-                        annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
+df1_north <-  data.frame(variable=rep(c("5 direct density dependance ", "4 delayed density dependance", "3 small mustelids","2 generalists predators","1 avian predators"), each=21),
+                        year=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
                         variances=vect1n)
 
-graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
+graph1_north <- ggplot(data=df1_north, aes(x=year, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("winter north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
@@ -55,7 +55,7 @@ graph1_nord <- ggplot(data=df1_nord, aes(x=annee, y=variances, fill=variable)) +
         legend.text = element_text(colour="black", size=15, face="bold"),
         legend.title = element_text(colour="black", size=15, face="bold"))
 
-graph1_nord
+graph1_north
 
 # A.2 modele 2 north 
 
@@ -65,15 +65,15 @@ a <-0
 for (j in 1:5){
   for (i in 1:21){
     a <- a+1
-    vect2n[a]<- nord[i,9+j]
+    vect2n[a]<- north[i,9+j]
   }
 }
 
-df2_nord <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_mustelids","2_generalists","1_avian_predators"), each=21),
-                        annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
+df2_north <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_mustelids","2_generalists","1_avian_predators"), each=21),
+                        year=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
                         variances=vect2n)
 
-graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
+graph2_north <- ggplot(data=df2_north, aes(x=year, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("summer north") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
@@ -84,7 +84,7 @@ graph2_nord <- ggplot(data=df2_nord, aes(x=annee, y=variances, fill=variable)) +
         axis.text.y = element_text(face="bold", size=12,color="black"),
         legend.position='none')
 
-graph2_nord
+graph2_north
 
 
 # B.1 modele 1 west 
@@ -95,15 +95,15 @@ a <-0
 for (j in 1:5){
   for (i in 1:21){
     a <- a+1
-    vect1w[a]<- ouest[i,3+j]
+    vect1w[a]<- west[i,3+j]
   }
 }
 
-df1_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_mustelids","2_generalists","1_avian_predators"), each=21),
-                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
+df1_west <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_mustelids","2_generalists","1_avian_predators"), each=21),
+                         year=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
                          variances=vect1w)
 
-graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable)) +
+graph1_west <- ggplot(data=df1_west, aes(x=year, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("winter west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
@@ -114,7 +114,7 @@ graph1_ouest <- ggplot(data=df1_ouest, aes(x=annee, y=variances, fill=variable))
         axis.text.y = element_text(face="bold", size=12,color="black"),
         legend.position='none')
 
-graph1_ouest
+graph1_west
 
 # B.2 modele 2 west 
 
@@ -124,15 +124,15 @@ a <-0
 for (j in 1:5){
   for (i in 1:21){
     a <- a+1
-    vect2w[a]<- ouest[i,9+j]
+    vect2w[a]<- west[i,9+j]
   }
 }
 
-df2_ouest <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_mustelids","2_generalists","1_avian_predators"), each=21),
-                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
+df2_west <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small_mustelids","2_generalists","1_avian_predators"), each=21),
+                         year=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
                          variances=vect2w)
 
-graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable)) +
+graph2_west <- ggplot(data=df2_west, aes(x=year, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("summer west") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
@@ -143,7 +143,7 @@ graph2_ouest <- ggplot(data=df2_ouest, aes(x=annee, y=variances, fill=variable))
         axis.text.y = element_text(face="bold", size=12,color="black"),
         legend.position='none')
 
-graph2_ouest
+graph2_west
 
 
 # C.1 modele 1 east 
@@ -154,15 +154,15 @@ a <-0
 for (j in 1:5){
   for (i in 1:21){
     a <- a+1
-    vect1e[a]<- est[i,3+j]
+    vect1e[a]<- east[i,3+j]
   }
 }
 
-df1_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mustelids","2_generalists","1_avian predator"), each=21),
-                       annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
+df1_east <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mustelids","2_generalists","1_avian predator"), each=21),
+                       year=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
                        variances=vect1e)
 
-graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
+graph1_east <- ggplot(data=df1_east, aes(x=year, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("winter east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
@@ -173,7 +173,7 @@ graph1_est <- ggplot(data=df1_est, aes(x=annee, y=variances, fill=variable)) +
         axis.text.y = element_text(face="bold", size=12,color="black"),
         legend.position='none')
 
-graph1_est
+graph1_east
 
 # C.2 modele 2 east 
 
@@ -183,15 +183,15 @@ a <-0
 for (j in 1:5){
   for (i in 1:21){
     a <- a+1
-    vect2e[a]<- est[i,9+j]
+    vect2e[a]<- east[i,9+j]
   }
 }
 
-df2_est <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mustelids","2_generalists","1_avian predator"), each=21),
-                       annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
+df2_east <-  data.frame(variable=rep(c("5_direct DD", "4_delayed DD", "3_small mustelids","2_generalists","1_avian predator"), each=21),
+                       year=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),5),
                        variances=vect2e)
 
-graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
+graph2_east <- ggplot(data=df2_east, aes(x=year, y=variances, fill=variable)) +
   geom_bar(stat="identity") + scale_fill_manual(values=c("#6699CC", "#FFFF33", "#FF0033", "gray30" , "gray0")) +
   ggtitle("summer east") +
   xlab("years") + ylab("proportion of variance explained") + theme_classic()+ 
@@ -202,14 +202,14 @@ graph2_est <- ggplot(data=df2_est, aes(x=annee, y=variances, fill=variable)) +
         axis.text.y = element_text(face="bold", size=12,color="black"),
         legend.position='none')
 
-graph2_est
+graph2_east
 
-legend<- get_legend(graph1_nord + theme(legend.position = 'right'))
+legend<- get_legend(graph1_north + theme(legend.position = 'right'))
 
 
 # Global figure and register 
 
-A <- plot_grid(graph1_nord+ theme(legend.position = 'none'),graph1_ouest,graph1_est,legend,graph2_nord,graph2_ouest,graph2_est, labels=c("1", "2","3","","4","5","6"), ncol = 4, nrow = 2)
+A <- plot_grid(graph1_north+ theme(legend.position = 'none'),graph1_west,graph1_east,legend,graph2_north,graph2_west,graph2_east, labels=c("1", "2","3","","4","5","6"), ncol = 4, nrow = 2)
 
 # Opening the graphic device 
 pdf("../Figures/Graph2_figure2.pdf",  
