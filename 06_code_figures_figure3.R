@@ -1,7 +1,7 @@
 
 # author = "Besognet Thomas"
 # date = " 24/05/23" 
-# project = "Estimation d'intéractions entre espèces à partir de séries temporelles"
+# project = "Estimation d'int?ractions entre esp?ces ? partir de s?ries temporelles"
 # name =  "figure 3 replication "
 
 # packages 
@@ -98,7 +98,7 @@ for (j in 1:3){
   }
 }
 
-df5_nord <-  data.frame(variable=rep(c("3_spring_t", "2_autumn_t-1", "1_spring_t-1"), each=21),
+df5_nord <-  data.frame(variable=rep(c("3 vole spring t", "2 vole autumn (t-1)", "1 vole spring (t-1)"), each=21),
                         annee=rep(c(1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011),3),
                         variances=vect5n)
 
@@ -111,7 +111,10 @@ graph5_nord <- ggplot(data=df5_nord, aes(x=annee, y=variances, fill=variable)) +
         axis.title.y = element_text( size=6, face="bold"),
         axis.text.x = element_text(face="bold", size=12,color="black") ,
         axis.text.y = element_text(face="bold", size=12,color="black"),
-        legend.position='none')
+        legend.background = element_rect(fill="grey70",linewidth=1, linetype="solid", colour ="black"),
+        legend.text = element_text(colour="black", size=15, face="bold"),
+        legend.title = element_text(colour="black", size=15, face="bold"))
+
 
 graph5_nord
 
@@ -289,12 +292,14 @@ graph5_est <- ggplot(data=df5_est, aes(x=annee, y=variances, fill=variable)) +
 
 graph5_est
 
-legend<- get_legend(graph3_nord + theme(legend.position = 'right'))
+legend1<- get_legend(graph3_nord + theme(legend.position = 'right'))
+legend2<- get_legend(graph5_nord + theme(legend.position = 'right'))
 
 # Global figure and register 
 
-A <- plot_grid(graph3_nord + theme(legend.position = 'none'),graph3_ouest,graph3_est,graph4_nord,graph4_ouest,graph4_est,graph5_nord,graph5_ouest,graph5_est,legend, labels=c("1", "2","3","4","5","6","7","8","9"), ncol = 3, nrow = 4)
+A <- plot_grid(graph3_nord + theme(legend.position = 'none'),graph3_ouest,graph3_est,legend1,graph4_nord,graph4_ouest,graph4_est,legend1,graph5_nord+ theme(legend.position = 'none'),graph5_ouest,graph5_est,legend2, labels=c("1", "2","3","legende","4","5","6","legende","7","8","9","legende"), ncol = 4, nrow = 3)
 
+A
 # Opening the graphic device 
 pdf("../Figures/Graph3_figure3.pdf",  
     width = 10, height = 8, 
