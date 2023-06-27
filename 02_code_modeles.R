@@ -41,19 +41,19 @@ for (zone in 1:3){
   }
   
 # then, we create vectors for each variables and each temporal laps 
-  Present <-filter(data_zone,year>1990)# on ne prend pas les 2 premi?res ann?es 
+  Present <-filter(data_zone,year>1990)
   At    <-Present$Vole.Autumn
   St    <-Present$Vole.Spring
   P1t   <-Present$Small.mustelid 
   P2t   <-Present$Generalist.predator
   P3t   <-Present$Avian.predator
-  Past_1 <-filter(data_zone,year>1989,year<2011) # on ne prend ni la premi?re ni la derni?re ann?e 
+  Past_1 <-filter(data_zone,year>1989,year<2011) 
   At_1    <-Past_1$Vole.Autumn
   St_1    <-Past_1$Vole.Spring
   P1t_1   <-Past_1$Small.mustelid
   P2t_1   <-Past_1$Generalist.predator
   P3t_1   <-Past_1$Avian.predator
-  Past_2 <-filter(data_zone,year<2010) # on ne prend pas les 2 derni?res ann?es  
+  Past_2 <-filter(data_zone,year<2010)  
   At_2    <-Past_2$Vole.Autumn
   
 # we can now estimate our five models 

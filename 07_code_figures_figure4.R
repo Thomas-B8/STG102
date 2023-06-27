@@ -190,7 +190,7 @@ b3
 
 # B.4 Global figure and register 
 
-B <- plot_grid(b1,b2,b3,legend_b, labels=c("1", "2","3"), ncol = 3, nrow = 1)
+B <- plot_grid(b1,b2,b3, labels=c("1", "2","3"), ncol = 3, nrow = 1)
 
 # Opening the graphic device 
 pdf("../Figures/Graph4_2_figure4_s_index.pdf",  
