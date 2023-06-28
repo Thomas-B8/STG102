@@ -228,8 +228,8 @@ else {
 }  
 
 # We create some vectors and initialize some variables 
-saisonality_vector <- 1:1000
-saison <- 0
+seasonality_vector <- 1:1000
+season <- 0
 
 # we can begin our 1000 years loop 
 for (i in 1:1000){
@@ -265,8 +265,8 @@ for (i in 1:1000){
   Yt_1[i,sim] <- St-At_1
   Yt_2[i,sim] <- At-St
   # seasonality 
-  saison <- saison + (At-St)-(St-At_1)
-  saisonality_vector[i] <-  saison
+  season <- season + (At-St)-(St-At_1)
+  seasonality_vector[i] <-  season
   
 # end of the 1000 years loop 
 }
@@ -291,9 +291,9 @@ simulations[sim,4] <- DL
 simulations[sim,5] <- sqrt(var(Vole[,sim]))
 simulations[sim,6] <- sqrt((999)*var(Vole[,sim])/qchisq(p=0.975,df=999))
 simulations[sim,7] <- sqrt((999)*var(Vole[,sim])/qchisq(p=0.025,df=999))
-simulations[sim,8] <- saison/1000
-simulations[sim,9] <- saison/1000-1.96*(var(saisonality_vector)/sqrt(1000))  
-simulations[sim,10] <- saison/1000+1.96*(var(saisonality_vector)/sqrt(1000)) 
+simulations[sim,8] <- season/1000
+simulations[sim,9] <- season/1000-1.96*(var(seasonality_vector)/sqrt(1000))  
+simulations[sim,10] <- season/1000+1.96*(var(seasonality_vector)/sqrt(1000)) 
 
 # end of the zone's loop
   }
